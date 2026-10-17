@@ -20,6 +20,7 @@
 
 # RStudio files
 .Rproj.user/
+.Rproj
 
 # produced vignettes
 vignettes/*.html
@@ -49,5 +50,8 @@ po/*~
 rsconnect/
 
 # excelfiles
-/.xlsx
-/.csv
+.xlsx
+.csv
+
+# lagringsfiler
+/data-kilde/fylling/
