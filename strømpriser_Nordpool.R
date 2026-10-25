@@ -3,12 +3,10 @@
 library(tidyverse)
 library(readxl)
 
-library(tidyverse)
-library(readxl)
 
 # Finn alle Excel-filer i mappen
 filer <- list.files(
-  "~/Documents/Nordpool",
+  "data-kilde/Nordpool",
   pattern = "\\.xlsx$",
   full.names = TRUE
 )
