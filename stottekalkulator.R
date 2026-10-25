@@ -19,7 +19,6 @@
      across(
        c(`NO1 (NOK)`, `NO2 (NOK)`, `NO3 (NOK)`, `NO4 (NOK)`, `NO5 (NOK)`),
        
-       # 1. FJERNET "stotte = " OG BEHOLDT KUN TILDEN (~) HER:
        ~ case_when(
          # 2020-21, før støtte (støtten startet des 2021, så her blir det 0)
          `Delivery Date (CET)` < as.Date("2021-12-01") & .x >= 0.7 ~ 0,
@@ -80,4 +79,20 @@
      sluttpris_NO3 = `NO3 (NOK)` - `stotte_NO3 (NOK)`,
      sluttpris_NO4 = `NO4 (NOK)` - `stotte_NO4 (NOK)`,
      sluttpris_NO5 = `NO5 (NOK)` - `stotte_NO5 (NOK)`
+   ) |> #beregner pris for omraadene gitt at det er valgt norgespris
+   mutate(
+     Norgespris_uMVA
+       = case_when(
+         #foer stromstotte
+         `Delivery Date (CET)` < as.Date("2025-10-01") ~ 0,
+         TRUE ~ 0.4
+       )
+   ) |> 
+     mutate(
+       Norgespris_mMVA
+       = case_when(
+         #foer stromstotte
+         `Delivery Date (CET)` < as.Date("2025-10-01") ~ 0,
+         TRUE ~ 0.5
+       )
    )
