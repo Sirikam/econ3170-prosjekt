@@ -14,7 +14,7 @@
  
  
  #funksjonen er laget ved hjelp av google AI, ved implementering av across
- df <- strompriser |>
+ stotteoversikt <- strompriser |>
    mutate(
      across(
        c(`NO1 (NOK)`, `NO2 (NOK)`, `NO3 (NOK)`, `NO4 (NOK)`, `NO5 (NOK)`),
