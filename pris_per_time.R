@@ -2,7 +2,7 @@ library(tidyverse)
 library(readxl)
 library(lubridate)
 
-mappe <- "~/Desktop/Nordpool_2025_2026"
+mappe <- "data-kilde/Nordpool_2025_2026" #standard plassering i prosjektet
 
 filer <- list.files(
   path = mappe,
@@ -21,7 +21,8 @@ priser_per_time <- map_dfr(filer, function(fil) {
     mutate(Date = as.Date(dato)) |> 
     select(-2) |> # kolonne uten data/NA
     rename(hour = `Delivery period (CET)`) |> 
-    relocate(Date, hour)
+    relocate(Date, hour)|>
+    mutate(across(.cols = c(3:7),.fns = ~.x /1000)) #reduserer til ore/kwh
 })
 
 #data settet inneholder avergae, min og max fra Nordpool. Lager egen tabel til dem
@@ -33,6 +34,14 @@ dognstatistikk <- priser_per_time |>
   pivot_longer(cols = starts_with("NO"),
                names_to = "Price_area",
                values_to = "Price")
+
+dognstatistikk_w <- priser_per_time |> #wide format
+  filter(hour %in% c("Min:", "Max:", "Average:")) |>
+  rename(Statistic = hour) |> 
+  pivot_wider(names_from = Statistic,
+              values_from = starts_with("NO"))
+              #names_glue = "_{Statistic}") 
+              
 
 #fjerne min, max og average fra hoveddata
 timepriser <- priser_per_time |>
