@@ -95,4 +95,4 @@
          `Delivery Date (CET)` < as.Date("2025-10-01") ~ 0,
          TRUE ~ 0.5
        )
-   )
+   ) |> rename(Date = `Delivery Date (CET)`)
