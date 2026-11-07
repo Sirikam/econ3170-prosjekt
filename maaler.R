@@ -6,8 +6,17 @@ library(tidyverse)
 
 #forbruk i KWH, antall i totalt antall og antall 
 
-maalerdata <- read_csv2('data-kilde/maaler/strommaalere.csv')
+#maalerdata <- read_csv2('data-kilde/maaler/strommaalere.csv')
 
+# Finn alle Excel-filer i mappen
+filer <- list.files(
+  path = "data-kilde/maaler",
+  pattern = "\\.(xls|xlsx|csv)$",
+  full.names = TRUE,
+  ignore.case = TRUE
+)
+
+maalerdata <- read_csv2(filer)
 
 #splitter dataen inn i hvert sitt prisområde dag for dag iløpet av perioden
 maal_no1 <- filter(maalerdata, PRISOMRÅDE == "NO1") |>
