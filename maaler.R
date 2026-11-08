@@ -6,8 +6,18 @@ library(tidyverse)
 
 #forbruk i KWH, antall i totalt antall og antall 
 
-maalerdata <- read_csv2('data-kilde/maaler/strommaalere.csv')
+#maalerdata <- read_csv2('data-kilde/maaler/strommaalere.csv')
 
+# Finn alle Excel-filer i mappen
+filer <- list.files(
+  path = "data-kilde/maaler",
+  pattern = "\\.(xls|xlsx|csv)$",
+  full.names = TRUE,
+  ignore.case = TRUE
+)
+
+maalerdata <- read_csv2(filer)|>rename(Date = `DATO`)
+  
 
 #splitter dataen inn i hvert sitt prisområde dag for dag iløpet av perioden
 maal_no1 <- filter(maalerdata, PRISOMRÅDE == "NO1") |>
@@ -20,10 +30,12 @@ maal_no1 <- filter(maalerdata, PRISOMRÅDE == "NO1") |>
   mutate(sum_fri_tot = sum(c_across(15:18))) |>
   mutate(forbruk_hus = sum(c_across(19:22))) |>
   mutate(forbruk_fri = sum(c_across(23:26))) |>
-  mutate(forbuk_hus_NP = sum(c_across(27:30))) |>
+  mutate(forbruk_hus_NP = sum(c_across(27:30))) |>
   mutate(forbruk_fri_NP = sum(c_across(31:34))) |>
   mutate(prosent_hus_NP = sum_hus_NP/sum_hus_tot) |>
-  mutate(prosent_fri_NP = sum_fri_NP/sum_fri_tot)
+  mutate(prosent_fri_NP = sum_fri_NP/sum_fri_tot) |>
+  mutate(prosent_forbruk_hus_NP = forbruk_hus_NP/forbruk_hus)|>
+  mutate(prosent_forbruk_fri_NP = forbruk_fri_NP/forbruk_fri)
 
 maal_no2 <- filter(maalerdata, PRISOMRÅDE == "NO2") |>
   pivot_wider(names_from = c(EAC_GRUPPE, FORBRUKSGRUPPE),
@@ -35,10 +47,12 @@ maal_no2 <- filter(maalerdata, PRISOMRÅDE == "NO2") |>
   mutate(sum_fri_tot = sum(c_across(15:18))) |>
   mutate(forbruk_hus = sum(c_across(19:22))) |>
   mutate(forbruk_fri = sum(c_across(23:26))) |>
-  mutate(forbuk_hus_NP = sum(c_across(27:30))) |>
+  mutate(forbruk_hus_NP = sum(c_across(27:30))) |>
   mutate(forbruk_fri_NP = sum(c_across(31:34))) |>
   mutate(prosent_hus_NP = sum_hus_NP/sum_hus_tot) |>
-  mutate(prosent_fri_NP = sum_fri_NP/sum_fri_tot)
+  mutate(prosent_fri_NP = sum_fri_NP/sum_fri_tot) |>
+  mutate(prosent_forbruk_hus_NP = forbruk_hus_NP/forbruk_hus)|>
+  mutate(prosent_forbruk_fri_NP = forbruk_fri_NP/forbruk_fri)
   
 maal_no3 <- filter(maalerdata, PRISOMRÅDE == "NO3") |>
   pivot_wider(names_from = c(EAC_GRUPPE, FORBRUKSGRUPPE),
@@ -50,10 +64,12 @@ maal_no3 <- filter(maalerdata, PRISOMRÅDE == "NO3") |>
   mutate(sum_fri_tot = sum(c_across(15:18))) |>
   mutate(forbruk_hus = sum(c_across(19:22))) |>
   mutate(forbruk_fri = sum(c_across(23:26))) |>
-  mutate(forbuk_hus_NP = sum(c_across(27:30))) |>
+  mutate(forbruk_hus_NP = sum(c_across(27:30))) |>
   mutate(forbruk_fri_NP = sum(c_across(31:34))) |>
   mutate(prosent_hus_NP = sum_hus_NP/sum_hus_tot) |>
-  mutate(prosent_fri_NP = sum_fri_NP/sum_fri_tot)
+  mutate(prosent_fri_NP = sum_fri_NP/sum_fri_tot) |>
+  mutate(prosent_forbruk_hus_NP = forbruk_hus_NP/forbruk_hus)|>
+  mutate(prosent_forbruk_fri_NP = forbruk_fri_NP/forbruk_fri)
 
 maal_no4 <- filter(maalerdata, PRISOMRÅDE == "NO4") |>
   pivot_wider(names_from = c(EAC_GRUPPE, FORBRUKSGRUPPE),
@@ -65,10 +81,12 @@ maal_no4 <- filter(maalerdata, PRISOMRÅDE == "NO4") |>
   mutate(sum_fri_tot = sum(c_across(15:18))) |>
   mutate(forbruk_hus = sum(c_across(19:22))) |>
   mutate(forbruk_fri = sum(c_across(23:26))) |>
-  mutate(forbuk_hus_NP = sum(c_across(27:30))) |>
+  mutate(forbruk_hus_NP = sum(c_across(27:30))) |>
   mutate(forbruk_fri_NP = sum(c_across(31:34))) |>
   mutate(prosent_hus_NP = sum_hus_NP/sum_hus_tot) |>
-  mutate(prosent_fri_NP = sum_fri_NP/sum_fri_tot)
+  mutate(prosent_fri_NP = sum_fri_NP/sum_fri_tot) |>
+  mutate(prosent_forbruk_hus_NP = forbruk_hus_NP/forbruk_hus)|>
+  mutate(prosent_forbruk_fri_NP = forbruk_fri_NP/forbruk_fri)
 
 maal_no5 <- filter(maalerdata, PRISOMRÅDE == "NO5") |>
   pivot_wider(names_from = c(EAC_GRUPPE, FORBRUKSGRUPPE),
@@ -80,9 +98,11 @@ maal_no5 <- filter(maalerdata, PRISOMRÅDE == "NO5") |>
   mutate(sum_fri_tot = sum(c_across(15:18))) |>
   mutate(forbruk_hus = sum(c_across(19:22))) |>
   mutate(forbruk_fri = sum(c_across(23:26))) |>
-  mutate(forbuk_hus_NP = sum(c_across(27:30))) |>
+  mutate(forbruk_hus_NP = sum(c_across(27:30))) |>
   mutate(forbruk_fri_NP = sum(c_across(31:34))) |>
   mutate(prosent_hus_NP = sum_hus_NP/sum_hus_tot) |>
-  mutate(prosent_fri_NP = sum_fri_NP/sum_fri_tot)
+  mutate(prosent_fri_NP = sum_fri_NP/sum_fri_tot) |>
+  mutate(prosent_forbruk_hus_NP = forbruk_hus_NP/forbruk_hus)|>
+  mutate(prosent_forbruk_fri_NP = forbruk_fri_NP/forbruk_fri)
 
 
