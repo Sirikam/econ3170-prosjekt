@@ -8,8 +8,7 @@ library(dplyr)
 #test_oversikt <- select(dognstatistikk_w, c(Date, starts_with("NO1"))) |>
   
 stotteutregner <- function(cc){  
-  print(cc)
-  cc_ny<- cc |> 
+  cc_ny <- cc |> 
     mutate(
     across(.cols = starts_with("NO"),
       
@@ -67,11 +66,12 @@ stotteutregner <- function(cc){
       .names = "stotte_{.col}"
     )
   ) |> # beregner endelig pris ved å trekke fra stotten på prisen
-  mutate(
-    slutt_min = cc_ny[[2]] - cc_ny[[5]],
-    slutt_max = cc_ny[[3]] - cc_ny[[6]],
-    slutt_avg = cc_ny[[4]] - cc_ny[[7]]
-  ) |> #beregner pris for omraadene gitt at det er valgt norgespris
+    mutate(
+      across(.cols = starts_with("NO"),
+             .fns = \(x) x - pick(paste0("stotte_", cur_column()))[[1]],
+             .names = "slutt_{.col}"
+      )
+    )|> #beregner pris for omraadene gitt at det er valgt norgespris
   mutate(
     Norgespris_uMVA
     = case_when(
