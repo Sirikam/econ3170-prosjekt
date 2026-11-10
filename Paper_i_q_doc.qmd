@@ -1,8 +1,9 @@
 ---
 title: "Strømpriser"
 author: "Bendik Harto Seim og Emily Espeland"
-format: pdf
+format: html
 editor: visual
+bibliography: ECON3170_kilder.bib
 ---
 
 # Tittel 
@@ -18,9 +19,9 @@ Abstract: 3-5 setninge
 
 ## 1. Introduksjon og objektiv
 
-Strømprisene i Norge har hatt store svingninger i pris de siste årene, særlig mellom prisområder. I 2021 nådde strømprisene i Norge en historisk pristopp, særlig i Sør-Norge (prisområdene NO1 og NO2) (NVE artikkel). Ifølge NVE skyldtes de høyre kraftprisene svært høyre kraftpriser og tilhørende kraftpriser i Europa generelt, samt lavere magasinfylling enn normalt. Som en konsekvens av dette innførte Støre-Regjeringen strømstøtte i desember 2021 (regjeringen). Prisenes volatilitet fortsatte i 2022, og skal ifølge flere kilder ha ført til at flere husholdninger reduserte strømforbruket sitt (NRK, SSB). 
+Strømprisene i Norge har hatt store svingninger i pris de siste årene, særlig mellom prisområder. I 2021 nådde strømprisene i Norge en historisk pristopp, særlig i Sør-Norge (prisområdene NO1 og NO2) [@skaansar_kraftaret_2022]. Ifølge NVE skyldtes de høyre kraftprisene svært høyre kraftpriser og tilhørende kraftpriser i Europa generelt, samt lavere magasinfylling enn normalt [@skaansar_kraftaret_2022]. Som en konsekvens av dette innførte Støre-Regjeringen strømstøtte i desember 2021 [@statsministerens_kontor_regjeringen_2021]. Prisenes volatilitet fortsatte i 2022, og skal ifølge flere kilder ha ført til at flere husholdninger reduserte strømforbruket sitt [@aanensen_statistikk_2026; @aanensen_lavere_2026; @kampevoll_prisen_2026]. 
 
-Den 1 oktober 2025 lanserte Støre-Regjeringen Norgespris på strøm og fjernvarme. Det innebar at husholdninger kunne velge en fastpris på 40 øre per kilowattime ekskl. mva. både hjemme og på hytta. Omtrent et år etter Norgespris ble innført kunne regjeringen rapportere at husholdningene har spart 4,47 milliarder kroner i tredje kvartal av 2026 (juni, august og september) med å signere Norgespris. Målet med å innføre Norgespris har vært å gi husholdningene trygghet i møte med volatile og tidvis svært høye kraftpriser. I utgangspunktet ble Norgespris innført som en midlertidig økonomisk støtteordning. I oktober 2026 annonserte Regjeringen at Norgespris også vil gjelde i 2027 og er nå lagt inn som en egen post i statsbudsjettet. Den nye Norgesprisen (gjelder fra 1.januar 2027) vil da være på 45 øre per kilowattime ekskl. mva. både hjemme og på hytta. 
+Den 1 oktober 2025 lanserte Støre-Regjeringen Norgespris på strøm og fjernvarme. Det innebar at husholdninger kunne velge en fastpris på 40 øre per kilowattime ekskl. mva. både hjemme og på hytta [@energidepartementet_norgespris_2025]. Omtrent et år etter Norgespris ble innført kunne regjeringen rapportere at husholdningene har spart 4,47 milliarder kroner i tredje kvartal av 2026 (juni, august og september) med å signere Norgespris. Målet med å innføre Norgespris har vært å gi husholdningene trygghet i møte med volatile og tidvis svært høye kraftpriser. I utgangspunktet ble Norgespris innført som en midlertidig økonomisk støtteordning \[@energidepartementet_447_2026; \]. I oktober 2026 annonserte Regjeringen at Norgespris også vil gjelde i 2027 og er nå lagt inn som en egen post i statsbudsjettet. Den nye Norgesprisen (gjelder fra 1.januar 2027) vil da være på 45 øre per kilowattime ekskl. mva. både hjemme og på hytta [@energidepartementet_norgespris_2026]. 
 
 Formålet med denne oppgaven er å undersøke sammenhengen mellom Norgespris, strømpriser og husholdningenes strømforbruk i Norge. Vi vil særlig se på hvordan strømforbruket varierer mellom husholdninger med og uten Norgespris, hvordan utviklingen i strømprisene henger sammen med husholdningenes valg om å benytte ordningen, og hvilken rolle fyllingsgraden i norske vannmagasiner kan ha for utviklingen i strømprisene.
 
@@ -148,8 +149,20 @@ When you click the **Render** button a document will be generated that includes 
 You can add options to executable code like this
 
 ```{r}
-#| echo: false
-2 * 2
+#| echo: true
+#| error: false
+#| message: false
+# Funksjon for å laste inn data fra fyllingsgrad av vannmagasin i et
+# Strømprisområde med data fra NVE
+
+# Det er brukt Google AI-modus for spørsmål tilknyttet koden som en del av 
+# arbeidsflyten, hvor noen av inspillene har blitt brukt i den endelige 
+# løsningen
+library(readxl)
+library(tidyverse)
+library(purrr)
+library(dplyr)
+
 ```
 
 The `echo: false` option disables the printing of code (only output is displayed).
@@ -197,7 +210,5 @@ The `echo: false` option disables the printing of code (only output is displayed
 ## 6. Bruk av KI
 
 ## 7. Kilder
-
-## 
 
 ## 8. Vedlegg
