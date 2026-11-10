@@ -1,5 +1,5 @@
 ---
-title: "Strompriser"
+title: "Strømpriser"
 author: "Bendik Harto Seim og Emily Espeland"
 format: pdf
 editor: visual
@@ -154,7 +154,7 @@ You can add options to executable code like this
 
 The `echo: false` option disables the printing of code (only output is displayed).
 
-## 3. Metode 
+## 3. Metode
 
 ## Running Code
 
@@ -198,6 +198,6 @@ The `echo: false` option disables the printing of code (only output is displayed
 
 ## 7. Kilder
 
-##  
+## 
 
 ## 8. Vedlegg
