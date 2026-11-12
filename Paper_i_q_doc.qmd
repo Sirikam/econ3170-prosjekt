@@ -19,9 +19,9 @@ Abstract: 3-5 setninge
 
 ## 1. Introduksjon og objektiv
 
-Strømprisene i Norge har hatt store svingninger i pris de siste årene, særlig mellom prisområder. I 2021 nådde strømprisene i Norge en historisk pristopp, særlig i Sør-Norge (prisområdene NO1 og NO2) [@skaansar_kraftaret_2022]. Ifølge NVE skyldtes de høyre kraftprisene svært høyre kraftpriser og tilhørende kraftpriser i Europa generelt, samt lavere magasinfylling enn normalt [@skaansar_kraftaret_2022]. Som en konsekvens av dette innførte Støre-Regjeringen strømstøtte i desember 2021 [@statsministerens_kontor_regjeringen_2021]. Prisenes volatilitet fortsatte i 2022, og skal ifølge flere kilder ha ført til at flere husholdninger reduserte strømforbruket sitt [@aanensen_statistikk_2026; @aanensen_lavere_2026; @kampevoll_prisen_2026]. 
+Strømprisene i Norge har hatt store svingninger i pris de siste årene, særlig mellom prisområder. I 2021 nådde strømprisene i Norge en historisk pristopp, særlig i Sør-Norge (prisområdene NO1 og NO2) [@skaansar_kraftaret_2022]. Ifølge NVE skyldtes de høyre kraftprisene svært høye kraftpriser i Europa generelt, samt lavere magasinfylling enn normalt [@skaansar_kraftaret_2022]. Som en konsekvens av dette innførte Støre-Regjeringen strømstøtte i desember 2021 [@statsministerens_kontor_regjeringen_2021]. Prisenes volatilitet fortsatte i 2022, og skal ifølge flere kilder ha ført til at flere husholdninger reduserte strømforbruket sitt [@aanensen_statistikk_2026; @aanensen_lavere_2026; @kampevoll_prisen_2026]. 
 
-Den 1 oktober 2025 lanserte Støre-Regjeringen Norgespris på strøm og fjernvarme. Det innebar at husholdninger kunne velge en fastpris på 40 øre per kilowattime ekskl. mva. både hjemme og på hytta [@energidepartementet_norgespris_2025]. Omtrent et år etter Norgespris ble innført kunne regjeringen rapportere at husholdningene har spart 4,47 milliarder kroner i tredje kvartal av 2026 (juni, august og september) med å signere Norgespris. Målet med å innføre Norgespris har vært å gi husholdningene trygghet i møte med volatile og tidvis svært høye kraftpriser. I utgangspunktet ble Norgespris innført som en midlertidig økonomisk støtteordning \[@energidepartementet_447_2026; \]. I oktober 2026 annonserte Regjeringen at Norgespris også vil gjelde i 2027 og er nå lagt inn som en egen post i statsbudsjettet. Den nye Norgesprisen (gjelder fra 1.januar 2027) vil da være på 45 øre per kilowattime ekskl. mva. både hjemme og på hytta [@energidepartementet_norgespris_2026]. 
+Den 1. oktober 2025 lanserte Støre-Regjeringen Norgespris på strøm og fjernvarme. Det innebar at husholdninger kunne velge en fastpris på 40 øre per kilowattime ekskl. mva. både hjemme og på hytta [@energidepartementet_norgespris_2025]. Omtrent et år etter Norgespris ble innført kunne regjeringen rapportere at husholdningene har spart 4,47 milliarder kroner i tredje kvartal av 2026 med å signere Norgespris. Målet med å innføre Norgespris har vært å gi husholdningene trygghet i møte med volatile og tidvis svært høye kraftpriser. I utgangspunktet ble Norgespris innført som en midlertidig økonomisk støtteordning [@energidepartementet_447_2026; ]. I oktober 2026 annonserte Regjeringen at Norgespris også vil gjelde i 2027 og er nå lagt inn som en egen post i statsbudsjettet. Den nye Norgesprisen (gjelder fra 1.januar 2027) vil da være på 45 øre per kilowattime ekskl. mva. både hjemme og på hytta [@energidepartementet_norgespris_2026]. 
 
 Formålet med denne oppgaven er å undersøke sammenhengen mellom Norgespris, strømpriser og husholdningenes strømforbruk i Norge. Vi vil særlig se på hvordan strømforbruket varierer mellom husholdninger med og uten Norgespris, hvordan utviklingen i strømprisene henger sammen med husholdningenes valg om å benytte ordningen, og hvilken rolle fyllingsgraden i norske vannmagasiner kan ha for utviklingen i strømprisene.
 
@@ -35,15 +35,33 @@ Formålet med denne oppgaven er å undersøke sammenhengen mellom Norgespris, st
 
 For å undersøke problemstillingene benytter vi data fra Nord Pool, Elhub og Norges vassdrags- og energidirektorat (NVE). Vi kombinerer deskriptiv statistikk og grafisk fremstilling med statistiske analyser og regresjonsmodeller. Analysene skal gi et grunnlag for å undersøke utviklingstrekk og statistiske sammenhenger i datamaterialet.
 
-## 2. Data og forberedelser
+## 2. Databehandling og implementering
 
-Oppgaven benytter sekundærdata i form av rådatasett fra NordPool, Elhub og Norges vassdrags- og energidirektorat (NVE). Datakildene inneholder informasjon om strømpriser, strømforbruk, husholdningenes bruk av Norgespris og fyllingsgraden i norske vannmagasiner. Dataene er opprinnelig samlet inn og publisert av de respektive organisasjonene, men er hentet inn og bearbeidet av oss med utgangspunkt i oppgavens problemstillinger. Dette innebærer blant annet import, rensing, strukturering og sammenstilling av datasett med ulik tidsoppløsning og geografisk inndeling. Databehandlingen er gjennomført i R, og danner grunnlaget for de empiriske analysene i oppgaven.
+### 2.1 Datagrunnlag og kildebeskrivelse
 
-Dataene er lastet ned som .cvs eller .xlxs filer gjennom organisasjonenes egne nettsider. Dataen til Elhub og NVE er åpne offentlige data, mens aggregerte priser fra NordPool i perioden 2020-2026 krevde abonnement for å lastes ned. Abonnementet ble skaffet ved å kontakte kundeservice. Rådatasett om timeprisene fra NordPool måtte lastes ned manuelt, dag for dag fra perioden 01.10.2025-30.09.2026. 
+Analysen benytter sekundærdata i form av rådatasett innhentet fra tre sentrale aktører i det norske og nordiske kraftmarkedet:
 
-Databehandlingen er gjennomført i R. Vi benytter hovedsakelig pakkene tidyverse, readxl, lubridate, purrr og readr til å importere, strukturere, rense og kombinere datamaterialet. Et sentralt steg i arbeidet har vært å gjøre datasettene sammenlignbare med hensyn til tidsperioder, geografisk inndeling og variabelstruktur.\
+1.  **Elhub**: Åpne offentlige data med daglige observasjoner for aggregert strømforbruk (i kWh), antall målepunkter og husholdningenes adopsjon av Norgespris-avtalen, fordelt på prisområder (`NO1`–`NO5`) og forbruksgrupper (husholdning og fritidsbolig).
 
-### **2.1 Nord Pool – historiske strømpriser**
+2.  **Norges vassdrags- og energidirektorat (NVE)**: Åpne offentlige data for ukentlig fyllingsgrad i norske vannmagasiner.
+
+3.  **NordPool**: Aggregerte prisdata og timepriser for spotmarkedet i perioden 2020–2026. Mens overordnede data var tilgjengelige, krevde tilgang til de detaljerte prisdataene et eget abonnement som ble innhentet via kundeservice. Rådatasett for timepriser i perioden 01.10.2025–30.09.2026 ble deretter lastet ned manuelt, dag for dag.
+
+Dataene er opprinnelig samlet inn og publisert i ulike `.csv`- og `.xlsx`-filformater. Et sentralt steg i forarbeidet har vært å hente inn, rense og bearbeide disse rådatasettene for å gjøre dem sammenlignbare med hensyn til tidsperiode, tidsoppløsning (fra timer/dager til uker/måneder) og geografisk inndeling.
+
+### 2.2 Programvare og pakkevalg i R
+
+Hele databehandlingsprosessen og de empiriske analysene er gjennomført i programmeringsspråket R. Til dataimport, strukturering, manipulering og sammenstilling benyttes et utvalg av sentrale pakker:
+
+-   **readr og readxl**: For effektiv import av henholdsvis kommaseparerte tekstfiler (`.csv`) og Excel-ark (`.xlsx`).
+
+-   **lubridate**: For presis håndtering og konvertering av datoer og tidsangivelser med ulik tidsoppløsning.
+
+-   **purrr**: For funksjonell programmering og automatisert innlesing/kombinering av flere filer på tvers av mapper.
+
+-   **tidyverse (dplyr, tidyr)**: For datatransformasjon, omstrukturering (`pivot_wider`), filtrering og aggregering.
+
+### **2.2 Nord Pool – historiske strømpriser**
 
 For å undersøke utviklingen i strømprisene benytter vi historiske prisdata fra Nord Pool. Datasettet inneholder daglige aggregerte strømpriser for de fem norske prisområdene NO1, NO2, NO3, NO4 og NO5. Datamaterialet dekker perioden fra 2020 til 29. september 2026.
 
@@ -68,7 +86,7 @@ You can add options to executable code like this
 
 The `echo: false` option disables the printing of code (only output is displayed).
 
-### **2.2 Timebaserte strømpriser**
+### **2.3 Timebaserte strømpriser**
 
 I tillegg til de daglige prisdataene benytter vi et separat datasett med timebaserte strømpriser. Dette datasettet dekker perioden fra 1. oktober 2025 til 30. september 2026.
 
@@ -97,7 +115,7 @@ You can add options to executable code like this
 
 The `echo: false` option disables the printing of code (only output is displayed).
 
-### **2.3 Elhub – Norgespris og strømforbruk**
+### **2.4 Elhub – Norgespris og strømforbruk**
 
 For å undersøke husholdningenes bruk av Norgespris og utviklingen i strømforbruket benytter vi åpne data fra Elhub.
 
@@ -128,7 +146,7 @@ You can add options to executable code like this
 
 The `echo: false` option disables the printing of code (only output is displayed).
 
-### **2.4 NVE – fyllingsgrad i vannmagasiner**
+### **2.5 NVE – fyllingsgrad i vannmagasiner**
 
 For å undersøke sammenhengen mellom magasinfylling og strømpriser benytter vi data fra Norges vassdrags- og energidirektorat (NVE). Datasettet inneholder informasjon om fyllingsgraden i norske vannmagasiner, oppgitt ukentlig og fordelt på år.
 

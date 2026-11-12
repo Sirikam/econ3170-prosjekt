@@ -21,4 +21,4 @@ strompriser <- bind_rows(data_liste) |>
   select(-2) |> 
   mutate(`Delivery Date (CET)` = as.Date(`Delivery Date (CET)`))  |> 
   arrange(`Delivery Date (CET)`) |>
-  mutate(across(.cols = c(2:6),.fns = ~.x /1000)) # reduserer til KWH fra MWH
+  mutate(across(starts_with("NO"), ~ .x / 1000))  #Reduserer fra NOK/MWh til NOK/kWh

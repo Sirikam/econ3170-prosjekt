@@ -22,7 +22,7 @@ priser_per_time <- map_dfr(filer, function(fil) {
     select(-2) |> # kolonne uten data/NA
     rename(hour = `Delivery period (CET)`) |> 
     relocate(Date, hour)|>
-    mutate(across(.cols = c(3:7),.fns = ~.x /1000)) #reduserer til ore/kwh
+    mutate(across(.cols = c(3:7),.fns = ~.x /1000)) # reduserer fra NOK/MWh til NOK/kWh
 })
 
 #data settet inneholder avergae, min og max fra Nordpool. Lager egen tabel til dem
