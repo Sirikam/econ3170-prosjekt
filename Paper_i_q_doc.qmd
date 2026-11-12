@@ -1,31 +1,25 @@
 ---
 title: "Strømpriser"
-author: "Bendik Harto Seim og Emily Espeland"
-format: html
+subtitle: "Term paper in ECON 3170/4170, autumn 2026"
+author: "Candidate no. 1 – Candidate no. 2"
+date: "16.11.2026"
+format: pdf
 editor: visual
 bibliography: ECON3170_kilder.bib
 ---
 
-# Tittel 
-
-## Term paper in ECON 3170/4170, autumn 2026
-
-### Candidat no 1 Candidat no 2. 
-
-### Dato (antar samme som innlevering) 
-
 \
-Abstract: 3-5 setninge
+Abstract: 3-5 setninger
 
 ## 1. Introduksjon og objektiv
 
-Strømprisene i Norge har hatt store svingninger i pris de siste årene, særlig mellom prisområder. I 2021 nådde strømprisene i Norge en historisk pristopp, særlig i Sør-Norge (prisområdene NO1 og NO2) [@skaansar_kraftaret_2022]. Ifølge NVE skyldtes de høyre kraftprisene svært høye kraftpriser i Europa generelt, samt lavere magasinfylling enn normalt [@skaansar_kraftaret_2022]. Som en konsekvens av dette innførte Støre-Regjeringen strømstøtte i desember 2021 [@statsministerens_kontor_regjeringen_2021]. Prisenes volatilitet fortsatte i 2022, og skal ifølge flere kilder ha ført til at flere husholdninger reduserte strømforbruket sitt [@aanensen_statistikk_2026; @aanensen_lavere_2026; @kampevoll_prisen_2026]. 
+Strømprisene i Norge har hatt betydelige svingninger de siste årene, særlig mellom de ulike prisområdene. I 2021 nådde strømprisene historiske nivåer, spesielt i Sør-Norge (NO1 og NO2). Dette ble blant annet knyttet til høye kraftpriser i Europa og lavere magasinfylling enn normalt [@skaansar_kraftaret_2022]. Som følge av prisutviklingen innførte regjeringen strømstøtte i desember 2021 [@statsministerens_kontor_regjeringen_2021]. Prisvolatiliteten fortsatte i 2022 og bidro til at flere husholdninger reduserte strømforbruket sitt [@aanensen_statistikk_2026; @aanensen_lavere_2026; @kampevoll_prisen_2026]. 
 
-Den 1. oktober 2025 lanserte Støre-Regjeringen Norgespris på strøm og fjernvarme. Det innebar at husholdninger kunne velge en fastpris på 40 øre per kilowattime ekskl. mva. både hjemme og på hytta [@energidepartementet_norgespris_2025]. Omtrent et år etter Norgespris ble innført kunne regjeringen rapportere at husholdningene har spart 4,47 milliarder kroner i tredje kvartal av 2026 med å signere Norgespris. Målet med å innføre Norgespris har vært å gi husholdningene trygghet i møte med volatile og tidvis svært høye kraftpriser. I utgangspunktet ble Norgespris innført som en midlertidig økonomisk støtteordning [@energidepartementet_447_2026; ]. I oktober 2026 annonserte Regjeringen at Norgespris også vil gjelde i 2027 og er nå lagt inn som en egen post i statsbudsjettet. Den nye Norgesprisen (gjelder fra 1.januar 2027) vil da være på 45 øre per kilowattime ekskl. mva. både hjemme og på hytta [@energidepartementet_norgespris_2026]. 
+Den 1. oktober 2025 innførte regjeringen Norgespris, en frivillig fastprisordning for strøm og fjernvarme. Ordningen ga husholdninger mulighet til å velge en fastpris på 40 øre/kWh ekskl. mva., med formål om å gi større forutsigbarhet i møte med volatile kraftpriser [@energidepartementet_norgespris_2025]. I oktober 2026 ble det besluttet at ordningen videreføres i 2027, med en justert pris på 45 øre/kWh ekskl. mva. [@energidepartementet_norgespris_2026]. 
 
-Formålet med denne oppgaven er å undersøke sammenhengen mellom Norgespris, strømpriser og husholdningenes strømforbruk i Norge. Vi vil særlig se på hvordan strømforbruket varierer mellom husholdninger med og uten Norgespris, hvordan utviklingen i strømprisene henger sammen med husholdningenes valg om å benytte ordningen, og hvilken rolle fyllingsgraden i norske vannmagasiner kan ha for utviklingen i strømprisene.
+Formålet med oppgaven er å undersøke sammenhengen mellom Norgespris, strømpriser og husholdningenes strømforbruk i Norge.
 
-**Oppgaven tar utgangspunkt i følgende problemstillinger:**
+**Vi undersøker følgende problemstillinger:**
 
 1.  Hvordan varierer strømforbruket mellom husholdninger med og uten Norgespris?
 
@@ -33,178 +27,244 @@ Formålet med denne oppgaven er å undersøke sammenhengen mellom Norgespris, st
 
 3.  I hvilken grad kan fyllingsgraden i norske vannmagasiner bidra til å forklare variasjoner i strømprisene?
 
-For å undersøke problemstillingene benytter vi data fra Nord Pool, Elhub og Norges vassdrags- og energidirektorat (NVE). Vi kombinerer deskriptiv statistikk og grafisk fremstilling med statistiske analyser og regresjonsmodeller. Analysene skal gi et grunnlag for å undersøke utviklingstrekk og statistiske sammenhenger i datamaterialet.
+Analysen bygger på data fra Nord Pool, Elhub og Norges vassdrags- og energidirektorat (NVE). Vi kombinerer deskriptiv statistikk og grafisk fremstilling med statistiske analyser og regresjonsmodeller for å undersøke utviklingstrekk og sammenhenger i datamaterialet.
 
 ## 2. Databehandling og implementering
 
-### 2.1 Datagrunnlag og kildebeskrivelse
+Hele databehandlingsprosessen og de empiriske analysene er gjennomført i R. Analysen benytter sekundærdata fra tre sentrale aktører i det norske og nordiske kraftmarkedet:
 
-Analysen benytter sekundærdata i form av rådatasett innhentet fra tre sentrale aktører i det norske og nordiske kraftmarkedet:
+1.  Elhub: Daglige data for aggregert strømforbruk (kWh), antall målepunkter og Norgespris-adopsjon, fordelt på prisområdene NO1–NO5 og forbruksgruppene husholdning og fritidsbolig [@sannes_norgespris_2026; @sannes_norgespris_2026-1; @stokke_hammer-dybvad_forbruk_2026].
 
-1.  **Elhub**: Åpne offentlige data med daglige observasjoner for aggregert strømforbruk (i kWh), antall målepunkter og husholdningenes adopsjon av Norgespris-avtalen, fordelt på prisområder (`NO1`–`NO5`) og forbruksgrupper (husholdning og fritidsbolig).
+2.  Norges vassdrags- og energidirektorat (NVE): Ukentlige data for fyllingsgraden i norske vannmagasiner [@norges_vassdrag_og_energidirektorat_magasinstatistikk_2026].
 
-2.  **Norges vassdrags- og energidirektorat (NVE)**: Åpne offentlige data for ukentlig fyllingsgrad i norske vannmagasiner.
+3.  Nord Pool: Daglige aggregerte spotpriser for perioden 2020–2026 og timepriser for perioden 1. oktober 2025–30. september 2026 [@nordpool_price_2026; @nordpool_prices_2026].
 
-3.  **NordPool**: Aggregerte prisdata og timepriser for spotmarkedet i perioden 2020–2026. Mens overordnede data var tilgjengelige, krevde tilgang til de detaljerte prisdataene et eget abonnement som ble innhentet via kundeservice. Rådatasett for timepriser i perioden 01.10.2025–30.09.2026 ble deretter lastet ned manuelt, dag for dag.
+Rådataene er levert i CSV- og Excel-format og bearbeidet i R for å harmonisere tidsperioder, tidsoppløsning og geografisk inndeling. Datasettene er deretter kombinert til et felles datagrunnlag for analysene.
 
-Dataene er opprinnelig samlet inn og publisert i ulike `.csv`- og `.xlsx`-filformater. Et sentralt steg i forarbeidet har vært å hente inn, rense og bearbeide disse rådatasettene for å gjøre dem sammenlignbare med hensyn til tidsperiode, tidsoppløsning (fra timer/dager til uker/måneder) og geografisk inndeling.
+### **2.1 Nord Pool** 
 
-### 2.2 Programvare og pakkevalg i R
+Fra Nord Pool benytter vi daglige aggregerte spotpriser for de fem norske prisområdene (NO1–NO5) i perioden 2020–30. september 2026. I tillegg benyttes timebaserte spotpriser for perioden 1. oktober 2025–30. september 2026. **\<- sjekk dette Emily.**
 
-Hele databehandlingsprosessen og de empiriske analysene er gjennomført i programmeringsspråket R. Til dataimport, strukturering, manipulering og sammenstilling benyttes et utvalg av sentrale pakker:
+Prisdataene ble lastet ned i separate Excel-filer og importert til R ved hjelp av `readxl`. Filene ble kombinert til samlede datasett, metadata og irrelevante observasjoner fjernet, og datoene standardisert og sortert kronologisk. Timeprisene ble tilsvarende kombinert ved hjelp av `map_dfr()`, hvor observasjonsdatoen ble hentet fra filnavnene.
 
--   **readr og readxl**: For effektiv import av henholdsvis kommaseparerte tekstfiler (`.csv`) og Excel-ark (`.xlsx`).
+Spotprisene er opprinnelig oppgitt i NOK/MWh og konvertert til NOK/kWh ved å dele på 1000. Dette sikrer sammenlignbare måleenheter i analysene av spotpriser, strømstøtte og Norgespris. \<- **Em, dobbelsjekk at vi trenger dette**
 
--   **lubridate**: For presis håndtering og konvertering av datoer og tidsangivelser med ulik tidsoppløsning.
+For timeprisene ble daglige oppsummeringsverdier (minimum, maksimum og gjennomsnitt) skilt fra de ordinære timeobservasjonene for å unngå at ulike tidsoppløsninger blandes i analysene.
 
--   **purrr**: For funksjonell programmering og automatisert innlesing/kombinering av flere filer på tvers av mapper.
+### **2.2 Elhub – Norgespris og strømforbruk**
 
--   **tidyverse (dplyr, tidyr)**: For datatransformasjon, omstrukturering (`pivot_wider`), filtrering og aggregering.
-
-### **2.2 Nord Pool – historiske strømpriser**
-
-For å undersøke utviklingen i strømprisene benytter vi historiske prisdata fra Nord Pool. Datasettet inneholder daglige aggregerte strømpriser for de fem norske prisområdene NO1, NO2, NO3, NO4 og NO5. Datamaterialet dekker perioden fra 2020 til 29. september 2026.
-
-Prisdataene er hentet fra separate Excel-filer for hvert år. Filene er importert til R ved hjelp av readxl-pakken, og deretter kombinert til et samlet datasett. I forbindelse med importen er metadata og unødvendige kolonner fjernet, og datovariablene er konvertert til et standardisert datoformat. Observasjonene er deretter sortert kronologisk. 
-
-Datasettet gir mulighet til å undersøke hvordan strømprisene har utviklet seg over tid, og hvordan prisutviklingen varierer mellom de fem prisområdene. Det kan blant annet brukes til å identifisere perioder med store prisforskjeller og undersøke om prisområdene har hatt ulik prisutvikling.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+Dataene ble importert fra CSV-filer og omstrukturert fra bredt til langt format for å aggregere undergruppene til samlevariabler for husholdninger og fritidsboliger. På bakgrunn av disse ble det beregnet andeler av målepunkter med Norgespris og andeler av strømforbruket som dekkes av ordningen.
 
 ```{r}
-1 + 1
-```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
-
-### **2.3 Timebaserte strømpriser**
-
-I tillegg til de daglige prisdataene benytter vi et separat datasett med timebaserte strømpriser. Dette datasettet dekker perioden fra 1. oktober 2025 til 30. september 2026.
-
-Datasettet som inneholder timeprisene er opprinnelig oppgitt i NOK/MWh. For å gjøre verdiene mer intuitive og sammenlignbare med vanlig rapportering av strømpriser, konverteres de til NOK/kWh ved å dele på 1000.
-
-Timeprisene gir en mer detaljert fremstilling av prisvariasjoner enn de daglige gjennomsnittsverdiene. De gjør det mulig å undersøke hvordan strømprisene varierer gjennom døgnet og mellom ulike dager og måneder.
-
-Excel-filene er importert og kombinert til ett datasett. Datoen er hentet fra filnavnene og lagt til som en egen variabel. Kolonnen som angir leveringsperioden, er omdøpt til «hour», og datasettet er strukturert slik at dato og timeintervall kommer først.
-
-Enkelte av filene inneholder også daglige statistiske verdier, som minimums-, maksimums- og gjennomsnittspriser. Disse er skilt fra de ordinære timeprisobservasjonene for å unngå at de blandes sammen i analysene.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
-
-### **2.4 Elhub – Norgespris og strømforbruk**
-
-For å undersøke husholdningenes bruk av Norgespris og utviklingen i strømforbruket benytter vi åpne data fra Elhub.
-
-Datagrunnlaget inneholder informasjon om antall målepunkter med Norgespris, fordelt etter prisområde, forbruksgruppe og dato. Dette gir mulighet til å undersøke hvordan bruken av ordningen har utviklet seg over tid og om adopsjonen varierer mellom ulike prisområder og forbruksgrupper.
-
-Vi benytter også data om strømforbruk fordelt etter Norgespris-status, forbruksgruppe og prisområde. Disse dataene inneholder informasjon om både forbruk og antall målepunkter, og gir dermed grunnlag for å sammenligne husholdninger med og uten Norgespris.
-
-Dataene er importert og omstrukturert i R for å gjøre det mulig å sammenligne de ulike prisområdene. Vi har blant annet omformet datasettet slik at informasjon om ulike forbruksgrupper kan sammenstilles. Videre beregnes samlet strømforbruk og antall målepunkter for husholdninger med og uten Norgespris.
-
-På bakgrunn av antall målepunkter kan vi også beregne andelen som har valgt Norgespris. Dette gir et mål på hvor utbredt ordningen er i de ulike prisområdene over tid.
-
-Det er viktig å være oppmerksom på at antall målepunkter ikke nødvendigvis tilsvarer antall husholdninger. Dette må tas hensyn til når resultatene tolkes.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
-
-### **2.5 NVE – fyllingsgrad i vannmagasiner**
-
-For å undersøke sammenhengen mellom magasinfylling og strømpriser benytter vi data fra Norges vassdrags- og energidirektorat (NVE). Datasettet inneholder informasjon om fyllingsgraden i norske vannmagasiner, oppgitt ukentlig og fordelt på år.
-
-Dataene er hentet fra separate Excel-filer og importert til R. Deretter er datastrukturen tilpasset slik at fyllingsgraden kan sammenlignes på tvers av år og uker. Datasett fra ulike år kombineres ved hjelp av uke og år som felles variabler.
-
-Fyllingsgraden i vannmagasinene kan være relevant for utviklingen i strømprisene fordi vannkraftproduksjonen er avhengig av tilgjengelig vann i magasinene. Magasinfyllingen kan dermed gi informasjon om kraftsituasjonen og forventningene til fremtidig kraftproduksjon. Samtidig påvirkes strømprisene av flere andre faktorer, blant annet etterspørsel, temperatur, produksjonskapasitet, overføringskapasitet og forhold i det europeiske kraftmarkedet.
-
-Vi vil derfor undersøke om variasjoner i magasinfyllingen er statistisk forbundet med variasjoner i strømprisene, uten å legge til grunn at magasinfyllingen alene forklarer prisutviklingen.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
-
-```{r}
+#| eval: false
 #| echo: true
-#| error: false
-#| message: false
-# Funksjon for å laste inn data fra fyllingsgrad av vannmagasin i et
-# Strømprisområde med data fra NVE
 
-# Det er brukt Google AI-modus for spørsmål tilknyttet koden som en del av 
-# arbeidsflyten, hvor noen av inspillene har blitt brukt i den endelige 
-# løsningen
-library(readxl)
 library(tidyverse)
-library(purrr)
-library(dplyr)
+library(readr)
 
+# 1. Finn og les inn målerdata fra Elhub
+filer <- list.files(
+  path = "data-kilde/maaler",
+  pattern = "\\.(xls|xlsx|csv)\$",
+  full.names = TRUE,
+  ignore.case = TRUE
+)
+
+maalerdata <- read_csv2(filer) |> 
+  rename(Date = `DATO`)
+
+# 2. Omstrukturerer og aggregerer data for NO1 (eksempelkode)
+# (Tilsvarende prosedyre utføres for NO2, NO3, NO4 og NO5)
+maal_no1 <- maalerdata |> 
+  filter(PRISOMRÅDE == "NO1") |> 
+  pivot_wider(
+    names_from = c(EAC_GRUPPE, FORBRUKSGRUPPE),
+    values_from = c(ANTALL_NORGESPRIS, ANTALL, FORBRUK, FORBRUK_NORGESPRIS)
+  ) |> 
+  rowwise() |> 
+  # Aggregerer antall målepunkter for husholdning og fritid
+  mutate(sum_hus_NP  = sum(c_across(3:6))) |> 
+  mutate(sum_fri_NP  = sum(c_across(7:10))) |> 
+  mutate(sum_hus_tot = sum(c_across(11:14))) |> 
+  mutate(sum_fri_tot = sum(c_across(15:18))) |> 
+  # Aggregerer forbruk (kWh) for husholdning og fritid
+  mutate(forbruk_hus    = sum(c_across(19:22))) |> 
+  mutate(forbruk_fri    = sum(c_across(23:26))) |> 
+  mutate(forbruk_hus_NP = sum(c_across(27:30))) |> 
+  mutate(forbruk_fri_NP = sum(c_across(31:34))) |> 
+  # Beregner adopsjons- og forbruksandeler
+  mutate(prosent_hus_NP = sum_hus_NP / sum_hus_tot) |> 
+  mutate(prosent_fri_NP = sum_fri_NP / sum_fri_tot) |> 
+  mutate(prosent_forbruk_hus_NP = forbruk_hus_NP / forbruk_hus) |> 
+  mutate(prosent_forbruk_fri_NP = forbruk_fri_NP / forbruk_fri)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+Det er viktig å merke seg at antall målepunkter ikke nødvendigvis tilsvarer antall husholdninger, ettersom én husholdning kan disponere flere målepunkter. Resultatene må derfor tolkes som andeler av målepunkter, ikke andeler av husholdninger.
+
+### **2.3 Konstruksjon av reell sluttpris og strømstøtte**
+
+For å undersøke hvilke prissignaler husholdningene står overfor, beregnes en estimert sluttpris etter strømstøtte. Spotprisen alene gir ikke et fullstendig bilde av husholdningenes faktiske priskostnad, ettersom staten har gitt strømstøtte siden desember 2021.
+
+Sluttprisen beregnes ved å trekke beregnet strømstøtte fra spotprisen. Beregningen tar hensyn til historiske endringer i støtteordningens dekningsgrad og innslagsterskel. Fra desember 2021 var støttesatsen først 55 %, før den ble økt til 80 % og senere 90 %. Innslagsterskelen ble gradvis justert fra 70 øre/kWh til 77 øre/kWh i 2026.
+
+Videre konstrueres Norgespris som en referansepris på 40 øre/kWh ekskl. mva. (50 øre inkl. mva.) fra 1. oktober 2025.
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Forutsetter 'strompriser' (fra 2.2) eller 'dognstatistikk_w' (fra 2.3)
+stotteutregner <- function(cc) {  
+  cc |> 
+    mutate(
+      across(
+        .cols = starts_with("NO"),
+        .fns = ~ case_when(
+          Date < as.Date("2021-12-01") ~ 0,
+          Date < as.Date("2022-01-01") & .x >= 0.70 ~ (.x - 0.70) * 0.55,
+          Date < as.Date("2022-09-01") & .x >= 0.70 ~ (.x - 0.70) * 0.80,
+          Date < as.Date("2024-01-01") & .x >= 0.70 ~ (.x - 0.70) * 0.90,
+          Date < as.Date("2025-01-01") & .x >= 0.73 ~ (.x - 0.73) * 0.90,
+          Date < as.Date("2026-01-01") & .x >= 0.75 ~ (.x - 0.75) * 0.90,
+          Date >= as.Date("2026-01-01") & .x >= 0.77 ~ (.x - 0.77) * 0.90,
+          TRUE ~ 0
+        ), 
+        .names = "stotte_{.col}"
+      )
+    ) |> 
+    # Beregner sluttpris per prisområde
+    mutate(
+      across(
+        .cols = starts_with("NO"),
+        .fns = ~ .x - pick(paste0("stotte_", cur_column()))[[1]],
+        .names = "slutt_{.col}"
+      )
+    ) |> 
+    # Legger til Norgespris
+    mutate(
+      Norgespris_uMVA = if_else(Date >= as.Date("2025-10-01"), 0.40, 0),
+      Norgespris_mMVA = if_else(Date >= as.Date("2025-10-01"), 0.50, 0)
+    )
+}
+  return(cc_ny)
+```
+
+### 2.4 NVE – fyllingsgrad i vannmagasiner
+
+For å undersøke sammenhengen mellom magasinfylling og strømpriser benytter vi ukentlige data fra NVE for perioden 2020–2026, fordelt på de fem norske prisområdene.
+
+Excel-filene ble importert og bearbeidet i R. Dataene ble omstrukturert fra bredt til langt format, slik at hver observasjon representerer fyllingsgraden for et gitt prisområde og en bestemt uke. Datasettene ble deretter kombinert til et samlet datasett basert på år, uke og prisområde.
+
+Fyllingsgraden gir informasjon om tilgjengelig vannkraftressurs og kan påvirke produsentenes vannverdier og forventninger om fremtidig krafttilgang. Samtidig påvirkes spotprisene av andre faktorer, blant annet temperatur, etterspørsel, overføringskapasitet og europeiske kraftpriser. Dette gjør det relevant å undersøke fyllingsgradens statistiske sammenheng med spotprisene, kontrollert for sesongvariasjoner og regionale forskjeller.
 
 ## 3. Metode
 
-## Running Code
+Analysen kombinerer ordinær lineær regresjon (OLS) med faste effekter og regularisert regresjon (LASSO) for å undersøke statistiske sammenhenger og modellens prediksjonsevne. Databehandling og modellering er gjennomført i R, med Tidyverse og Tidymodels som sentrale rammeverk [@wickham_r_2016; @kuhn_tidy_2023].
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+Valget av estimeringsmetoder bygger på skillet mellom økonomisk parameterestimering og prediksjon [@athey_machine_2019; @hammersmark_econ3170_2026].
+
+### **3.1 Empirisk datastruktur og paneldatamodellering**
+
+Analysen bygger på det sammensatte datasettet all_data_samlet, som inneholder daglige observasjoner for de fem norske elspotområdene (NO1–NO5). Datasettet kombinerer dermed tidsvariasjon med geografiske forskjeller.For å kontrollere for regionale forskjeller og sesongvariasjoner benyttes faste effekter. Den generelle modellstrukturen er:
+
+$y_{it} = \beta_0 + \mathbf{\beta} \mathbf{X}_{it} + \alpha_i + \delta_m + \varepsilon_{it}$
+
+Her representerer $y_{it}$ den avhengige variabelen, mens $X_{it}$ er forklaringsvariablene. Områdefaste effekter $(\alpha_i)$ kontrollerer for tidskonstante forskjeller mellom prisområdene, mens månedsfaste effekter $(\delta_m)$ fanger opp sesongvariasjoner, blant annet knyttet til temperatur og oppvarmingsbehov.
+
+### 3.2 Spesifikasjon av estimeringsmodellene (OLS)
+
+Det estimeres tre OLS-modeller for å undersøke oppgavens problemstillinger.
+
+#### Problemstilling 1: Norgespris og strømforbruk
+
+For å undersøke hvordan husholdningenes strømforbruk varierer med Norgespris-adopsjon, spesifiseres følgende modell:
+
+$\text{forbruk\_hus}_{it} = \beta_0 + \beta_1 \text{prosent\_hus\_NP}_{it} + \beta_2 \text{slutt\_Average}_{it} + \alpha_i + \delta_m + \varepsilon_{it}$
+
+hvor $\text{forbruk\_hus}_{it}$ er gjennomsnittlig dagsforbruk per målepunkt (kWh), $\text{prosent\_hus\_NP}_{it}$ er andelen målepunkter med Norgespris og $\text{slutt\_Average}_{it}$ gjennomsnittlig strømpris etter strømstøtte (NOK/kWh).
+
+Ettersom Norgespris er en frivillig ordning, kan husholdningenes avtalevalg være påvirket av forventet strømforbruk og prisfølsomhet. Dette gir risiko for seleksjonsskjevhet. Koeffisienten for Norgespris-adopsjon tolkes derfor som en statistisk sammenheng, ikke en kausal effekt.
 
 ```{r}
-1 + 1
+#| eval: false
+#| echo: true
+
+# Estimering av OLS-modell med faste effekter for område og måned
+modell_p1 <- lm(
+  forbruk_hus ~ prosent_hus_NP + slutt_Average + 
+    factor(PRISOMRÅDE) + factor(month(Date)),
+  data = all_data_samlet
+)
+
 ```
 
-You can add options to executable code like this
+#### **Problemstilling 2: Prisdynamikk og adopsjon av Norgespris**
+
+For å undersøke sammenhengen mellom strømpriser, magasinfylling og husholdningenes adopsjon av Norgespris estimeres følgende modell:
+
+$\text{prosent\_hus\_NP}_{it} = \beta_0 + \beta_1 \text{slutt\_Average}_{it} + \beta_2 \text{fyllingsgrad}_{it} + \alpha_i + \gamma t + \varepsilon_{it}$
+
+Her representerer `slutt_Average` gjennomsnittlig strømpris etter støtte, $\text{fyllingsgrad}_{it}$ fanger opp den ukentlige magasinfyllingen fra NVE, og $t$ en lineær tidstrend (`as.numeric(Date)`). Tidstrenden inkluderes for å kontrollere for den generelle utviklingen i Norgespris-adopsjonen over perioden.
+
+#### **Problemstilling 3: Magasinfylling og spotpris**
+
+For å undersøke i hvilken grad magasinfyllingen kan bidra til å forklare variasjoner i spotprisene, estimeres følgende modell:
+
+$\text{spotpris}_{it} = \beta_0 + \beta_1 \text{fyllingsgrad}_{it} + \alpha_i + \delta_{\text{uke}} + \varepsilon_{it}$
+
+hvor $\delta_{\text{uke}}$ fanger opp historiske sesongmønstre i magasinfylling og etterspørsel.
+
+Her representerer `spotpris` spotprisen i det aktuelle prisområdet, mens `fyllingsgrad` måler den ukentlige magasinfyllingen. Områdefaste effekter kontrollerer for regionale forskjeller, mens ukefaste effekter fanger opp sesongmessige variasjoner i blant annet magasinfylling og etterspørsel.
+
+### **3.3 Regularisert regresjon og LASSO-modellering**
+
+I tillegg til OLS benyttes LASSO-regresjon (Least Absolute Shrinkage and Selection Operator) som en alternativ estimeringsmetode. LASSO kombinerer lineær regresjon med en \\(L_1\\)-straff som begrenser størrelsen på koeffisientene og kan sette mindre relevante koeffisienter lik null. Metoden brukes dermed til variabelseleksjon og kan redusere risikoen for overtilpasning [@tibshirani_regression_1996; @hastie_elements_2009; @fonti_feature_2017; @gentzkow_text_2019].
+
+LASSO-modellen estimeres ved å minimere:
+
+$\hat{\beta}_{\text{lasso}} = \arg\min_{\beta} \left( \sum_{i=1}^N \left( y_i - \beta_0 - \sum_{j=1}^p x_{ij}\beta_j \right)^2 + \lambda \sum_{j=1}^p |\beta_j| \right)$
+
+Straffeparameteren $\lambda$ bestemmer graden av regularisering. En høyere verdi gir sterkere krymping av koeffisientene, mens en lavere verdi gjør modellen mer lik ordinær lineær regresjon.
+
+For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE og $R^2$ som evalueringsmål. Den endelige modellen evalueres deretter på testsettet.
+
+**Metodisk merknad om valg av** $\lambda$**:** Kryssvalideringen valgte en svært lav verdi for $\lambda$. Dette innebærer svak regularisering, men er ikke i seg selv et tegn på overtilpasning. Modellens prediksjonsevne må vurderes ut fra resultatene på testsettet og sammenlignes med OLS \[@hastie_elements_2009\].
+
+Utdrag fra koden (inneholder kun arbeidskommentarer for å spare plass og forklare arbeidsflyt):
 
 ```{r}
-#| echo: false
-2 * 2
-```
+#| eval: false
+#| echo: true
 
-The `echo: false` option disables the printing of code (only output is displayed).
+# Deler data i trening (80 %) og test (20 %)
+
+# Oppretter Recipe
+
+# Spesifiserer LASSO-modellen
+
+# velger hvor mange deler den skal ha  
+
+set.seed(3170)
+
+# tuner 
+
+# finner beste lambda 
+
+#ser at lambda er veldig veldig lav, redd dette lager en overfitted modell 
+
+# tester modellen på testdaten 
+
+```
 
 ## 4. Resultat og evaluering
+
+Analysen er delt inn etter oppgavens tre problemstillinger:
+
+1.  Sammenhengen mellom Norgespris-adopsjon, strømpris og husholdningenes strømforbruk (sammenligning av OLS og LASSO).
+
+2.  Hvilke prissignaler, ressurstilgangsvariabler og tidstrender som driver husholdningenes valg om å inngå Norgespris.
+
+3.  Magasinfyllingens betydning for spotprisdanningen i det norske kraftmarkedet.
 
 ## Running Code
 

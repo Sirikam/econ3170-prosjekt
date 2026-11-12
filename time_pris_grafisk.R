@@ -16,10 +16,7 @@ timepriser_mnd <- timepriser_long |>
   summarise(
     gjennomsnittspris = mean(pris, na.rm = TRUE),
     .groups = "drop"
-  ) |>
-  mutate(
-    gjennomsnittspris = gjennomsnittspris / 1000
-  )
+  ) 
 
 ggplot(timepriser_mnd, aes(
   x = maaned,

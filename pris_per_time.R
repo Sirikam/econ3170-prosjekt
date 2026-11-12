@@ -6,7 +6,7 @@ mappe <- "data-kilde/Nordpool_2025_2026" #standard plassering i prosjektet
 
 filer <- list.files(
   path = mappe,
-  pattern = "\\.(xlsx|xls|csv)$",
+  pattern = "\\.xlsx$",
   full.names = TRUE,
   ignore.case = TRUE
 )
@@ -22,7 +22,7 @@ priser_per_time <- map_dfr(filer, function(fil) {
     select(-2) |> # kolonne uten data/NA
     rename(hour = `Delivery period (CET)`) |> 
     relocate(Date, hour)|>
-    mutate(across(.cols = c(3:7),.fns = ~.x /1000)) # reduserer fra NOK/MWh til NOK/kWh
+    mutate(across(starts_with("NO"), .fns = ~ .x / 1000)) # reduserer fra NOK/MWh til NOK/kWh
 })
 
 #data settet inneholder avergae, min og max fra Nordpool. Lager egen tabel til dem
@@ -46,4 +46,6 @@ dognstatistikk_w <- priser_per_time |> #wide format
 #fjerne min, max og average fra hoveddata
 timepriser <- priser_per_time |>
   filter(!hour %in% c("Min:", "Max:", "Average:"))
+
+
 
