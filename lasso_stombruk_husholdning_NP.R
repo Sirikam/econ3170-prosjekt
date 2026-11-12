@@ -104,3 +104,5 @@ koeffisienter_lasso <- final_model_train |>
   filter(estimate != 0)
 
 koeffisienter_lasso
+
+

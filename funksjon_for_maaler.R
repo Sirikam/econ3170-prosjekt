@@ -1,4 +1,4 @@
-# funksjon for import og formattering ac strmmmaalerdata for de ulike
+# funksjon for import og formattering a strommmaalerdata for de ulike
 # strømprisområdene
 library(readr)
 library(readxl)
@@ -55,12 +55,10 @@ maal_no4_test <- beregn_prisområde(maalerdata, "NO4")
 maal_no5_test <- beregn_prisområde(maalerdata, "NO5")
 
 
-# Beregn én samlet tabell først (som vist tidligere) og splitt i 5 deltabeller:
+# Beregn én samlet tabell og splitt i 5 deltabeller:
 maal_liste <- maal_alle |> 
   group_split(PRISOMRÅDE) |> 
   set_names(c("NO1", "NO2", "NO3", "NO4", "NO5"))
 
-# Nå har du tilgang til hver enkelt tabell direkte:
-maal_liste$NO1   # Tabell for NO1
-maal_liste$NO2   # Tabell for NO2
+
 

@@ -52,3 +52,4 @@ all_data_samlet |>
     gjennomsnitt = mean(fyllingsgrad, na.rm = TRUE)
   )
 
+

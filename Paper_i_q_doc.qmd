@@ -3,8 +3,9 @@ title: "Strømpriser"
 subtitle: "Term paper in ECON 3170/4170, autumn 2026"
 author: "Candidate no. 1 – Candidate no. 2"
 date: "16.11.2026"
-format: pdf
+format: html
 editor: visual
+toc: true
 bibliography: ECON3170_kilder.bib
 ---
 
@@ -163,6 +164,417 @@ Analysen kombinerer ordinær lineær regresjon (OLS) med faste effekter og regul
 
 Valget av estimeringsmetoder bygger på skillet mellom økonomisk parameterestimering og prediksjon [@athey_machine_2019; @hammersmark_econ3170_2026].
 
+``` r
+```{r}
+#| include: false 
+
+# ============================================================
+# 0. PAKKER
+# ============================================================
+
+library(readr)
+library(readxl)
+library(tidyverse)
+library(lubridate)
+library(dplyr)
+library(purrr)
+library(glmnet)
+library(tidymodels)
+library(broom)
+
+
+# ============================================================
+# 1. ELHUB - IMPORT OG BEARBEIDING AV MÅLERDATA
+# ============================================================
+
+filer_maaler <- list.files(
+  path = "data-kilde/maaler",
+  pattern = "\\.(xls|xlsx|csv)$",
+  full.names = TRUE,
+  ignore.case = TRUE
+)
+
+maalerdata <- map_dfr(filer_maaler, function(fil) {
+  
+  if (grepl("\\.csv$", fil, ignore.case = TRUE)) {
+    read_csv2(fil, show_col_types = FALSE)
+  } else {
+    read_excel(fil)
+  }
+  
+}) |>
+  rename(Date = DATO)
+
+
+# Funksjon for å aggregere målerdata per prisområde
+
+beregn_prisområde <- function(data, omrade_navn) {
+  
+  data |>
+    filter(PRISOMRÅDE == omrade_navn) |>
+    pivot_wider(
+      names_from = c(EAC_GRUPPE, FORBRUKSGRUPPE),
+      values_from = c(
+        ANTALL_NORGESPRIS,
+        ANTALL,
+        FORBRUK,
+        FORBRUK_NORGESPRIS
+      ),
+      values_fill = 0
+    ) |>
+    rowwise() |>
+    mutate(
+      sum_hus_NP = sum(
+        c_across(starts_with("ANTALL_NORGESPRIS_HUSHOLDNING")),
+        na.rm = TRUE
+      ),
+      sum_fri_NP = sum(
+        c_across(starts_with("ANTALL_NORGESPRIS_FRITID")),
+        na.rm = TRUE
+      ),
+      sum_hus_tot = sum(
+        c_across(starts_with("ANTALL_HUSHOLDNING")),
+        na.rm = TRUE
+      ),
+      sum_fri_tot = sum(
+        c_across(starts_with("ANTALL_FRITID")),
+        na.rm = TRUE
+      ),
+      forbruk_hus = sum(
+        c_across(starts_with("FORBRUK_HUSHOLDNING")),
+        na.rm = TRUE
+      ),
+      forbruk_fri = sum(
+        c_across(starts_with("FORBRUK_FRITID")),
+        na.rm = TRUE
+      ),
+      forbruk_hus_NP = sum(
+        c_across(starts_with("FORBRUK_NORGESPRIS_HUSHOLDNING")),
+        na.rm = TRUE
+      ),
+      forbruk_fri_NP = sum(
+        c_across(starts_with("FORBRUK_NORGESPRIS_FRITID")),
+        na.rm = TRUE
+      )
+    ) |>
+    ungroup() |>
+    mutate(
+      prosent_hus_NP = sum_hus_NP / sum_hus_tot,
+      prosent_fri_NP = sum_fri_NP / sum_fri_tot,
+      prosent_forbruk_hus_NP = forbruk_hus_NP / forbruk_hus,
+      prosent_forbruk_fri_NP = forbruk_fri_NP / forbruk_fri
+    )
+}
+
+
+# Samler alle fem prisområdene
+
+omraader <- c("NO1", "NO2", "NO3", "NO4", "NO5")
+
+maal_samlet <- map_dfr(
+  omraader,
+  ~ beregn_prisområde(maalerdata, .x)
+) |>
+  as_tibble()
+
+
+# ============================================================
+# 2. NORD POOL - TIMEPRISER
+# ============================================================
+
+mappe <- "data-kilde/Nordpool_2025_2026"
+
+filer_nordpool <- list.files(
+  path = mappe,
+  pattern = "\\.xlsx$",
+  full.names = TRUE,
+  ignore.case = TRUE
+)
+
+length(filer_nordpool)
+
+
+# Leser og kombinerer alle timeprisfilene
+
+priser_per_time <- map_dfr(filer_nordpool, function(fil) {
+  
+  dato <- str_extract(
+    basename(fil),
+    "\\d{4}-\\d{2}-\\d{2}"
+  )
+  
+  read_excel(fil, skip = 4) |>
+    mutate(Date = as.Date(dato)) |>
+    select(-2) |>
+    rename(hour = `Delivery period (CET)`) |>
+    relocate(Date, hour) |>
+    mutate(
+      across(starts_with("NO"), ~ .x / 1000)
+    )
+})
+
+
+# Skiller ut daglige oppsummeringsverdier
+
+dognstatistikk <- priser_per_time |>
+  filter(hour %in% c("Min:", "Max:", "Average:")) |>
+  rename(Statistic = hour) |>
+  pivot_longer(
+    cols = starts_with("NO"),
+    names_to = "Price_area",
+    values_to = "Price"
+  )
+
+
+# Lager døgnstatistikk i bredt format
+
+dognstatistikk_w <- priser_per_time |>
+  filter(hour %in% c("Min:", "Max:", "Average:")) |>
+  rename(Statistic = hour) |>
+  pivot_wider(
+    names_from = Statistic,
+    values_from = starts_with("NO")
+  )
+
+
+# Fjerner Min, Max og Average fra timeprisdataene
+
+timepriser <- priser_per_time |>
+  filter(!hour %in% c("Min:", "Max:", "Average:"))
+
+
+# ============================================================
+# 3. STRØMSTØTTE OG NORGESPRIS
+# ============================================================
+
+stotteutregner <- function(cc) {
+  
+  cc_ny <- cc |>
+    mutate(
+      across(
+        .cols = starts_with("NO"),
+        .fns = ~ case_when(
+          
+          # Før strømstøtten
+          Date < as.Date("2021-12-01") ~ 0,
+          
+          # Desember 2021: 55 prosent
+          Date < as.Date("2022-01-01") &
+            Date >= as.Date("2021-12-01") &
+            .x >= 0.70 ~ (.x - 0.70) * 0.55,
+          
+          # Januar-mars 2022: 80 prosent
+          Date < as.Date("2022-04-01") &
+            Date >= as.Date("2022-01-01") &
+            .x >= 0.70 ~ (.x - 0.70) * 0.80,
+          
+          # April-august 2022: 80 prosent
+          Date < as.Date("2022-09-01") &
+            Date >= as.Date("2022-04-01") &
+            .x >= 0.70 ~ (.x - 0.70) * 0.80,
+          
+          # September-desember 2022: 90 prosent
+          Date < as.Date("2023-01-01") &
+            Date >= as.Date("2022-09-01") &
+            .x >= 0.70 ~ (.x - 0.70) * 0.90,
+          
+          # Januar-september 2023
+          Date < as.Date("2023-10-01") &
+            Date >= as.Date("2023-01-01") &
+            .x >= 0.70 ~ (.x - 0.70) * 0.90,
+          
+          # Oktober-desember 2023
+          Date < as.Date("2024-01-01") &
+            Date >= as.Date("2023-10-01") &
+            .x >= 0.70 ~ (.x - 0.70) * 0.90,
+          
+          # 2024
+          Date < as.Date("2025-01-01") &
+            Date >= as.Date("2024-01-01") &
+            .x >= 0.73 ~ (.x - 0.73) * 0.90,
+          
+          # 2025
+          Date < as.Date("2026-01-01") &
+            Date >= as.Date("2025-01-01") &
+            .x >= 0.75 ~ (.x - 0.75) * 0.90,
+          
+          # 2026
+          Date >= as.Date("2026-01-01") &
+            .x >= 0.77 ~ (.x - 0.77) * 0.90,
+          
+          TRUE ~ 0
+        ),
+        .names = "stotte_{.col}"
+      )
+    ) |>
+    
+    # Beregner sluttpris etter strømstøtte
+    mutate(
+      across(
+        .cols = starts_with("NO"),
+        .fns = ~ .x - pick(
+          paste0("stotte_", cur_column())
+        )[[1]],
+        .names = "slutt_{.col}"
+      )
+    ) |>
+    
+    # Konstruerer Norgespris
+    mutate(
+      Norgespris_uMVA = case_when(
+        Date < as.Date("2025-10-01") ~ 0,
+        TRUE ~ 0.4
+      ),
+      Norgespris_mMVA = case_when(
+        Date < as.Date("2025-10-01") ~ 0,
+        TRUE ~ 0.5
+      )
+    )
+  
+  return(cc_ny)
+}
+
+
+# ============================================================
+# 4. NVE - FYLLINGSGRAD I VANNMAGASINER
+# ============================================================
+
+filer_fylling <- list.files(
+  "data-kilde/fylling",
+  pattern = "\\.(xls|xlsx|csv)$",
+  full.names = TRUE,
+  ignore.case = TRUE
+)
+
+
+# Leser og formatterer filene
+
+data_liste <- lapply(filer_fylling, function(fil) {
+  
+  navn <- basename(fil) |>
+    str_remove("\\, 2020, 2021, 2022, 2023, 2024, 2025, 2026.xlsx")
+  
+  if (grepl("\\.csv$", fil, ignore.case = TRUE)) {
+    data <- read_csv2(fil, skip = 2, show_col_types = FALSE)
+  } else {
+    data <- read_excel(fil, skip = 2)
+  }
+  
+  data |>
+    select(1, 5:11) |>
+    rename_with(
+      ~ str_extract(.x, "\\d{4}"),
+      .cols = -Uke
+    ) |>
+    arrange(Uke) |>
+    pivot_longer(
+      cols = -Uke,
+      names_to = "år",
+      values_to = navn
+    ) |>
+    mutate(år = as.numeric(år)) |>
+    arrange(år, Uke)
+})
+
+
+# Kombinerer data fra alle prisområdene
+
+fyll_2020_2026 <- data_liste |>
+  reduce(inner_join, by = c("Uke", "år")) |>
+  drop_na() |>
+  relocate(år, Uke)
+
+
+# ============================================================
+# 5. SAMMENSTILLING AV ALLE DATA
+# ============================================================
+
+# Beregner strømstøtte på døgnstatistikken
+
+dogn_stotte <- stotteutregner(dognstatistikk_w)
+
+
+# Gjør prisdata om til langt format
+
+priser_long <- dogn_stotte |>
+  rename_with(
+    ~ paste0("spotpris_", .x),
+    .cols = matches("^NO\\d+ \\(NOK\\)")
+  ) |>
+  pivot_longer(
+    cols = matches("^(spotpris_|stotte_|slutt_)"),
+    names_to = c("PRISTYPE", "PRISOMRÅDE", "MÅLING"),
+    names_pattern = "^(spotpris|stotte|slutt)_(NO\\d) \\(NOK\\)_(Min:|Max:|Average:)$",
+    values_to = "VERDI"
+  ) |>
+  pivot_wider(
+    names_from = c(PRISTYPE, MÅLING),
+    values_from = VERDI,
+    names_glue = "{PRISTYPE}_{MÅLING}"
+  )
+
+
+# Gjør magasinfylling om til langt format
+
+fyll_long <- fyll_2020_2026 |>
+  pivot_longer(
+    cols = matches("NO\\d+$"),
+    names_to = "PRISOMRÅDE",
+    names_prefix = "Fyllingsgrad (%) ",
+    values_to = "fyllingsgrad"
+  )
+
+
+# Kombinerer prisdata, målerdata og magasinfylling
+
+all_data_samlet <- priser_long |>
+  inner_join(
+    maal_samlet,
+    by = c("Date", "PRISOMRÅDE")
+  ) |>
+  mutate(
+    år = year(Date),
+    Uke = isoweek(Date)
+  ) |>
+  left_join(
+    fyll_long,
+    by = c("år", "Uke", "PRISOMRÅDE")
+  ) |>
+  rename(
+    slutt_Average = `slutt_Average:`
+  )
+
+
+# ============================================================
+# 6. KONTROLL AV DET FERDIGE DATASETTET
+# ============================================================
+
+# Antall observasjoner og variabler
+dim(all_data_samlet)
+
+# Kontroller kolonnenavn
+names(all_data_samlet)
+
+# Kontroller datoer
+range(all_data_samlet$Date, na.rm = TRUE)
+
+# Kontroller antall observasjoner per prisområde
+count(all_data_samlet, PRISOMRÅDE)
+
+# Kontroller manglende verdier i sentrale variabler
+all_data_samlet |>
+  summarise(
+    mangler_forbruk = sum(is.na(forbruk_hus)),
+    mangler_norgespris = sum(is.na(prosent_hus_NP)),
+    mangler_spotpris = sum(is.na(slutt_Average)),
+    mangler_fyllingsgrad = sum(is.na(fyllingsgrad))
+  )
+
+# ============================================================
+# FERDIG: all_data_samlet ER KLART TIL ANALYSENE
+# ============================================================
+```
+
 ### **3.1 Empirisk datastruktur og paneldatamodellering**
 
 Analysen bygger på det sammensatte datasettet all_data_samlet, som inneholder daglige observasjoner for de fem norske elspotområdene (NO1–NO5). Datasettet kombinerer dermed tidsvariasjon med geografiske forskjeller.For å kontrollere for regionale forskjeller og sesongvariasjoner benyttes faste effekter. Den generelle modellstrukturen er:
@@ -258,30 +670,92 @@ set.seed(3170)
 
 ## 4. Resultat og evaluering
 
-Analysen er delt inn etter oppgavens tre problemstillinger:
+I dette kapittelet presenteres resultatene fra de empiriske analysene. Resultatene er strukturert etter oppgavens tre problemstillinger. Først undersøkes sammenhengen mellom Norgespris-adopsjon og husholdningenes samlede strømforbruk. Deretter analyseres sammenhengen mellom strømpriser, magasinfylling og adopsjon av Norgespris. Til slutt undersøkes sammenhengen mellom magasinfylling og spotpriser i de norske prisområdene.
 
-1.  Sammenhengen mellom Norgespris-adopsjon, strømpris og husholdningenes strømforbruk (sammenligning av OLS og LASSO).
+### 4.1 Historisk utvikling i strømpriser
 
-2.  Hvilke prissignaler, ressurstilgangsvariabler og tidstrender som driver husholdningenes valg om å inngå Norgespris.
+Figur 4.1 viser utviklingen i gjennomsnittlige døgnpriser i de fem norske prisområdene fra 2020 til 2026. Figuren illustrerer både variasjoner i strømprisene over tid og geografiske forskjeller mellom prisområdene. Prisområdene har ikke hatt identisk prisutvikling, noe som viser betydningen av å kontrollere for geografiske forskjeller i de videre regresjonsanalysene.
 
-3.  Magasinfyllingens betydning for spotprisdanningen i det norske kraftmarkedet.
+![4.1: Utvikling i gjennomsnittlig døgnpris per prisområde, 2020–2026](utvikling i gjnsnt døgnpris per område.png){fig-align="left"}
 
-## Running Code
+#### 4.2 Problemstilling 1: Norgespris-adopsjon og husholdningenes strømforbruk
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+For å undersøke sammenhengen mellom Norgespris-adopsjon og husholdningenes strømforbruk estimeres en OLS-modell med samlet husholdningsforbruk per prisområde som avhengig variabel. Modellen inkluderer andelen husholdningsmålepunkter med Norgespris, nettopris, områdefaste effekter og månedsfaste effekter.
 
-```{r}
-1 + 1
-```
+Figur 4.2 viser den deskriptive sammenhengen mellom andelen husholdningsmålepunkter med Norgespris og samlet husholdningsforbruk, fordelt på prisområde. Trendlinjene illustrerer hvordan sammenhengen varierer mellom områdene.
 
-You can add options to executable code like this
+![4.2: Sammenhengen mellom Norgespris-adopsjon og samlet husholdningsforbruk, fordelt på prisområde.](sammenheng norgespris og strømforbruk.png)
 
-```{r}
+```{{r}}
 #| echo: false
-2 * 2
-```
+#| warning: false
+#| message: false
 
-The `echo: false` option disables the printing of code (only output is displayed).
+library(dplyr)
+library(broom)
+library(knitr)
+
+# OLS
+ols_tabell <- tidy(modell_p1) |>
+  filter(term %in% c("prosent_hus_NP", "slutt_Average")) |>
+  mutate(
+    Variabel = recode(
+      term,
+      "prosent_hus_NP" = "Andel husholdninger med Norgespris",
+      "slutt_Average" = "Spotpris"
+    ),
+    OLS = sprintf("%.0f (%.0f)", estimate, std.error)
+  ) |>
+  select(Variabel, OLS)
+
+# LASSO
+lasso_tabell <- koeffisienter_lasso |>
+  filter(term %in% c("prosent_hus_NP", "slutt_Average")) |>
+  mutate(
+    Variabel = recode(
+      term,
+      "prosent_hus_NP" = "Andel husholdninger med Norgespris",
+      "slutt_Average" = "Spotpris"
+    ),
+    LASSO = round(estimate, 0)
+  ) |>
+  select(Variabel, LASSO)
+
+# Lager tabellen
+tabell_41 <- left_join(ols_tabell, lasso_tabell, by = "Variabel")
+
+knitr::kable(
+  tabell_41,
+  format = "html",
+  caption = "Tabell 4.1. Regresjonsresultater for modell P1",
+  align = "lrr"
+)
+
+**\[MANGLER: Sammenlignbare prediksjonsmål for OLS og LASSO på samme testsett. OLS-modellen er foreløpig ikke evaluert på LASSO-modellens testsett.\]**
+
+*Når regresjonsresultatene foreligger, drøftes sammenhengen mellom adopsjonsandel og aggregert forbruk, samt hvordan resultatene påvirkes av nettopris og kontrollvariablene. Siden analysen bygger på aggregerte data for hvert prisområde, kan resultatene ikke brukes til å fastslå hvordan forbruket varierer mellom enkeltstående husholdninger med og uten Norgespris.*
+
+### 4.3 Problemstilling 2: Strømpriser og adopsjon av Norgespris
+
+For å undersøke sammenhengen mellom strømpriser og husholdningenes adopsjon av Norgespris estimeres tre OLS-modeller med gradvis flere forklaringsvariabler. Modell 2A inkluderer nettopris som eneste forklaringsvariabel. Modell 2B inkluderer i tillegg magasinfylling og områdefaste effekter, mens modell 2C også kontrollerer for en lineær tidstrend.
+
+**\[Sett inn tabell 4.2: Regresjonsresultater for modell 2A, 2B og 2C.\]**
+
+Nettoprisen har en positiv sammenheng med adopsjonsandelen i alle tre modellspesifikasjonene. Koeffisienten reduseres imidlertid fra 0,772 i modell 2A til 0,058 i modell 2C. Dette viser at sammenhengen mellom nettopris og adopsjon blir betydelig svakere når det kontrolleres for magasinfylling, geografiske forskjeller og generell tidsutvikling.
+
+Magasinfyllingen har en negativ sammenheng med adopsjonsandelen i de utvidede modellene. Dette kan være forenlig med at høy magasinfylling reduserer insentivet til å velge Norgespris, mens lav magasinfylling kan øke verdien av prisforutsigbarhet.
+
+Den positive tidstrenden i modell 2C viser at adopsjonsandelen øker over tid, kontrollert for de øvrige variablene. Tidstrenden fanger imidlertid opp den generelle utviklingen og kan ikke isolert knyttes til økt kjennskap til ordningen.
+
+### 4.4 Problemstilling 3: Magasinfylling og spotprisdannelse
+
+Den tredje problemstillingen undersøker i hvilken grad fyllingsgraden i norske vannmagasiner kan bidra til å forklare variasjoner i spotprisene. Analysen tar utgangspunkt i variasjoner i magasinfylling og spotpriser på tvers av de fem norske prisområdene.
+
+**\[MANGLER: Regresjonstabell med koeffisienten for magasinfylling, standardfeil, signifikans, R² og antall observasjoner.\]**
+
+**\[MANGLER: Figur som viser sammenhengen mellom magasinfylling og spotpris, fordelt på prisområde.\]**
+
+Resultatene vil brukes til å vurdere om det er en systematisk sammenheng mellom ressurstilgangen i vannkraftsystemet og spotprisene. Eventuelle geografiske og sesongmessige forskjeller drøftes med utgangspunkt i modellresultatene.
 
 ## 5. Konklusjon
 
