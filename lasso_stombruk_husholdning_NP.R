@@ -106,3 +106,50 @@ koeffisienter_lasso <- final_model_train |>
 koeffisienter_lasso
 
 
+
+# Sammenlikne OLS modellen med testdata fra denne LASSO 
+
+# 1. Estimerer OLS på treningsdataene
+modell_p1_pred <- lm(
+  forbruk_hus ~ prosent_hus_NP +
+    slutt_Average +
+    PRISOMRÅDE +
+    måned,
+  data = train_data
+)
+
+summary(modell_p1_pred)
+
+# 2. Predikerer forbruk på testdataene
+prediksjoner_ols <- test_data |>
+  mutate(
+    .pred = predict(modell_p1_pred, newdata = test_data)
+  )
+
+# 3. Beregner prediksjonsmål for OLS
+ols_prediksjonsmal <- metric_set(rmse, rsq, mae)(
+  prediksjoner_ols,
+  truth = forbruk_hus,
+  estimate = .pred
+) |>
+  mutate(Modell = "OLS")
+
+# 4. Henter LASSO-prediksjonene fra samme testsett
+prediksjoner_lasso <- collect_predictions(final_lasso_fit)
+
+# 5. Beregner prediksjonsmål for LASSO
+lasso_prediksjonsmal <- metric_set(rmse, rsq, mae)(
+  prediksjoner_lasso,
+  truth = forbruk_hus,
+  estimate = .pred
+) |>
+  mutate(Modell = "LASSO")
+
+# 6. Samler resultatene i én tabell
+sammenligning_prediksjon <- bind_rows(
+  ols_prediksjonsmal,
+  lasso_prediksjonsmal
+) |>
+  select(Modell, .metric, .estimate)
+
+sammenligning_prediksjon

@@ -6,7 +6,7 @@ library(tidyverse)
 
 #forbruk i KWH, antall i totalt antall og antall 
 
-#maalerdata <- read_csv2('data-kilde/maaler/strommaalere.csv')
+maalerdata <- read_csv2('data-kilde/maaler/strommaalere.csv')
 
 # Finn alle Excel-filer i mappen
 filer <- list.files(
@@ -55,7 +55,7 @@ maal_no4_test <- beregn_prisområde(maalerdata, "NO4")
 maal_no5_test <- beregn_prisområde(maalerdata, "NO5")
 
 
-# Beregn én samlet tabell og splitt i 5 deltabeller:
+# Beregn én samlet tabell og splitt i 5 deltabeller
 maal_liste <- maal_alle |> 
   group_split(PRISOMRÅDE) |> 
   set_names(c("NO1", "NO2", "NO3", "NO4", "NO5"))

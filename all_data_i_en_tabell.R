@@ -41,34 +41,34 @@ priser_long <- dogn_stotte |>
 
 view(priser_long)
 
-# 3. MAGASINFYLLING (NVE): Omformer til langt format
+# 3. MAGASINFYLLING (NVE): Henter klargjorte data
 
-names(fyll_2020_2026)
-head(fyll_2020_2026)
-
-fyll_long <- fyll_2020_2026 |> 
-  pivot_longer(
-    cols = matches("NO\\d+$"),
-    names_to = "PRISOMRÅDE",
-    names_prefix = "Fyllingsgrad (%) ",
-    values_to = "fyllingsgrad"
-  )
+fyll_long <- fyll_2020_2026 |>
+  select(Date, år, Uke, PRISOMRÅDE, fyllingsgrad)
 
 
-#4. SAMMENSTILLING: Bygger det endelige masterdatasettet
+# 4. SAMMENSTILLING: Bygger det endelige masterdatasettet
 
-all_data_samlet <- priser_long |> 
-  inner_join(maal_samlet, by = c("Date", "PRISOMRÅDE")) |> 
+all_data_samlet <- priser_long |>
+  inner_join(
+    maal_samlet,
+    by = c("Date", "PRISOMRÅDE")
+  ) |>
   mutate(
-    år  = year(Date),
+    år = year(Date),
     Uke = isoweek(Date)
-  ) |> 
-  left_join(fyll_long, by = c("år", "Uke", "PRISOMRÅDE"))
-
-all_data_samlet <- all_data_samlet |> 
+  ) |>
+  left_join(
+    fyll_long |>
+      select(Date, PRISOMRÅDE, fyllingsgrad),
+    by = c("Date", "PRISOMRÅDE")
+  ) |>
+  arrange(PRISOMRÅDE, Date) |>
+  group_by(PRISOMRÅDE) |>
+  fill(fyllingsgrad, .direction = "down") |>
+  ungroup() |>
   rename(slutt_Average = `slutt_Average:`)
 
 view(all_data_samlet)
 
-
-
+glimpse(all_data_samlet)

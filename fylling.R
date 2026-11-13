@@ -8,13 +8,17 @@ library(readxl)
 library(tidyverse)
 library(purrr)
 library(dplyr)
+library(ISOweek)
 
 #les in filer som skal emd i en liste
 filer <- list.files(
   "data-kilde/fylling",
-  pattern = "\\.xlsx$",
+  pattern = "\\.(xls|xlsx|csv)$",
   full.names = TRUE
 )
+
+length(filer)
+filer
 
 # Les inn filene, og formatter dem slika t de er på ønsket format
 data_liste <- lapply(filer, function(fil) {
@@ -40,3 +44,23 @@ fyll_2020_2026 <- data_liste |>
   reduce(inner_join, by = c("Uke", "år"))|>
   drop_na() |>
   relocate(år, Uke)
+
+# Omformer til langt format og legger til dato
+fyll_2020_2026 <- fyll_2020_2026 |>
+  pivot_longer(
+    cols = -c(år, Uke),
+    names_to = "PRISOMRÅDE",
+    values_to = "fyllingsgrad"
+  ) |>
+  mutate(
+    PRISOMRÅDE = str_extract(PRISOMRÅDE, "NO\\d+"),
+    Date = ISOweek::ISOweek2date(
+      sprintf("%d-W%02d-1", år, Uke)
+    )
+  ) |>
+  select(Date, år, Uke, PRISOMRÅDE, fyllingsgrad) |>
+  arrange(PRISOMRÅDE, Date)
+
+view(fyll_2020_2026)
+
+

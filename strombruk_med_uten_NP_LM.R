@@ -41,5 +41,3 @@ ggplot(all_data_samlet,
   theme_minimal()
 
 
-
-
