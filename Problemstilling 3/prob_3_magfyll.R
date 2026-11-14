@@ -5,11 +5,11 @@ prob_3_data_fyllingsgrad <- spotpris_historisk_long |>
   inner_join(
     fyll_2020_2026 |>
       select(
-        Date,
-        PRISOMRÅDE,
+        date,
+        prisomrade,
         fyllingsgrad
       ),
-    by = c("Date", "PRISOMRÅDE")
+    by = c("date", "prisomrade")
   ) |>
   drop_na(
     spotpris_aggregert_historisk,
@@ -20,8 +20,8 @@ prob_3_data_fyllingsgrad <- spotpris_historisk_long |>
 
 ols_fyllingsgrad <- lm(
   spotpris_aggregert_historisk ~ fyllingsgrad +
-    factor(PRISOMRÅDE) +
-    as.numeric(Date),
+    factor(prisomrade) +
+    as.numeric(date),
   data = all_data_samlet
 )
 
@@ -33,10 +33,10 @@ summary(ols_fyllingsgrad)
 ggplot(
   fyll_2020_2026,
   aes(
-    x = Date,
+    x = date,
     y = fyllingsgrad,
-    color = PRISOMRÅDE,
-    group = PRISOMRÅDE
+    color = prisomrade,
+    group = prisomrade
   )
 ) +
   geom_line(linewidth = 0.8) +
@@ -66,7 +66,7 @@ ggplot(
   aes(
     x = fyllingsgrad,
     y = spotpris_aggregert_historisk,
-    color = PRISOMRÅDE
+    color = prisomrade
   )
 ) +
   geom_point(alpha = 0.25) +
@@ -75,7 +75,7 @@ ggplot(
     formula = y ~ x,
     se = TRUE
   ) +
-  facet_wrap(~ PRISOMRÅDE) +
+  facet_wrap(~ prisomrade) +
   labs(
     title = "Sammenhengen mellom magasinfylling og aggregert spotpris 2020-2026",
     x = "Magasinfylling per prisområde",

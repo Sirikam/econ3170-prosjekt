@@ -3,29 +3,16 @@
 modell_p1 <- lm(
   forbruk_hus ~ prosent_forbruk_hus_np +
     slutt_average +
-    factor(prisområde) +
-    factor(month(Date)),
+    factor(prisomrade) +
+    factor(month(date)),
   data = all_data_samlet
 )
 
 summary(modell_p1)
 
-ggplot(all_data_samlet, 
-       aes(x = prosent_hus_np, y = forbruk_hus)) +
-  geom_point(alpha = 0.3) +
-  geom_smooth(method = "lm", 
-              se = TRUE, 
-              color = "blue") +
-  labs(
-    title = "Sammenhengen mellom Norgespris og strømforbruk",
-    x = "Andel husholdninger med Norgespris",
-    y = "Samlet strømforbruk i husholdninger"
-  ) +
-  theme_minimal()
-
 
 ggplot(all_data_samlet, 
-       aes(x = prosent_hus_np, 
+       aes(x = prosent_forbruk_hus_np, 
            y = forbruk_hus,
            color = prisomrade)) +
   geom_point(alpha = 0.3) +
@@ -33,7 +20,7 @@ ggplot(all_data_samlet,
               se = TRUE) +
   labs(
     title = "Sammenhengen mellom Norgespris og strømforbruk",
-    x = "Andel husholdninger med Norgespris",
+    x = "Prosent forbruk husholdninger med Norgespris",
     y = "Samlet strømforbruk i husholdninger",
     color = "Prisområde"
   ) +
