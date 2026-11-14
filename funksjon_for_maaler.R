@@ -3,6 +3,7 @@
 library(readr)
 library(readxl)
 library(tidyverse)
+library(janitor)
 
 #forbruk i KWH, antall i totalt antall og antall 
 
@@ -44,33 +45,34 @@ beregn_prisområde <- function(data, omrade_navn) {
       prosent_fri_NP         = sum_fri_NP / sum_fri_tot,
       prosent_forbruk_hus_NP = forbruk_hus_NP / forbruk_hus,
       prosent_forbruk_fri_NP = forbruk_fri_NP / forbruk_fri
-    )
+    ) |> 
+    clean_names()
 }
 
 #Henter ut de 5 tabellene
-maal_no1_test <- beregn_prisområde(maalerdata, "NO1")
-maal_no2_test <- beregn_prisområde(maalerdata, "NO2")
-maal_no3_test <- beregn_prisområde(maalerdata, "NO3")
-maal_no4_test <- beregn_prisområde(maalerdata, "NO4")
-maal_no5_test <- beregn_prisområde(maalerdata, "NO5")
+maal_no1 <- beregn_prisområde(maalerdata, "NO1")
+maal_no2 <- beregn_prisområde(maalerdata, "NO2")
+maal_no3 <- beregn_prisområde(maalerdata, "NO3")
+maal_no4 <- beregn_prisområde(maalerdata, "NO4")
+maal_no5 <- beregn_prisområde(maalerdata, "NO5")
 
 
 # Slår sammen dataene for alle prisområdene
 maal_alle <- bind_rows(
-  maal_no1_test,
-  maal_no2_test,
-  maal_no3_test,
-  maal_no4_test,
-  maal_no5_test
+  maal_no1,
+  maal_no2,
+  maal_no3,
+  maal_no4,
+  maal_no5
 )
 
 
 # Beregn én samlet tabell og splitt i 5 deltabeller
 maal_liste <- maal_alle |> 
-  group_split(PRISOMRÅDE) |> 
+  group_split(prisomrade) |> 
   set_names(c("NO1", "NO2", "NO3", "NO4", "NO5"))
 
 
-names(maal_liste)
-glimpse(maal_liste)
+#names(maal_liste)
+#glimpse(maal_liste)
 

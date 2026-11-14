@@ -8,7 +8,12 @@ library(tidymodels)
 lasso_data <- all_data_samlet |>
   select(
     forbruk_hus,
-    prosent_hus_NP,
+    prosent_forbruk_hus_NP,
+    Norgespris_uMVA,
+    forbruk_hus_NP,
+    `spotpris_Average:`,
+    `slutt_Min:`,
+    `slutt_Max:`,
     slutt_Average,
     PRISOMRÅDE,
     Date
@@ -104,7 +109,6 @@ koeffisienter_lasso <- final_model_train |>
   filter(estimate != 0)
 
 koeffisienter_lasso
-
 
 
 # Sammenlikne OLS modellen med testdata fra denne LASSO 

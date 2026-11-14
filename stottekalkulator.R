@@ -1,6 +1,7 @@
 # Utregning av terskelverdier for strømstøtte for hvert prisområde
 
  library(tidyverse)
+ library(janitor)
  
  
  terskelverdier <- c(0.7, 0.7, 0.7, 0.75, 0.77) #2021-2026
@@ -95,8 +96,9 @@
          `Delivery Date (CET)` < as.Date("2025-10-01") ~ 0,
          TRUE ~ 0.5
        )
-   ) |> rename(Date = `Delivery Date (CET)`)
+   ) |> rename(Date = `Delivery Date (CET)`) |> 
+   clean_names()
  
  
-names(stotteoversikt)
-glimpse(stotteoversikt)
+#names(stotteoversikt)
+#glimpse(stotteoversikt)

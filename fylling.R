@@ -9,6 +9,7 @@ library(tidyverse)
 library(purrr)
 library(dplyr)
 library(ISOweek)
+library(janitor)
 
 #les in filer som skal emd i en liste
 filer <- list.files(
@@ -17,8 +18,8 @@ filer <- list.files(
   full.names = TRUE
 )
 
-length(filer)
-filer
+#length(filer)
+
 
 # Les inn filene, og formatter dem slika t de er på ønsket format
 data_liste <- lapply(filer, function(fil) {
@@ -59,8 +60,9 @@ fyll_2020_2026 <- fyll_2020_2026 |>
     )
   ) |>
   select(Date, år, Uke, PRISOMRÅDE, fyllingsgrad) |>
-  arrange(PRISOMRÅDE, Date)
+  arrange(PRISOMRÅDE, Date) |> 
+  clean_names()
 
-view(fyll_2020_2026)
+#view(fyll_2020_2026)
 
 

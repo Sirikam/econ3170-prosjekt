@@ -11,7 +11,7 @@ filer <- list.files(
   ignore.case = TRUE
 )
 
-length(filer) #sjekke at jeg ikke har glemt å laste ned noen av dagene
+#length(filer) #sjekke at jeg ikke har glemt å laste ned noen av dagene
 
 priser_per_time <- map_dfr(filer, function(fil) {
   
@@ -33,28 +33,20 @@ dognstatistikk <- priser_per_time |>
   rename(Statistic = hour) |> 
   pivot_longer(cols = starts_with("NO"),
                names_to = "Price_area",
-               values_to = "Price")
+               values_to = "Price") 
 
 dognstatistikk_w <- priser_per_time |> #wide format
   filter(hour %in% c("Min:", "Max:", "Average:")) |>
   rename(Statistic = hour) |> 
   pivot_wider(names_from = Statistic,
-              values_from = starts_with("NO"))
-              #names_glue = "_{Statistic}") 
-              
+              values_from = starts_with("NO")) |> 
+  clean_names()
+             
 
 #fjerne min, max og average fra hoveddata
 timepriser <- priser_per_time |>
-  filter(!hour %in% c("Min:", "Max:", "Average:"))
+  filter(!hour %in% c("Min:", "Max:", "Average:")) |> 
+  clean_names()
 
-
-
-names(dognstatistikk_w)
-glimpse(dognstatistikk_w)
-
-dognstatistikk_w |>
-  summarise(
-    fra = min(Date, na.rm = TRUE),
-    til = max(Date, na.rm = TRUE),
-    antall_datoer = n_distinct(Date)
-  )
+#names(dognstatistikk_w)
+#glimpse(dognstatistikk_w)
