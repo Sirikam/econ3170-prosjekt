@@ -47,12 +47,22 @@ beregn_prisområde <- function(data, omrade_navn) {
     )
 }
 
-# 2. Henter ut de 5 tabellene
+#Henter ut de 5 tabellene
 maal_no1_test <- beregn_prisområde(maalerdata, "NO1")
 maal_no2_test <- beregn_prisområde(maalerdata, "NO2")
 maal_no3_test <- beregn_prisområde(maalerdata, "NO3")
 maal_no4_test <- beregn_prisområde(maalerdata, "NO4")
 maal_no5_test <- beregn_prisområde(maalerdata, "NO5")
+
+
+# Slår sammen dataene for alle prisområdene
+maal_alle <- bind_rows(
+  maal_no1_test,
+  maal_no2_test,
+  maal_no3_test,
+  maal_no4_test,
+  maal_no5_test
+)
 
 
 # Beregn én samlet tabell og splitt i 5 deltabeller
@@ -61,4 +71,6 @@ maal_liste <- maal_alle |>
   set_names(c("NO1", "NO2", "NO3", "NO4", "NO5"))
 
 
+names(maal_liste)
+glimpse(maal_liste)
 

@@ -47,7 +47,10 @@ fyll_long <- fyll_2020_2026 |>
   select(Date, år, Uke, PRISOMRÅDE, fyllingsgrad)
 
 
-# 4. SAMMENSTILLING: Bygger det endelige masterdatasettet
+# 4. SAMMENSTILLING: Bygger det endelige masterdatasettet. +
+# 5. Ser at NordPool sine aggregerte prisdata fra 2020 -26 mangler 
+# legger de til
+
 
 all_data_samlet <- priser_long |>
   inner_join(
@@ -67,8 +70,12 @@ all_data_samlet <- priser_long |>
   group_by(PRISOMRÅDE) |>
   fill(fyllingsgrad, .direction = "down") |>
   ungroup() |>
-  rename(slutt_Average = `slutt_Average:`)
-
-view(all_data_samlet)
+  rename(slutt_Average = `slutt_Average:`) |> 
+  left_join(
+    spotpris_historisk_long,
+    by = c("Date", "PRISOMRÅDE")
+  )
 
 glimpse(all_data_samlet)
+
+

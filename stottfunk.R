@@ -90,3 +90,5 @@ stotteutregner <- function(cc){
     )
   return(cc_ny)
   }
+
+

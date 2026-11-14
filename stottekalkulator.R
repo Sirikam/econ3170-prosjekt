@@ -96,3 +96,7 @@
          TRUE ~ 0.5
        )
    ) |> rename(Date = `Delivery Date (CET)`)
+ 
+ 
+names(stotteoversikt)
+glimpse(stotteoversikt)

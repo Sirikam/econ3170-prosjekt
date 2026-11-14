@@ -49,3 +49,12 @@ timepriser <- priser_per_time |>
 
 
 
+names(dognstatistikk_w)
+glimpse(dognstatistikk_w)
+
+dognstatistikk_w |>
+  summarise(
+    fra = min(Date, na.rm = TRUE),
+    til = max(Date, na.rm = TRUE),
+    antall_datoer = n_distinct(Date)
+  )
