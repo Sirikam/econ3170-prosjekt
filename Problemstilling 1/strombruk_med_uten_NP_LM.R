@@ -1,9 +1,9 @@
 #Hvordan varierer strømforbruket mellom husholdninger med og uten Norgespris?
 
 modell_p1 <- lm(
-  forbruk_hus ~ prosent_hus_NP +
-    slutt_Average +
-    factor(PRISOMRÅDE) +
+  forbruk_hus ~ prosent_forbruk_hus_np +
+    slutt_average +
+    factor(prisområde) +
     factor(month(Date)),
   data = all_data_samlet
 )
@@ -11,7 +11,7 @@ modell_p1 <- lm(
 summary(modell_p1)
 
 ggplot(all_data_samlet, 
-       aes(x = prosent_hus_NP, y = forbruk_hus)) +
+       aes(x = prosent_hus_np, y = forbruk_hus)) +
   geom_point(alpha = 0.3) +
   geom_smooth(method = "lm", 
               se = TRUE, 
@@ -25,9 +25,9 @@ ggplot(all_data_samlet,
 
 
 ggplot(all_data_samlet, 
-       aes(x = prosent_hus_NP, 
+       aes(x = prosent_hus_np, 
            y = forbruk_hus,
-           color = PRISOMRÅDE)) +
+           color = prisomrade)) +
   geom_point(alpha = 0.3) +
   geom_smooth(method = "lm", 
               se = TRUE) +

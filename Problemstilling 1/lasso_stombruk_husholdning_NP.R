@@ -8,22 +8,22 @@ library(tidymodels)
 lasso_data <- all_data_samlet |>
   select(
     forbruk_hus,
-    prosent_forbruk_hus_NP,
-    Norgespris_uMVA,
-    forbruk_hus_NP,
-    `spotpris_Average:`,
-    `slutt_Min:`,
-    `slutt_Max:`,
-    slutt_Average,
-    PRISOMRÅDE,
-    Date
+    prosent_forbruk_hus_np,
+    norgespris_umva,
+    forbruk_hus_np,
+    spotpris_average,
+    slutt_min,
+    slutt_max,
+    slutt_average,
+    prisomrade,
+    date
   ) |>
   drop_na() |>
   mutate(
-    PRISOMRÅDE = factor(PRISOMRÅDE),
-    måned = factor(month(Date))
+    prisomrade = factor(prisomrade),
+    maned = factor(month(date))
   ) |>
-  select(-Date)
+  select(-date)
 
 # Deler data i trening (80 %) og test (20 %)
 
@@ -115,10 +115,10 @@ koeffisienter_lasso
 
 # 1. Estimerer OLS på treningsdataene
 modell_p1_pred <- lm(
-  forbruk_hus ~ prosent_hus_NP +
-    slutt_Average +
-    PRISOMRÅDE +
-    måned,
+  forbruk_hus ~ prosent_forbruk_hus_np +
+    slutt_average +
+    prisomrade +
+    maned,
   data = train_data
 )
 
