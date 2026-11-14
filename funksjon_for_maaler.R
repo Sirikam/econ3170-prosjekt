@@ -6,7 +6,7 @@ library(tidyverse)
 
 #forbruk i KWH, antall i totalt antall og antall 
 
-maalerdata <- read_csv2('data-kilde/maaler/strommaalere.csv')
+#maalerdata <- read_csv2('data-kilde/maaler/strommaalere.csv')
 
 # Finn alle Excel-filer i mappen
 filer <- list.files(
@@ -43,7 +43,12 @@ beregn_prisområde <- function(data, omrade_navn) {
       prosent_hus_NP         = sum_hus_NP / sum_hus_tot,
       prosent_fri_NP         = sum_fri_NP / sum_fri_tot,
       prosent_forbruk_hus_NP = forbruk_hus_NP / forbruk_hus,
-      prosent_forbruk_fri_NP = forbruk_fri_NP / forbruk_fri
+      prosent_forbruk_fri_NP = forbruk_fri_NP / forbruk_fri,
+      nye_signeringer = sum_hus_NP - lag(sum_hus_NP),
+      mulige_signeringer = lag(sum_hus_tot - sum_hus_NP),
+      signeringsrate = if_else(
+        mulige_signeringer > 0,
+        nye_signeringer / mulige_signeringer, NA)
     )
 }
 
