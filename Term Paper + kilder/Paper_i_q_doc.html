@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Candidate no. 1 – Candidate no. 2">
+
+<title>Strømpriser</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="Paper_i_q_doc_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Paper_i_q_doc_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Paper_i_q_doc_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Paper_i_q_doc_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="Paper_i_q_doc_files/libs/quarto-html/popper.min.js"></script>
+<script src="Paper_i_q_doc_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Paper_i_q_doc_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Paper_i_q_doc_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Paper_i_q_doc_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Paper_i_q_doc_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Paper_i_q_doc_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Paper_i_q_doc_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
+  <li><a href="#introduksjon-og-objektiv" id="toc-introduksjon-og-objektiv" class="nav-link" data-scroll-target="#introduksjon-og-objektiv">1. Introduksjon og objektiv</a></li>
+  <li><a href="#databehandling-og-implementering" id="toc-databehandling-og-implementering" class="nav-link" data-scroll-target="#databehandling-og-implementering">2. Databehandling og implementering</a>
+  <ul class="collapse">
+  <li><a href="#nord-pool" id="toc-nord-pool" class="nav-link" data-scroll-target="#nord-pool"><strong>2.1 Nord Pool</strong></a></li>
+  <li><a href="#elhub-norgespris-og-strømforbruk" id="toc-elhub-norgespris-og-strømforbruk" class="nav-link" data-scroll-target="#elhub-norgespris-og-strømforbruk"><strong>2.2 Elhub – Norgespris og strømforbruk</strong></a></li>
+  <li><a href="#konstruksjon-av-reell-sluttpris-og-strømstøtte" id="toc-konstruksjon-av-reell-sluttpris-og-strømstøtte" class="nav-link" data-scroll-target="#konstruksjon-av-reell-sluttpris-og-strømstøtte"><strong>2.3 Konstruksjon av reell sluttpris og strømstøtte</strong></a></li>
+  <li><a href="#nve-fyllingsgrad-i-vannmagasiner" id="toc-nve-fyllingsgrad-i-vannmagasiner" class="nav-link" data-scroll-target="#nve-fyllingsgrad-i-vannmagasiner">2.4 NVE – fyllingsgrad i vannmagasiner</a></li>
+  </ul></li>
+  <li><a href="#metode" id="toc-metode" class="nav-link" data-scroll-target="#metode">3. Metode</a>
+  <ul class="collapse">
+  <li><a href="#empirisk-datastruktur-og-paneldatamodellering" id="toc-empirisk-datastruktur-og-paneldatamodellering" class="nav-link" data-scroll-target="#empirisk-datastruktur-og-paneldatamodellering"><strong>3.1 Empirisk datastruktur og paneldatamodellering</strong></a></li>
+  <li><a href="#spesifikasjon-av-estimeringsmodellene-ols" id="toc-spesifikasjon-av-estimeringsmodellene-ols" class="nav-link" data-scroll-target="#spesifikasjon-av-estimeringsmodellene-ols">3.2 Spesifikasjon av estimeringsmodellene (OLS)</a></li>
+  <li><a href="#regularisert-regresjon-og-lasso-modellering" id="toc-regularisert-regresjon-og-lasso-modellering" class="nav-link" data-scroll-target="#regularisert-regresjon-og-lasso-modellering"><strong>3.3 Regularisert regresjon og LASSO-modellering</strong></a></li>
+  </ul></li>
+  <li><a href="#resultat-og-evaluering" id="toc-resultat-og-evaluering" class="nav-link" data-scroll-target="#resultat-og-evaluering">4. Resultat og evaluering</a>
+  <ul class="collapse">
+  <li><a href="#historisk-utvikling-i-strømpriser" id="toc-historisk-utvikling-i-strømpriser" class="nav-link" data-scroll-target="#historisk-utvikling-i-strømpriser">4.1 Historisk utvikling i strømpriser</a></li>
+  <li><a href="#problemstilling-2-strømpriser-og-adopsjon-av-norgespris" id="toc-problemstilling-2-strømpriser-og-adopsjon-av-norgespris" class="nav-link" data-scroll-target="#problemstilling-2-strømpriser-og-adopsjon-av-norgespris">4.3 Problemstilling 2: Strømpriser og adopsjon av Norgespris</a></li>
+  <li><a href="#problemstilling-3-magasinfylling-og-spotprisdannelse" id="toc-problemstilling-3-magasinfylling-og-spotprisdannelse" class="nav-link" data-scroll-target="#problemstilling-3-magasinfylling-og-spotprisdannelse">4.4 Problemstilling 3: Magasinfylling og spotprisdannelse</a></li>
+  <li><a href="#geografiske-forskjeller-i-magasinfylling" id="toc-geografiske-forskjeller-i-magasinfylling" class="nav-link" data-scroll-target="#geografiske-forskjeller-i-magasinfylling">4.4.1. Geografiske forskjeller i magasinfylling</a></li>
+  </ul></li>
+  <li><a href="#konklusjon" id="toc-konklusjon" class="nav-link" data-scroll-target="#konklusjon">5. Konklusjon</a></li>
+  <li><a href="#bruk-av-ki" id="toc-bruk-av-ki" class="nav-link" data-scroll-target="#bruk-av-ki">6. Bruk av KI</a></li>
+  <li><a href="#kilder" id="toc-kilder" class="nav-link" data-scroll-target="#kilder">7. Kilder</a></li>
+  <li><a href="#vedlegg" id="toc-vedlegg" class="nav-link" data-scroll-target="#vedlegg">8. Vedlegg</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Strømpriser</h1>
+<p class="subtitle lead">Term paper in ECON 3170/4170, autumn 2026</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Candidate no. 1 – Candidate no. 2 </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Invalid Date</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="abstract" class="level2">
+<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<p>[Abstract: 3–5 setninger]</p>
+</section>
+<section id="introduksjon-og-objektiv" class="level2">
+<h2 class="anchored" data-anchor-id="introduksjon-og-objektiv">1. Introduksjon og objektiv</h2>
+<p>Strømprisene i Norge har hatt betydelige svingninger de siste årene, særlig mellom de ulike prisområdene. I 2021 nådde strømprisene historiske nivåer, spesielt i Sør-Norge (NO1 og NO2). Dette ble blant annet knyttet til høye kraftpriser i Europa og lavere magasinfylling enn normalt <span class="citation" data-cites="skaansar_kraftaret_2022">(<a href="#ref-skaansar_kraftaret_2022" role="doc-biblioref">Skaansar 2022</a>)</span>. Som følge av prisutviklingen innførte regjeringen strømstøtte i desember 2021 <span class="citation" data-cites="statsministerens_kontor_regjeringen_2021">(<a href="#ref-statsministerens_kontor_regjeringen_2021" role="doc-biblioref">kontor, Energidepartementet, and Finansdepartementet 2021</a>)</span>. Prisvolatiliteten fortsatte i 2022 og bidro til at flere husholdninger reduserte strømforbruket sitt <span class="citation" data-cites="aanensen_statistikk_2026 aanensen_lavere_2026 kampevoll_prisen_2026">(<a href="#ref-aanensen_statistikk_2026" role="doc-biblioref">T. Aanensen, Skrede, and Holstad 2026</a>; <a href="#ref-aanensen_lavere_2026" role="doc-biblioref">Aanensen 2026</a>; <a href="#ref-kampevoll_prisen_2026" role="doc-biblioref">Kampevoll et al. 2026</a>)</span>.</p>
+<p>Den 1. oktober 2025 innførte regjeringen Norgespris, en frivillig fastprisordning for strøm og fjernvarme. Ordningen ga husholdninger mulighet til å velge en fastpris på 40 øre/kWh ekskl. mva., med formål om å gi større forutsigbarhet i møte med volatile kraftpriser <span class="citation" data-cites="energidepartementet_norgespris_2025">(<a href="#ref-energidepartementet_norgespris_2025" role="doc-biblioref">Energidepartementet 2025</a>)</span>. I oktober 2026 ble det besluttet at ordningen videreføres i 2027, med en justert pris på 45 øre/kWh ekskl. mva. <span class="citation" data-cites="energidepartementet_norgespris_2026">(<a href="#ref-energidepartementet_norgespris_2026" role="doc-biblioref">Energidepartementet 2026</a>)</span>.</p>
+<p>Formålet med oppgaven er å undersøke sammenhengen mellom Norgespris, strømpriser og husholdningenes strømforbruk i Norge.</p>
+<p><strong>Vi undersøker følgende problemstillinger:</strong></p>
+<ol type="1">
+<li><p>Hvordan varierer strømforbruket mellom husholdninger med og uten Norgespris?</p></li>
+<li><p>Hvordan henger utviklingen i strømprisene sammen med husholdningenes adopsjon av Norgespris?</p></li>
+<li><p>I hvilken grad kan fyllingsgraden i norske vannmagasiner bidra til å forklare variasjoner i strømprisene?</p></li>
+</ol>
+<p>Analysen bygger på data fra Nord Pool, Elhub og Norges vassdrags- og energidirektorat (NVE). Vi kombinerer deskriptiv statistikk og grafisk fremstilling med statistiske analyser og regresjonsmodeller for å undersøke utviklingstrekk og sammenhenger i datamaterialet.</p>
+</section>
+<section id="databehandling-og-implementering" class="level2">
+<h2 class="anchored" data-anchor-id="databehandling-og-implementering">2. Databehandling og implementering</h2>
+<p>Hele databehandlingsprosessen og de empiriske analysene er gjennomført i R. Analysen benytter sekundærdata fra tre sentrale aktører i det norske og nordiske kraftmarkedet:</p>
+<ol type="1">
+<li><p>Elhub: Daglige data for aggregert strømforbruk (kWh), antall målepunkter og Norgespris-adopsjon, fordelt på prisområdene NO1–NO5 og forbruksgruppene husholdning og fritidsbolig <span class="citation" data-cites="sannes_norgespris_2026 sannes_norgespris_2026-1 stokke_hammer-dybvad_forbruk_2026">(<a href="#ref-sannes_norgespris_2026" role="doc-biblioref">Sannes and Elhub 2026b</a>, <a href="#ref-sannes_norgespris_2026-1" role="doc-biblioref">2026a</a>; <a href="#ref-stokke_hammer-dybvad_forbruk_2026" role="doc-biblioref">Stokke Hammer-Dybvad and Elhub 2026</a>)</span>.</p></li>
+<li><p>Norges vassdrags- og energidirektorat (NVE): Ukentlige data for fyllingsgraden i norske vannmagasiner <span class="citation" data-cites="norges_vassdrag_og_energidirektorat_magasinstatistikk_2026">(<a href="#ref-norges_vassdrag_og_energidirektorat_magasinstatistikk_2026" role="doc-biblioref">energidirektorat 2026</a>)</span>.</p></li>
+<li><p>Nord Pool: Daglige aggregerte spotpriser for perioden 2020–2026 og timepriser for perioden 1. oktober 2025–30. september 2026 <span class="citation" data-cites="nordpool_price_2026 nordpool_prices_2026">(<a href="#ref-nordpool_price_2026" role="doc-biblioref">Nordpool 2026a</a>, <a href="#ref-nordpool_prices_2026" role="doc-biblioref">2026b</a>)</span>.</p></li>
+</ol>
+<p>Rådataene er levert i CSV- og Excel-format og bearbeidet i R for å harmonisere tidsperioder, tidsoppløsning og geografisk inndeling. Datasettene er deretter kombinert til et felles datagrunnlag for analysene.</p>
+<section id="nord-pool" class="level3">
+<h3 class="anchored" data-anchor-id="nord-pool"><strong>2.1 Nord Pool</strong></h3>
+<p>Fra Nord Pool benytter vi daglige aggregerte spotpriser for de fem norske prisområdene (NO1–NO5) i perioden 2020–30. september 2026. I tillegg benyttes timebaserte spotpriser for perioden 1. oktober 2025–30. september 2026. <strong>&lt;- sjekk dette Emily.</strong></p>
+<p>Prisdataene ble lastet ned i separate Excel-filer og importert til R ved hjelp av <code>readxl</code>. Filene ble kombinert til samlede datasett, metadata og irrelevante observasjoner fjernet, og datoene standardisert og sortert kronologisk. Timeprisene ble tilsvarende kombinert ved hjelp av <code>map_dfr()</code>, hvor observasjonsdatoen ble hentet fra filnavnene.</p>
+<p>Spotprisene er opprinnelig oppgitt i NOK/MWh og konvertert til NOK/kWh ved å dele på 1000. Dette sikrer sammenlignbare måleenheter i analysene av spotpriser, strømstøtte og Norgespris. &lt;- <strong>Em, dobbelsjekk at vi trenger dette</strong></p>
+<p>For timeprisene ble daglige oppsummeringsverdier (minimum, maksimum og gjennomsnitt) skilt fra de ordinære timeobservasjonene for å unngå at ulike tidsoppløsninger blandes i analysene.</p>
+</section>
+<section id="elhub-norgespris-og-strømforbruk" class="level3">
+<h3 class="anchored" data-anchor-id="elhub-norgespris-og-strømforbruk"><strong>2.2 Elhub – Norgespris og strømforbruk</strong></h3>
+<p>Dataene ble importert fra CSV-filer og omstrukturert fra bredt til langt format for å aggregere undergruppene til samlevariabler for husholdninger og fritidsboliger. På bakgrunn av disse ble det beregnet andeler av målepunkter med Norgespris og andeler av strømforbruket som dekkes av ordningen.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Finn og les inn målerdata fra Elhub</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>filer <span class="ot">&lt;-</span> <span class="fu">list.files</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"data-kilde/maaler"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.(xls|xlsx|csv)\$"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ignore.case =</span> <span class="cn">TRUE</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>maalerdata <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(filer) <span class="sc">|&gt;</span> </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Date =</span> <span class="st">`</span><span class="at">DATO</span><span class="st">`</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Omstrukturerer og aggregerer data for NO1 (eksempelkode)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># (Tilsvarende prosedyre utføres for NO2, NO3, NO4 og NO5)</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>maal_no1 <span class="ot">&lt;-</span> maalerdata <span class="sc">|&gt;</span> </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(PRISOMRÅDE <span class="sc">==</span> <span class="st">"NO1"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> <span class="fu">c</span>(EAC_GRUPPE, FORBRUKSGRUPPE),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> <span class="fu">c</span>(ANTALL_NORGESPRIS, ANTALL, FORBRUK, FORBRUK_NORGESPRIS)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Aggregerer antall målepunkter for husholdning og fritid</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sum_hus_NP  =</span> <span class="fu">sum</span>(<span class="fu">c_across</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sum_fri_NP  =</span> <span class="fu">sum</span>(<span class="fu">c_across</span>(<span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sum_hus_tot =</span> <span class="fu">sum</span>(<span class="fu">c_across</span>(<span class="dv">11</span><span class="sc">:</span><span class="dv">14</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sum_fri_tot =</span> <span class="fu">sum</span>(<span class="fu">c_across</span>(<span class="dv">15</span><span class="sc">:</span><span class="dv">18</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Aggregerer forbruk (kWh) for husholdning og fritid</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">forbruk_hus    =</span> <span class="fu">sum</span>(<span class="fu">c_across</span>(<span class="dv">19</span><span class="sc">:</span><span class="dv">22</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">forbruk_fri    =</span> <span class="fu">sum</span>(<span class="fu">c_across</span>(<span class="dv">23</span><span class="sc">:</span><span class="dv">26</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">forbruk_hus_NP =</span> <span class="fu">sum</span>(<span class="fu">c_across</span>(<span class="dv">27</span><span class="sc">:</span><span class="dv">30</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">forbruk_fri_NP =</span> <span class="fu">sum</span>(<span class="fu">c_across</span>(<span class="dv">31</span><span class="sc">:</span><span class="dv">34</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Beregner adopsjons- og forbruksandeler</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prosent_hus_NP =</span> sum_hus_NP <span class="sc">/</span> sum_hus_tot) <span class="sc">|&gt;</span> </span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prosent_fri_NP =</span> sum_fri_NP <span class="sc">/</span> sum_fri_tot) <span class="sc">|&gt;</span> </span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prosent_forbruk_hus_NP =</span> forbruk_hus_NP <span class="sc">/</span> forbruk_hus) <span class="sc">|&gt;</span> </span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prosent_forbruk_fri_NP =</span> forbruk_fri_NP <span class="sc">/</span> forbruk_fri)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Det er viktig å merke seg at antall målepunkter ikke nødvendigvis tilsvarer antall husholdninger, ettersom én husholdning kan disponere flere målepunkter. Resultatene må derfor tolkes som andeler av målepunkter, ikke andeler av husholdninger.</p>
+</section>
+<section id="konstruksjon-av-reell-sluttpris-og-strømstøtte" class="level3">
+<h3 class="anchored" data-anchor-id="konstruksjon-av-reell-sluttpris-og-strømstøtte"><strong>2.3 Konstruksjon av reell sluttpris og strømstøtte</strong></h3>
+<p>For å undersøke hvilke prissignaler husholdningene står overfor, beregnes en estimert sluttpris etter strømstøtte. Spotprisen alene gir ikke et fullstendig bilde av husholdningenes faktiske priskostnad, ettersom staten har gitt strømstøtte siden desember 2021.</p>
+<p>Sluttprisen beregnes ved å trekke beregnet strømstøtte fra spotprisen. Beregningen tar hensyn til historiske endringer i støtteordningens dekningsgrad og innslagsterskel. Fra desember 2021 var støttesatsen først 55 %, før den ble økt til 80 % og senere 90 %. Innslagsterskelen ble gradvis justert fra 70 øre/kWh til 77 øre/kWh i 2026.</p>
+<p>Videre konstrueres Norgespris som en referansepris på 40 øre/kWh ekskl. mva. (50 øre inkl. mva.) fra 1. oktober 2025.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Forutsetter 'strompriser' (fra 2.2) eller 'dognstatistikk_w' (fra 2.3)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>stotteutregner <span class="ot">&lt;-</span> <span class="cf">function</span>(cc) {  </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  cc <span class="sc">|&gt;</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">across</span>(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">.cols =</span> <span class="fu">starts_with</span>(<span class="st">"NO"</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">.fns =</span> <span class="sc">~</span> <span class="fu">case_when</span>(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>          Date <span class="sc">&lt;</span> <span class="fu">as.Date</span>(<span class="st">"2021-12-01"</span>) <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>          Date <span class="sc">&lt;</span> <span class="fu">as.Date</span>(<span class="st">"2022-01-01"</span>) <span class="sc">&amp;</span> .x <span class="sc">&gt;=</span> <span class="fl">0.70</span> <span class="sc">~</span> (.x <span class="sc">-</span> <span class="fl">0.70</span>) <span class="sc">*</span> <span class="fl">0.55</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>          Date <span class="sc">&lt;</span> <span class="fu">as.Date</span>(<span class="st">"2022-09-01"</span>) <span class="sc">&amp;</span> .x <span class="sc">&gt;=</span> <span class="fl">0.70</span> <span class="sc">~</span> (.x <span class="sc">-</span> <span class="fl">0.70</span>) <span class="sc">*</span> <span class="fl">0.80</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>          Date <span class="sc">&lt;</span> <span class="fu">as.Date</span>(<span class="st">"2024-01-01"</span>) <span class="sc">&amp;</span> .x <span class="sc">&gt;=</span> <span class="fl">0.70</span> <span class="sc">~</span> (.x <span class="sc">-</span> <span class="fl">0.70</span>) <span class="sc">*</span> <span class="fl">0.90</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>          Date <span class="sc">&lt;</span> <span class="fu">as.Date</span>(<span class="st">"2025-01-01"</span>) <span class="sc">&amp;</span> .x <span class="sc">&gt;=</span> <span class="fl">0.73</span> <span class="sc">~</span> (.x <span class="sc">-</span> <span class="fl">0.73</span>) <span class="sc">*</span> <span class="fl">0.90</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>          Date <span class="sc">&lt;</span> <span class="fu">as.Date</span>(<span class="st">"2026-01-01"</span>) <span class="sc">&amp;</span> .x <span class="sc">&gt;=</span> <span class="fl">0.75</span> <span class="sc">~</span> (.x <span class="sc">-</span> <span class="fl">0.75</span>) <span class="sc">*</span> <span class="fl">0.90</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>          Date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2026-01-01"</span>) <span class="sc">&amp;</span> .x <span class="sc">&gt;=</span> <span class="fl">0.77</span> <span class="sc">~</span> (.x <span class="sc">-</span> <span class="fl">0.77</span>) <span class="sc">*</span> <span class="fl">0.90</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>          <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">0</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        ), </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">.names =</span> <span class="st">"stotte_{.col}"</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Beregner sluttpris per prisområde</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">across</span>(</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">.cols =</span> <span class="fu">starts_with</span>(<span class="st">"NO"</span>),</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">.fns =</span> <span class="sc">~</span> .x <span class="sc">-</span> <span class="fu">pick</span>(<span class="fu">paste0</span>(<span class="st">"stotte_"</span>, <span class="fu">cur_column</span>()))[[<span class="dv">1</span>]],</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">.names =</span> <span class="st">"slutt_{.col}"</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Legger til Norgespris</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">Norgespris_uMVA =</span> <span class="fu">if_else</span>(Date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2025-10-01"</span>), <span class="fl">0.40</span>, <span class="dv">0</span>),</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">Norgespris_mMVA =</span> <span class="fu">if_else</span>(Date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2025-10-01"</span>), <span class="fl">0.50</span>, <span class="dv">0</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(cc_ny)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="nve-fyllingsgrad-i-vannmagasiner" class="level3">
+<h3 class="anchored" data-anchor-id="nve-fyllingsgrad-i-vannmagasiner">2.4 NVE – fyllingsgrad i vannmagasiner</h3>
+<p>For å undersøke sammenhengen mellom magasinfylling og strømpriser benytter vi ukentlige data fra NVE for perioden 2020–2026, fordelt på de fem norske prisområdene.</p>
+<p>Excel-filene ble importert og bearbeidet i R. Dataene ble omstrukturert fra bredt til langt format, slik at hver observasjon representerer fyllingsgraden for et gitt prisområde og en bestemt uke. Datasettene ble deretter kombinert til et samlet datasett basert på år, uke og prisområde.</p>
+<p>Fyllingsgraden gir informasjon om tilgjengelig vannkraftressurs og kan påvirke produsentenes vannverdier og forventninger om fremtidig krafttilgang. Samtidig påvirkes spotprisene av andre faktorer, blant annet temperatur, etterspørsel, overføringskapasitet og europeiske kraftpriser. Dette gjør det relevant å undersøke fyllingsgradens statistiske sammenheng med spotprisene, kontrollert for sesongvariasjoner og regionale forskjeller.</p>
+</section>
+</section>
+<section id="metode" class="level2">
+<h2 class="anchored" data-anchor-id="metode">3. Metode</h2>
+<p>Analysen kombinerer ordinær lineær regresjon (OLS) med faste effekter og regularisert regresjon (LASSO) for å undersøke statistiske sammenhenger og modellens prediksjonsevne. Databehandling og modellering er gjennomført i R, med Tidyverse og Tidymodels som sentrale rammeverk <span class="citation" data-cites="wickham_r_2016 kuhn_tidy_2023">(<a href="#ref-wickham_r_2016" role="doc-biblioref">Wickham and Grolemund 2016</a>; <a href="#ref-kuhn_tidy_2023" role="doc-biblioref">Kuhn and Silge 2023</a>)</span>.</p>
+<p>Valget av estimeringsmetoder bygger på skillet mellom økonomisk parameterestimering og prediksjon <span class="citation" data-cites="athey_machine_2019 hammersmark_econ3170_2026">(<a href="#ref-athey_machine_2019" role="doc-biblioref">Athey and Imbens 2019</a>; <a href="#ref-hammersmark_econ3170_2026" role="doc-biblioref">Hammersmark 2026</a>)</span>.</p>
+<section id="empirisk-datastruktur-og-paneldatamodellering" class="level3">
+<h3 class="anchored" data-anchor-id="empirisk-datastruktur-og-paneldatamodellering"><strong>3.1 Empirisk datastruktur og paneldatamodellering</strong></h3>
+<p>Analysen bygger på det sammensatte datasettet all_data_samlet, som inneholder daglige observasjoner for de fem norske elspotområdene (NO1–NO5). Datasettet kombinerer dermed tidsvariasjon med geografiske forskjeller.For å kontrollere for regionale forskjeller og sesongvariasjoner benyttes faste effekter. Den generelle modellstrukturen er:</p>
+<p><span class="math inline">\(y_{it} = \beta_0 + \mathbf{\beta} \mathbf{X}_{it} + \alpha_i + \delta_m + \varepsilon_{it}\)</span></p>
+<p>Her representerer <span class="math inline">\(y_{it}\)</span> den avhengige variabelen, mens <span class="math inline">\(X_{it}\)</span> er forklaringsvariablene. Områdefaste effekter <span class="math inline">\((\alpha_i)\)</span> kontrollerer for tidskonstante forskjeller mellom prisområdene, mens månedsfaste effekter <span class="math inline">\((\delta_m)\)</span> fanger opp sesongvariasjoner, blant annet knyttet til temperatur og oppvarmingsbehov.</p>
+</section>
+<section id="spesifikasjon-av-estimeringsmodellene-ols" class="level3">
+<h3 class="anchored" data-anchor-id="spesifikasjon-av-estimeringsmodellene-ols">3.2 Spesifikasjon av estimeringsmodellene (OLS)</h3>
+<p>Det estimeres tre OLS-modeller for å undersøke oppgavens problemstillinger.</p>
+<section id="problemstilling-1-norgespris-og-strømforbruk" class="level4">
+<h4 class="anchored" data-anchor-id="problemstilling-1-norgespris-og-strømforbruk">Problemstilling 1: Norgespris og strømforbruk</h4>
+<p>For å undersøke hvordan husholdningenes strømforbruk varierer med Norgespris-adopsjon, spesifiseres følgende modell:</p>
+<p><span class="math inline">\(\text{forbruk\_hus}_{it} = \beta_0 + \beta_1 \text{prosent\_hus\_NP}_{it} + \beta_2 \text{slutt\_Average}_{it} + \alpha_i + \delta_m + \varepsilon_{it}\)</span></p>
+<p>hvor <span class="math inline">\(\text{forbruk\_hus}_{it}\)</span> er gjennomsnittlig dagsforbruk per målepunkt (kWh), <span class="math inline">\(\text{prosent\_hus\_NP}_{it}\)</span> er andelen målepunkter med Norgespris og <span class="math inline">\(\text{slutt\_Average}_{it}\)</span> gjennomsnittlig strømpris etter strømstøtte (NOK/kWh).</p>
+<p>Ettersom Norgespris er en frivillig ordning, kan husholdningenes avtalevalg være påvirket av forventet strømforbruk og prisfølsomhet. Dette gir risiko for seleksjonsskjevhet. Koeffisienten for Norgespris-adopsjon tolkes derfor som en statistisk sammenheng, ikke en kausal effekt.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimering av OLS-modell med faste effekter for område og måned</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>modell_p1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  forbruk_hus <span class="sc">~</span> prosent_hus_NP <span class="sc">+</span> slutt_Average <span class="sc">+</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">factor</span>(PRISOMRÅDE) <span class="sc">+</span> <span class="fu">factor</span>(<span class="fu">month</span>(Date)),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> all_data_samlet</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="problemstilling-2-prisdynamikk-og-adopsjon-av-norgespris" class="level4">
+<h4 class="anchored" data-anchor-id="problemstilling-2-prisdynamikk-og-adopsjon-av-norgespris"><strong>Problemstilling 2: Prisdynamikk og adopsjon av Norgespris</strong></h4>
+<p>For å undersøke sammenhengen mellom strømpriser, magasinfylling og husholdningenes adopsjon av Norgespris estimeres følgende modell:</p>
+<p><span class="math inline">\(\text{prosent\_hus\_NP}_{it} = \beta_0 + \beta_1 \text{slutt\_Average}_{it} + \beta_2 \text{fyllingsgrad}_{it} + \alpha_i + \gamma t + \varepsilon_{it}\)</span></p>
+<p>Her representerer <code>slutt_Average</code> gjennomsnittlig strømpris etter støtte, <span class="math inline">\(\text{fyllingsgrad}_{it}\)</span> fanger opp den ukentlige magasinfyllingen fra NVE, og <span class="math inline">\(t\)</span> en lineær tidstrend (<code>as.numeric(Date)</code>). Tidstrenden inkluderes for å kontrollere for den generelle utviklingen i Norgespris-adopsjonen over perioden.</p>
+</section>
+<section id="problemstilling-3-magasinfylling-og-spotpris" class="level4">
+<h4 class="anchored" data-anchor-id="problemstilling-3-magasinfylling-og-spotpris"><strong>Problemstilling 3: Magasinfylling og spotpris</strong></h4>
+<p>For å undersøke i hvilken grad magasinfyllingen kan bidra til å forklare variasjoner i spotprisene, estimeres følgende modell:</p>
+<p><span class="math inline">\(\text{spotpris}_{it} = \beta_0 + \beta_1 \text{fyllingsgrad}_{it} + \alpha_i + \delta_{\text{uke}} + \varepsilon_{it}\)</span></p>
+<p>hvor <span class="math inline">\(\delta_{\text{uke}}\)</span> fanger opp historiske sesongmønstre i magasinfylling og etterspørsel.</p>
+<p>Her representerer <code>spotpris</code> spotprisen i det aktuelle prisområdet, mens <code>fyllingsgrad</code> måler den ukentlige magasinfyllingen. Fyllingsgraden måles i prosent, i verdier fra 0 til 1. Områdefaste effekter kontrollerer for regionale forskjeller, mens ukefaste effekter fanger opp sesongmessige variasjoner i blant annet magasinfylling og etterspørsel.</p>
+</section>
+</section>
+<section id="regularisert-regresjon-og-lasso-modellering" class="level3">
+<h3 class="anchored" data-anchor-id="regularisert-regresjon-og-lasso-modellering"><strong>3.3 Regularisert regresjon og LASSO-modellering</strong></h3>
+<p>I tillegg til OLS benyttes LASSO-regresjon (Least Absolute Shrinkage and Selection Operator) som en alternativ estimeringsmetode. LASSO kombinerer lineær regresjon med en \(L_1\)-straff som begrenser størrelsen på koeffisientene og kan sette mindre relevante koeffisienter lik null. Metoden brukes dermed til variabelseleksjon og kan redusere risikoen for overtilpasning <span class="citation" data-cites="tibshirani_regression_1996 hastie_elements_2009 fonti_feature_2017 gentzkow_text_2019">(<a href="#ref-tibshirani_regression_1996" role="doc-biblioref">Tibshirani 1996</a>; <a href="#ref-hastie_elements_2009" role="doc-biblioref">Hastie, Tibshirani, and Friedman 2009</a>; <a href="#ref-fonti_feature_2017" role="doc-biblioref">Fonti 2017</a>; <a href="#ref-gentzkow_text_2019" role="doc-biblioref">Gentzkow, Kelly, and Taddy 2019</a>)</span>.</p>
+<p>LASSO-modellen estimeres ved å minimere:</p>
+<p><span class="math inline">\(\hat{\beta}_{\text{lasso}} = \arg\min_{\beta} \left( \sum_{i=1}^N \left( y_i - \beta_0 - \sum_{j=1}^p x_{ij}\beta_j \right)^2 + \lambda \sum_{j=1}^p |\beta_j| \right)\)</span></p>
+<p>Straffeparameteren <span class="math inline">\(\lambda\)</span> bestemmer graden av regularisering. En høyere verdi gir sterkere krymping av koeffisientene, mens en lavere verdi gjør modellen mer lik ordinær lineær regresjon.</p>
+<p>For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE og <span class="math inline">\(R^2\)</span> som evalueringsmål. Den endelige modellen evalueres deretter på testsettet.</p>
+<p><strong>Metodisk merknad om valg av</strong> <span class="math inline">\(\lambda\)</span><strong>:</strong> Kryssvalideringen valgte en svært lav verdi for <span class="math inline">\(\lambda\)</span>. Dette innebærer svak regularisering, men er ikke i seg selv et tegn på overtilpasning. Modellens prediksjonsevne må vurderes ut fra resultatene på testsettet og sammenlignes med OLS <span class="citation" data-cites="hastie_elements_2009">(<a href="#ref-hastie_elements_2009" role="doc-biblioref">Hastie, Tibshirani, and Friedman 2009</a>)</span>.</p>
+<p>Utdrag fra koden (inneholder kun arbeidskommentarer for å spare plass og forklare arbeidsflyt):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Deler data i trening (80 %) og test (20 %)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Oppretter Recipe</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Spesifiserer LASSO-modellen</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># velger hvor mange deler den skal ha  </span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3170</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># tuner </span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># finner beste lambda </span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#ser at lambda er veldig veldig lav, redd dette lager en overfitted modell </span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># tester modellen på testdaten </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="resultat-og-evaluering" class="level2">
+<h2 class="anchored" data-anchor-id="resultat-og-evaluering">4. Resultat og evaluering</h2>
+<p>I dette kapittelet presenteres resultatene fra de empiriske analysene. Resultatene er strukturert etter oppgavens tre problemstillinger. Først undersøkes sammenhengen mellom Norgespris-adopsjon og husholdningenes samlede strømforbruk. Deretter analyseres sammenhengen mellom strømpriser, magasinfylling og adopsjon av Norgespris. Til slutt undersøkes sammenhengen mellom magasinfylling og spotpriser i de norske prisområdene.</p>
+<section id="historisk-utvikling-i-strømpriser" class="level3">
+<h3 class="anchored" data-anchor-id="historisk-utvikling-i-strømpriser">4.1 Historisk utvikling i strømpriser</h3>
+<p>Figur 4.1 viser utviklingen i gjennomsnittlige døgnpriser i de fem norske prisområdene fra 2020 til 2026. Figuren illustrerer både variasjoner i strømprisene over tid og geografiske forskjeller mellom prisområdene. Prisområdene har ikke hatt identisk prisutvikling, noe som viser betydningen av å kontrollere for geografiske forskjeller i de videre regresjonsanalysene.</p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="utvikling%20i%20gjnsnt%20døgnpris%20per%20område.png" class="img-fluid figure-img" width="426"></p>
+<figcaption>4.1: Utvikling i gjennomsnittlig døgnpris per prisområde.</figcaption>
+</figure>
+</div>
+<section id="problemstilling-1-norgespris-adopsjon-og-husholdningenes-strømforbruk" class="level4">
+<h4 class="anchored" data-anchor-id="problemstilling-1-norgespris-adopsjon-og-husholdningenes-strømforbruk">4.2 Problemstilling 1: Norgespris-adopsjon og husholdningenes strømforbruk</h4>
+<p>For å undersøke sammenhengen mellom Norgespris-adopsjon og husholdningenes strømforbruk estimeres en OLS-modell med samlet husholdningsforbruk per prisområde som avhengig variabel. Modellen inkluderer andelen husholdningsmålepunkter med Norgespris, nettopris, områdefaste effekter og månedsfaste effekter.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="sammenheng%20norgespris%20og%20strømforbruk.png" class="img-fluid figure-img" width="345"></p>
+<figcaption>4.2: Norgespris og husholdningsforbruk per prisområde.</figcaption>
+</figure>
+</div>
+<p>Figur 4.2 viser den deskriptive sammenhengen mellom andelen husholdningsmålepunkter med Norgespris og samlet husholdningsforbruk, fordelt på prisområde. Trendlinjene illustrerer hvordan sammenhengen varierer mellom områdene.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Tabell 4.1. Regresjonsresultater for modell P1</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Forklaringsvariabel</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">OLS (koeffisient, standardfeil)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LASSO (koeffisient)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Andel husholdninger med Norgespris</td>
+<td style="text-align: right;">13535982 (2375284)</td>
+<td style="text-align: right;">3810845</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Spotpris</td>
+<td style="text-align: right;">-3374188 (981593)</td>
+<td style="text-align: right;">-793806</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><em>Merknad: OLS-koeffisienter rapporteres med standardfeil i parentes. LASSO-koeffisientene viser estimerte koeffisienter. Alle koeffisienter er avrundet til nærmeste heltall.</em></p>
+<p>For å vurdere hvor godt modellene predikerer husholdningenes strømforbruk, sammenlignes OLS og LASSO på et felles testsett. Dette gjør det mulig å undersøke om regulariseringen i LASSO gir bedre prediksjoner enn den ordinære lineære regresjonsmodellen.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Tabell 4.2. Sammenligning av prediksjonsevne for OLS og LASSO</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Mål</th>
+<th style="text-align: right;">OLS</th>
+<th style="text-align: right;">LASSO</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: right;">5 799 839</td>
+<td style="text-align: right;">5 802 524</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R²</td>
+<td style="text-align: right;">0.864</td>
+<td style="text-align: right;">0.864</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MAE</td>
+<td style="text-align: right;">4 245 927</td>
+<td style="text-align: right;">4 236 656</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Resultatene viser en positiv sammenheng mellom andelen husholdninger med Norgespris og husholdningenes strømforbruk. Dette kan tyde på at husholdninger som velger Norgespris, også har et høyere strømforbruk. En mulig forklaring er at husholdninger med høyt forventet strømforbruk har sterkere insentiver til å velge en fastprisordning for å redusere eksponeringen mot høye strømpriser. Sammenhengen kan imidlertid også reflektere seleksjon, ettersom husholdningenes valg av strømavtale ikke er tilfeldig.</p>
+<p>Sammenligningen av OLS og LASSO viser at modellene har tilnærmet lik prediksjonsevne. Dette tyder på at regulariseringen i LASSO ikke gir noen vesentlig forbedring sammenlignet med OLS i denne analysen. Resultatene understreker samtidig at modellens forklaringskraft ikke nødvendigvis innebærer at sammenhengen mellom Norgespris og strømforbruk kan tolkes kausalt. Analysen viser statistiske sammenhenger, men kan ikke fastslå om Norgespris fører til endringer i husholdningenes strømforbruk.</p>
+</section>
+</section>
+<section id="problemstilling-2-strømpriser-og-adopsjon-av-norgespris" class="level3">
+<h3 class="anchored" data-anchor-id="problemstilling-2-strømpriser-og-adopsjon-av-norgespris">4.3 Problemstilling 2: Strømpriser og adopsjon av Norgespris</h3>
+<p>For å undersøke sammenhengen mellom strømpriser og husholdningenes adopsjon av Norgespris estimeres tre OLS-modeller med gradvis flere forklaringsvariabler. Modell 2A inkluderer nettopris som eneste forklaringsvariabel. Modell 2B inkluderer i tillegg magasinfylling og områdefaste effekter. Modell 2C utvider modellen ytterligere med en lineær tidstrend for å kontrollere for den generelle utviklingen i Norgespris-adopsjonen over tid.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Tabell 4.3. Regresjonsresultater for problemstilling 2</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variabel</th>
+<th style="text-align: right;">Modell 2A</th>
+<th style="text-align: right;">Modell 2B</th>
+<th style="text-align: right;">Modell 2C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Nettopris</td>
+<td style="text-align: right;">0.772 (0.020)</td>
+<td style="text-align: right;">0.104 (0.014)</td>
+<td style="text-align: right;">0.058 (0.009)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Magasinfylling</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-0.135 (0.011)</td>
+<td style="text-align: right;">-0.059 (0.007)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Prisområde: NO2</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.123 (0.007)</td>
+<td style="text-align: right;">0.130 (0.004)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Prisområde: NO3</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-0.410 (0.007)</td>
+<td style="text-align: right;">-0.413 (0.004)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Prisområde: NO4</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-0.496 (0.009)</td>
+<td style="text-align: right;">-0.534 (0.006)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Prisområde: NO5</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-0.042 (0.007)</td>
+<td style="text-align: right;">-0.038 (0.004)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lineær tidstrend</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.001 (0.000)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Antall observasjoner</td>
+<td style="text-align: right;">1 825</td>
+<td style="text-align: right;">1 800</td>
+<td style="text-align: right;">1 800</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R²</td>
+<td style="text-align: right;">0.448</td>
+<td style="text-align: right;">0.905</td>
+<td style="text-align: right;">0.960</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><em>Merknad: Standardfeil rapporteres i parentes. Modell 2A har 1825 observasjoner, mens modell 2B og 2C har 1800 observasjoner. Forskjellen skyldes 25 manglende observasjoner for magasinfylling, som medfører at disse observasjonene utelates fra modell 2B og 2C.</em></p>
+<p>At sammenhengen mellom nettopris og Norgespris-adopsjon blir betydelig svakere når kontrollvariablene inkluderes, tyder på at den enkle sammenhengen i modell 2A delvis fanger opp andre forhold. De geografiske forskjellene mellom prisområdene og den generelle utviklingen over tid ser ut til å ha stor betydning for variasjonen i adopsjonen. Den positive tidstrenden viser at Norgespris-adopsjonen har økt gjennom perioden, også når det kontrolleres for strømpris, magasinfylling og prisområde.</p>
+<p>Den negative sammenhengen mellom magasinfylling og Norgespris-adopsjon kan indikere at adopsjonen er høyere i perioder med lavere magasinfylling. Dette kan være forenlig med at forventninger om høyere strømpriser påvirker husholdningenes valg av strømavtale. Resultatene kan imidlertid ikke fastslå hvilke forhold som faktisk ligger bak husholdningenes avtalevalg. Samlet viser analysen at både geografiske forskjeller og tidsutvikling er viktige for å forstå variasjonen i Norgespris-adopsjonen.</p>
+</section>
+<section id="problemstilling-3-magasinfylling-og-spotprisdannelse" class="level3">
+<h3 class="anchored" data-anchor-id="problemstilling-3-magasinfylling-og-spotprisdannelse">4.4 Problemstilling 3: Magasinfylling og spotprisdannelse</h3>
+<p>Den tredje problemstillingen undersøker i hvilken grad fyllingsgraden i norske vannmagasiner kan bidra til å forklare variasjoner i spotprisene. Analysen tar utgangspunkt i variasjoner i magasinfylling og spotpriser på tvers av de fem norske prisområdene. Ettersom både magasinfylling og kraftpriser kan variere geografisk, undersøkes først forskjeller mellom prisområdene før sammenhengen mellom fyllingsgrad og spotpris analyseres nærmere.</p>
+</section>
+<section id="geografiske-forskjeller-i-magasinfylling" class="level3">
+<h3 class="anchored" data-anchor-id="geografiske-forskjeller-i-magasinfylling">4.4.1. Geografiske forskjeller i magasinfylling</h3>
+<p>For å undersøke hvordan magasinfyllingen varierer geografisk, presenteres utviklingen over tid for de fem norske prisområdene.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="magasinfylling_per_område_4.4..png" class="img-fluid figure-img" width="390"></p>
+<figcaption>Figur 4.3: Magasinfylling mer område</figcaption>
+</figure>
+</div>
+<p>Figur 4.3 viser at magasinfyllingen varierer mellom de norske prisområdene. NO4 har den høyeste gjennomsnittlige fyllingsgraden på 79,7 prosent, mens NO2 har den laveste på 48,5 prosent. Dette viser at magasinfyllingen er geografisk ujevnt fordelt, og gir grunnlag for å undersøke om slike forskjeller også gjenspeiles i spotprisene.</p>
+<section id="sammenhengen-mellom-magasinfylling-og-spotpris" class="level4">
+<h4 class="anchored" data-anchor-id="sammenhengen-mellom-magasinfylling-og-spotpris">4.4.2 Sammenhengen mellom magasinfylling og spotpris</h4>
+<p>For å undersøke den visuelle sammenhengen mellom magasinfylling og spotpris presenteres spredningsdiagrammer med separate trendlinjer for hvert prisområde.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="magasinfylling%20og%20spottpris.png" class="img-fluid figure-img" width="548"></p>
+<figcaption>Figur 4.4: Magainsinfylling og spotpris</figcaption>
+</figure>
+</div>
+<p>Figur 4.4 gir en første indikasjon på hvordan spotprisene varierer med magasinfyllingen, og om sammenhengen ser ut til å være forskjellig mellom prisområdene. For å undersøke denne sammenhengen nærmere, og samtidig ta hensyn til geografiske forskjeller og utviklingen over tid, estimeres det deretter en OLS-regresjonsmodell.</p>
+</section>
+<section id="ols-regresjon" class="level4">
+<h4 class="anchored" data-anchor-id="ols-regresjon">4.4.3 OLS-regresjon</h4>
+<p>For å undersøke sammenhengen mellom magasinfylling og spotpris, kontrollert for geografiske forskjeller og tidstrender, estimeres en OLS-regresjonsmodell. Prisområde inkluderes som kategorisk variabel, mens dato inngår som en lineær tidstrend.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>OLS-regresjon: Magasinfylling og spotpriser</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variabel</th>
+<th style="text-align: right;">Koeffisient</th>
+<th style="text-align: right;">Standardfeil</th>
+<th style="text-align: left;">p-verdi</th>
+<th style="text-align: left;">Signifikans</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Magasinfylling</td>
+<td style="text-align: right;">-0.4285</td>
+<td style="text-align: right;">0.0411</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NO2</td>
+<td style="text-align: right;">-0.0095</td>
+<td style="text-align: right;">0.0245</td>
+<td style="text-align: left;">0.698</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NO3</td>
+<td style="text-align: right;">-0.2574</td>
+<td style="text-align: right;">0.0242</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NO4</td>
+<td style="text-align: right;">-0.6264</td>
+<td style="text-align: right;">0.0258</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NO5</td>
+<td style="text-align: right;">-0.0396</td>
+<td style="text-align: right;">0.0243</td>
+<td style="text-align: left;">0.104</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dato</td>
+<td style="text-align: right;">0.0007</td>
+<td style="text-align: right;">0.0001</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><em>Merknad: NO1 er referanseområdet. Standardfeil rapporteres sammen med koeffisientene. **, ** og * angir statistisk signifikans på henholdsvis 1-, 5- og 10-prosentnivå.</em></p>
+<p>Modellen er estimert med 1 800 observasjoner og har en R² på 0,473 og en justert R² på 0,471. Dette innebærer at modellen forklarer omtrent 47,1 prosent av variasjonen i spotprisene.</p>
+<p>Koeffisienten for magasinfylling er -0,429 og statistisk signifikant på 1-prosentnivå. Ettersom fyllingsgraden er målt fra 0 til 1, innebærer dette at en økning i fyllingsgraden på 10 prosentpoeng er forbundet med en reduksjon i spotprisen på omtrent 0,043 kr/kWh, kontrollert for prisområde og dato.</p>
+<p>Regresjonen viser også geografiske forskjeller i spotprisene. NO3 og NO4 har henholdsvis 0,257 og 0,626 kr/kWh lavere spotpriser enn NO1, kontrollert for de øvrige variablene. Forskjellene er statistisk signifikante. For NO2 og NO5 er det ikke statistisk signifikante forskjeller sammenlignet med NO1.</p>
+<p>Datovariabelen har en positiv og statistisk signifikant koeffisient. Dette indikerer en stigende lineær tidstrend i spotprisene gjennom analyseperioden.</p>
+</section>
+</section>
+</section>
+<section id="konklusjon" class="level2">
+<h2 class="anchored" data-anchor-id="konklusjon">5. Konklusjon</h2>
+</section>
+<section id="bruk-av-ki" class="level2">
+<h2 class="anchored" data-anchor-id="bruk-av-ki">6. Bruk av KI</h2>
+</section>
+<section id="kilder" class="level2">
+<h2 class="anchored" data-anchor-id="kilder">7. Kilder</h2>
+</section>
+<section id="vedlegg" class="level2 unnumbered">
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">8. Vedlegg</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-aanensen_lavere_2026" class="csl-entry" role="listitem">
+Aanensen. 2026. <span>“Lavere Strømpris for Husholdninger.”</span> Statistisk Sentralbyrå. <a href="https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitetspriser/artikler/lavere-strompris-for-husholdninger">https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitetspriser/artikler/lavere-strompris-for-husholdninger</a>.
+</div>
+<div id="ref-aanensen_statistikk_2026" class="csl-entry" role="listitem">
+Aanensen, Thomas, Ståle Skrede, and Magne Holstad. 2026. <span>“Statistikk Om Elektrisitetspriser.”</span> Statistisk Sentralbyrå. <a href="https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitetspriser">https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitetspriser</a>.
+</div>
+<div id="ref-athey_machine_2019" class="csl-entry" role="listitem">
+Athey, Susan, and Guido W. Imbens. 2019. <span>“Machine Learning Methods That Economists Should Know About.”</span> <em>Annual Review of Economics</em> 11: 685–725. <a href="https://doi.org/10.1146/annurev-economics-080217-053433">https://doi.org/10.1146/annurev-economics-080217-053433</a>.
+</div>
+<div id="ref-energidepartementet_norgespris_2025" class="csl-entry" role="listitem">
+Energidepartementet. 2025. <span>“Norgespris På Strøm Og Fjernvarme.”</span> Offentlige myndigheter. <em>Regjeringen</em>. <a href="https://www.regjeringen.no/no/tema/energi/strom/norgespris-pa-strom-og-fjernvarme/id3120995/">https://www.regjeringen.no/no/tema/energi/strom/norgespris-pa-strom-og-fjernvarme/id3120995/</a>.
+</div>
+<div id="ref-energidepartementet_norgespris_2026" class="csl-entry" role="listitem">
+———. 2026. <span>“Norgespris for 2027 Kan Bestilles Fra 5. Januar.”</span> Offentlige myndigheter. <em>Regjeringen</em>. <a href="https://www.regjeringen.no/no/aktuelt/norgespris-for-2027-kan-bestilles-fra-5.-januar/id3186516/">https://www.regjeringen.no/no/aktuelt/norgespris-for-2027-kan-bestilles-fra-5.-januar/id3186516/</a>.
+</div>
+<div id="ref-norges_vassdrag_og_energidirektorat_magasinstatistikk_2026" class="csl-entry" role="listitem">
+energidirektorat, Norges vassdrag og. 2026. <span>“Magasinstatistikk (%).”</span> <a href="https://www.nve.no/energi/analyser-og-statistikk/magasinstatistikk/">https://www.nve.no/energi/analyser-og-statistikk/magasinstatistikk/</a>.
+</div>
+<div id="ref-fonti_feature_2017" class="csl-entry" role="listitem">
+Fonti, Valeria. 2017. <span>“Feature Selection Using LASSO.”</span> VU Amsterdam. <a href="https://vu-business-analytics.github.io/internship-office/papers/paper-fonti.pdf">https://vu-business-analytics.github.io/internship-office/papers/paper-fonti.pdf</a>.
+</div>
+<div id="ref-gentzkow_text_2019" class="csl-entry" role="listitem">
+Gentzkow, Matthew, Bryan Kelly, and Matt Taddy. 2019. <span>“Text as Data.”</span> <em>Journal of Economic Literature</em> 57 (3): 535–74. <a href="https://doi.org/10.1257/jel.20181300">https://doi.org/10.1257/jel.20181300</a>.
+</div>
+<div id="ref-hammersmark_econ3170_2026" class="csl-entry" role="listitem">
+Hammersmark, Eirik Brandsaas. 2026. <span>“ECON3170: Data Science for Økonomer.”</span> Forelesningsnotater og kursmateriell, Universitetet i Oslo.
+</div>
+<div id="ref-hastie_elements_2009" class="csl-entry" role="listitem">
+Hastie, Trevor, Robert Tibshirani, and Jerome Friedman. 2009. <em>The Elements of Statistical Learning: Data Mining, Inference, and Prediction</em>. 2nd ed. Springer.
+</div>
+<div id="ref-kampevoll_prisen_2026" class="csl-entry" role="listitem">
+Kampevoll, Fredrik, Tom Balgarard, Caroline Utti, and Truls Alnes Antonsen. 2026. <span>“Prisen for Billig Strøm,”</span> August. <a href="https://www.nrk.no/norge/xl/prisen-for-billig-strom-1.17944715">https://www.nrk.no/norge/xl/prisen-for-billig-strom-1.17944715</a>.
+</div>
+<div id="ref-statsministerens_kontor_regjeringen_2021" class="csl-entry" role="listitem">
+kontor, Statsministerens, Energidepartementet, and Finansdepartementet. 2021. <span>“Regjeringen Med Milliardpakke i Strømstøtte.”</span> Offentlige myndigheter. <em>Regjeringen</em>. <a href="https://www.regjeringen.no/no/aktuelt/regjeringen-med-milliardpakke-i-stromstotte/id2891839/">https://www.regjeringen.no/no/aktuelt/regjeringen-med-milliardpakke-i-stromstotte/id2891839/</a>.
+</div>
+<div id="ref-kuhn_tidy_2023" class="csl-entry" role="listitem">
+Kuhn, Max, and Julia Silge. 2023. <em>Tidy Modeling with r</em>. Version 1.0.0. O’Reilly. <a href="https://www.tmwr.org/">https://www.tmwr.org/</a>.
+</div>
+<div id="ref-nordpool_price_2026" class="csl-entry" role="listitem">
+Nordpool. 2026a. <span>“Price Indices.”</span> <a href="https://Price indices">Price indices</a>.
+</div>
+<div id="ref-nordpool_prices_2026" class="csl-entry" role="listitem">
+———. 2026b. <span>“Prices.”</span> <a href="https://data.nordpoolgroup.com/auction/day-ahead/prices?deliveryDate=latest&amp;currency=NOK&amp;aggregation=DailyAggregate&amp;deliveryAreas=AT,NO1,NO2,NO3,NO4,NO5">https://data.nordpoolgroup.com/auction/day-ahead/prices?deliveryDate=latest&amp;currency=NOK&amp;aggregation=DailyAggregate&amp;deliveryAreas=AT,NO1,NO2,NO3,NO4,NO5</a>.
+</div>
+<div id="ref-sannes_norgespris_2026-1" class="csl-entry" role="listitem">
+Sannes, Christoffer, and Elhub. 2026a. <span>“Norgespris Antall Per Kommune, Forbruksgruppe Og Dag.”</span> <a href="https://elhub.no/data-og-innsikt/datakatalog">https://elhub.no/data-og-innsikt/datakatalog</a>.
+</div>
+<div id="ref-sannes_norgespris_2026" class="csl-entry" role="listitem">
+———. 2026b. <span>“Norgespris Antall Per Prisområde, Forbruksgruppe Og Dag.”</span> Telling for antall målepunkt med {Norgespriskontrakt} per prisområde og dag. {Tellingen} er gjort for forbruksgruppene husholdningog fritidsboligslik at man kan følge dem separat. <a href="https://elhub.no/data-og-innsikt/datakatalog">https://elhub.no/data-og-innsikt/datakatalog</a>.
+</div>
+<div id="ref-skaansar_kraftaret_2022" class="csl-entry" role="listitem">
+Skaansar, Ellen. 2022. <span>“Kraftåret 2021 - Historisk Høye Kraftpriser,”</span> August. <a href="https://www.nve.no/nytt-fra-nve/nyheter-energi/kraftaret-2021-historisk-hoye-kraftpriser/">https://www.nve.no/nytt-fra-nve/nyheter-energi/kraftaret-2021-historisk-hoye-kraftpriser/</a>.
+</div>
+<div id="ref-stokke_hammer-dybvad_forbruk_2026" class="csl-entry" role="listitem">
+Stokke Hammer-Dybvad, Alexander, and Elhub. 2026. <span>“Forbruk Per <span>Norgespris</span>-Status, Forbruksgruppe, Prisområde Og Antall Målepunker Per Time.”</span> <a href="https://elhub.no/data-og-innsikt/datakatalog">https://elhub.no/data-og-innsikt/datakatalog</a>.
+</div>
+<div id="ref-tibshirani_regression_1996" class="csl-entry" role="listitem">
+Tibshirani, Robert. 1996. <span>“Regression Shrinkage and Selection via the Lasso.”</span> <em>Journal of the Royal Statistical Society: Series B (Methodological)</em> 58 (1): 267–88. <a href="https://doi.org/10.1111/j.2517-6161.1996.tb02080.x">https://doi.org/10.1111/j.2517-6161.1996.tb02080.x</a>.
+</div>
+<div id="ref-wickham_r_2016" class="csl-entry" role="listitem">
+Wickham, Hadley, and Garrett Grolemund. 2016. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. First edition. Sebastopol, CA: O’Reilly.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
