@@ -616,7 +616,7 @@ Her representerer $y_{it}$ den avhengige variabelen, mens $X_{it}$ er forklaring
 
 Det estimeres totalt fire OLS-modeller for å undersøke oppgavens problemstillinger.
 
-#### Norgespris og strømforbruk: Problemstilling 1
+#### 3.2.1 Norgespris og strømforbruk: Problemstilling 1
 
 For å undersøke hvordan husholdningenes strømforbruk varierer med Norgespris-adopsjon, spesifiseres følgende modell:
 
@@ -655,7 +655,7 @@ modell_p1 <- lm(
 #summary(modell_p1)
 ```
 
-#### **Prisdynamikk og adopsjon av Norgespris: Problemstilling 2**
+#### **3.2.2 Prisdynamikk og adopsjon av Norgespris: Problemstilling 2**
 
 For å undersøke sammenhengen mellom strømpriser, magasinfylling og husholdningenes adopsjon av Norgespris estimeres følgende modell:
 
@@ -693,7 +693,7 @@ modell_2C <- lm(
 )
 ```
 
-#### **Magasinfylling og spotpris: Problemstilling 3**
+#### **3.2.3 Magasinfylling og spotpris: Problemstilling 3**
 
 For å undersøke i hvilken grad magasinfyllingen kan bidra til å forklare variasjoner i spotprisene, estimeres følgende modell:
 
@@ -1126,7 +1126,7 @@ Figur 4.3 viser at magasinfyllingen varierer mellom de norske prisområdene. NO4
 
 For å undersøke den visuelle sammenhengen mellom magasinfylling og spotpris presenteres spredningsdiagrammer med separate trendlinjer for hvert prisområde.
 
-![Figur 4.4: Magainsinfylling og spotpris](magasinfylling og spottpris.png){width="367" height="285"}
+![Figur 4.4: Magainsinfylling og spotpris](magasinfylling%20og%20spottpris.png){width="367" height="285"}
 
 Figur 4.4 gir en første indikasjon på hvordan spotprisene varierer med magasinfyllingen, og om sammenhengen ser ut til å være forskjellig mellom prisområdene. For å undersøke denne sammenhengen nærmere, og samtidig ta hensyn til geografiske forskjeller og utviklingen over tid, estimeres det deretter en OLS-regresjonsmodell.
 
