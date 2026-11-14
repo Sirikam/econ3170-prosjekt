@@ -85,6 +85,13 @@ stotteutregner <- function(cc){
       `date` < as.Date("2025-10-01") ~ 0,
       TRUE ~ 0.5
       )
+    )|>
+    mutate(
+      across(
+        starts_with("slutt_"),
+        \(x) x - Norgespris_uMVA,
+        .names = "fordel_{sub('slutt_', '', .col)}"
+      )
     )
   return(cc_ny)
 }

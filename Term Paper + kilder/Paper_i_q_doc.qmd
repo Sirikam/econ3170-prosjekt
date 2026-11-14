@@ -3,7 +3,7 @@ title: "Strømpriser"
 subtitle: "Term paper in ECON 3170/4170, autumn 2026"
 author: "Ny gruppe 0001, kandidatnummer 170011 og 170029"
 date: "16.11.2026"
-format: pdf
+format: html
 editor: visual
 toc: true
 bibliography: ECON3170_kilder.bib

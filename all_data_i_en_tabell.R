@@ -30,6 +30,7 @@ priser_long <- dogn_stotte |>
     .cols = matches("^no[1-5]_nok_(min|max|average)$")
   ) |> 
   pivot_longer(
+<<<<<<< Updated upstream
     cols = matches(
       "^(spotpris|stotte|slutt)_no[1-5]_nok_(min|max|average)$"
     ),
@@ -37,6 +38,12 @@ priser_long <- dogn_stotte |>
     names_pattern =
       "^(spotpris|stotte|slutt)_(no[1-5])_nok_(min|max|average)$",
     values_to = "verdi"
+=======
+    cols = matches("^(spotpris_|stotte_|slutt_|fordel_)"),
+    names_to = c("PRISTYPE", "PRISOMRÅDE", "MÅLING"),
+    names_pattern = "^(spotpris|stotte|slutt|fordel)_(NO\\d) \\(NOK\\)_(Min:|Max:|Average:)$",
+    values_to = "VERDI"
+>>>>>>> Stashed changes
   ) |> 
   pivot_wider(
     names_from = c(pristype, maling),

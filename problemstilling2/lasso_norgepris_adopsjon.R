@@ -7,17 +7,18 @@ library(tidymodels)
 
 lasso_data <- all_data_samlet |>
   select(
-    prosent_hus_NP,
+    nye_signeringer,
     `slutt_Max:`,
     `slutt_Min:`,
     slutt_Average,
     PRISOMRÅDE,
     Date,
-    nye_signeringer,
     `stotte_Min:`,
     `stotte_Max:`,
     `stotte_Average:`,
-    Norgespris_uMVA
+    `fordel_Average:`,
+    `fordel_Max:`,
+    `fordel_Min:`
   ) |>
   drop_na() |>
   mutate(
@@ -113,12 +114,20 @@ koeffisienter_lasso
 
 
 
-# Sammenlikne OLS modellen med testdata fra denne LASSO 
+# Sammenlikne OLS modellen med testdata fra denne LASSOen
 
 # 1. Estimerer OLS på treningsdataene
 modell_p1_pred <- lm(
-  forbruk_hus ~ prosent_hus_NP +
-    slutt_Average +
+  nye_signeringer ~ `slutt_Max:`+
+  `slutt_Min:` +
+  slutt_Average +
+  PRISOMRÅDE +
+  `stotte_Min:`+
+  `stotte_Max:`+
+  `stotte_Average:`+
+  `fordel_Average:`+
+  `fordel_Max:`+
+  `fordel_Min:`+
     PRISOMRÅDE +
     måned,
   data = train_data
@@ -135,7 +144,7 @@ prediksjoner_ols <- test_data |>
 # 3. Beregner prediksjonsmål for OLS
 ols_prediksjonsmal <- metric_set(rmse, rsq, mae)(
   prediksjoner_ols,
-  truth = forbruk_hus,
+  truth = nye_signeringer,
   estimate = .pred
 ) |>
   mutate(Modell = "OLS")
@@ -146,7 +155,7 @@ prediksjoner_lasso <- collect_predictions(final_lasso_fit)
 # 5. Beregner prediksjonsmål for LASSO
 lasso_prediksjonsmal <- metric_set(rmse, rsq, mae)(
   prediksjoner_lasso,
-  truth = forbruk_hus,
+  truth = nye_signeringer,
   estimate = .pred
 ) |>
   mutate(Modell = "LASSO")
