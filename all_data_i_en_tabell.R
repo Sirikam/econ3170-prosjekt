@@ -1,4 +1,14 @@
 # Lager all data samlet i et dok
+#krever at man laster inn (i rekkefølge)
+# strompriser_nordpool
+# fylling
+# pris_per_time
+# funksjon_for_maaler 
+
+# Så: 
+# stottekalkulator
+# stottefunk
+
 
 library(tidyverse)
 library(lubridate)
