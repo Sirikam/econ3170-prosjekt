@@ -4,6 +4,7 @@
 # Det er brukt Google AI-modus for spørsmål tilknyttet koden som en del av 
 # arbeidsflyten, hvor noen av inspillene har blitt brukt i den endelige 
 # løsningen
+library(lubridate)
 library(readxl)
 library(tidyverse)
 library(purrr)
