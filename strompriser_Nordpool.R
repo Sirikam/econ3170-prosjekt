@@ -2,7 +2,7 @@
 
 library(tidyverse)
 library(readxl)
-library(janitor)x
+library(janitor)
 
 
 #pris er oppgitt i kr per MWh

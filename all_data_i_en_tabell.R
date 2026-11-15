@@ -41,11 +41,11 @@ priser_long <- dogn_stotte |>
   ) |> 
   pivot_longer(
     cols = matches(
-      "^(spotpris|stotte|slutt)_no[1-5]_nok_(min|max|average)$"
+      "^(spotpris|stotte|slutt|fordel)_no[1-5]_nok_(min|max|average)$"
     ),
     names_to = c("pristype", "prisomrade", "maling"),
     names_pattern =
-      "^(spotpris|stotte|slutt)_(no[1-5])_nok_(min|max|average)$",
+      "^(spotpris|stotte|slutt|fordel)_(no[1-5])_nok_(min|max|average)$",
     values_to = "verdi"
   ) |> 
   pivot_wider(

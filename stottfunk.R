@@ -79,7 +79,7 @@ stotteutregner <- function(cc){
     )
   ) |> 
   mutate(
-    norgespris_umva
+    norgespris_mmva
     = case_when(
       #foer stromstotte
       `date` < as.Date("2025-10-01") ~ 0,
@@ -89,7 +89,7 @@ stotteutregner <- function(cc){
     mutate(
       across(
         starts_with("slutt_"),
-        \(x) x - Norgespris_uMVA,
+        \(x) x - norgespris_umva,
         .names = "fordel_{sub('slutt_', '', .col)}"
       )
     )
