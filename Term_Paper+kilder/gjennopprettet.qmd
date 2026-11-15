@@ -98,17 +98,13 @@ strompriser <- bind_rows(data_liste) |>
   arrange(`Delivery Date (CET)`) |>
   mutate(across(starts_with("NO"), ~ .x / 1000))  #Reduserer fra NOK/MWh til NOK/kWh
 
-#names(strompriser)
-#glimpse(strompriser)
-
-strompriser |>
-  summarise(
-    fra = min(`Delivery Date (CET)`, na.rm = TRUE),
-    til = max(`Delivery Date (CET)`, na.rm = TRUE),
-    antall_datoer = n_distinct(`Delivery Date (CET)`)
-  )
-
-# glimpse(strompriser)
+#for å vise frem hvor mange datoer det er
+#strompriser |>
+#  summarise(
+#    fra = min(`Delivery Date (CET)`, na.rm = TRUE),
+#    til = max(`Delivery Date (CET)`, na.rm = TRUE),
+#    antall_datoer = n_distinct(`Delivery Date (CET)`)
+#  )
 
 # Historisk aggregert Nord Pool-spotpris i langt format:
 # Én rad per dato og prisområde
@@ -686,7 +682,7 @@ $y_{it} = \beta_0 + \mathbf{\beta} \mathbf{X}_{it} + \alpha_i + \delta_m + \vare
 
 Her representerer $y_{it}$ den avhengige variabelen, mens $X_{it}$ er forklaringsvariablene. Områdefaste effekter $(\alpha_i)$ kontrollerer for tidskonstante forskjeller mellom prisområdene, mens månedsfaste effekter $(\delta_m)$ fanger opp sesongvariasjoner, blant annet knyttet til temperatur og oppvarmingsbehov.
 
-### 3.2 Modeller 
+### 3.2 Modeller
 
 #### 3.2.1 OLS
 
