@@ -69,7 +69,7 @@ Fra Nord Pool benytter vi daglige aggregerte spotpriser for de fem norske prisom
 
 Prisdataene ble lastet ned i separate Excel-filer og importert til R ved hjelp av `readxl`. Filene ble kombinert til samlede datasett. Metadata og "NA" observasjoner fjernet. Datoene ble standardisert og sortert kronologisk. Timeprisene ble tilsvarende kombinert.
 
-Spotprisene er opprinnelig oppgitt i NOK/MWh og konvertert til NOK/kWh ved å dele på 1000. Dette gir sammenlignbare måleenheter på tvers av data. \<- **Em, dobbelsjekk at vi trenger dette**
+Spotprisene er opprinnelig oppgitt i NOK/MWh og konvertert til NOK/kWh ved å dele på 1000. Dette gir sammenlignbare måleenheter på tvers av data, og er den størrelsen som forbrukerne kjøper strøm i. Det er også den prisenheten som Norgespris og strømstøtte er oppgitt mot.
 
 For timeprisene ble daglige oppsummeringsverdier (minimum, maksimum og gjennomsnitt) skilt fra de ordinære timeobservasjonene for å unngå at ulike tidsoppløsninger blandes i analysene.
 
@@ -146,11 +146,11 @@ beregn_prisområde <- function(data, omrade_navn) {
       names_from = c(EAC_GRUPPE, FORBRUKSGRUPPE),
       values_from = c(ANTALL_NORGESPRIS, ANTALL, FORBRUK, FORBRUK_NORGESPRIS),
       values_fill = 0  # Sørger for at manglende grupper blir 0 i stedet for NA
-    ) |>
+    ) #|>
     #rowwise() |>
     #mutate(
     #ungroup() 
-# }
+}
 
 # 2. Henter ut de 5 tabellene
 # 3. Beregn én samlet tabell og splitt i 5 deltabeller
@@ -167,7 +167,7 @@ Sluttprisen beregnes ved å trekke beregnet strømstøtte fra spotprisen. Beregn
 
 Videre konstrueres Norgespris som en referansepris på 40 øre/kWh ekskl. mva. (50 øre inkl. mva.) fra 1. oktober 2025.
 
-Utdrag av funksjon for støtteutregner få vise datawrangling og utregning av ny data.
+Utdrag av funksjon for støtteutregner som viser datawrangling og utregning av ny data.
 
 ```{r}
 #| eval: false
@@ -191,11 +191,11 @@ stotteutregner <- function(cc) {
         ), 
         .names = "stotte_{.col}"
       )
-    ) |> 
+    ) #|> 
     # Beregner sluttpris per prisområde
-   
     # Legger til Norgespris
-  #return(cc_ny)
+    # regner ut differansen mellom norgespris og strømstøtte
+  #return(cc_ny)}
 ```
 
 ### 2.4 NVE – fyllingsgrad i vannmagasiner
@@ -211,6 +211,8 @@ Analysen kombinerer ordinær lineær regresjon (OLS) med faste effekter og regul
 Valget av estimeringsmetoder bygger på skillet mellom økonomisk parameterestimering og prediksjon [@athey_machine_2019; @hammersmark_econ3170_2026].
 
 ```{r}
+
+#trenger vi denne her eller skald en i appendix? tenker at det er skrevet om før mye av dette
 #| include: false 
 
 
@@ -606,7 +608,7 @@ all_data_samlet |>
 
 ### 3.1 Empirisk datastruktur og paneldatamodellering
 
-Analysen bruker det sammensatte datasettet all_data_samlet, som inneholder daglige observasjoner for de fem norske elspotområdene. For å kontrollere for regionale forskjeller og sesongvariasjoner benyttes faste effekter. Den generelle modellstrukturen er:
+Analysen bruker det sammensatte datasettet all_data_samlet, som inneholder daglige observasjoner for de fem norske strømprisområdene. For å kontrollere for regionale forskjeller og sesongvariasjoner benyttes faste effekter. Den generelle modellstrukturen er:
 
 $y_{it} = \beta_0 + \mathbf{\beta} \mathbf{X}_{it} + \alpha_i + \delta_m + \varepsilon_{it}$
 
@@ -632,8 +634,8 @@ Ettersom Norgespris er en frivillig ordning, kan husholdningenes avtalevalg vær
 
 # Estimering av OLS-modell med faste effekter for område og måned
 modell_p1 <- lm(
-  forbruk_hus ~ prosent_hus_NP + slutt_Average + 
-    factor(PRISOMRÅDE) + factor(month(Date)),
+  forbruk_hus ~ prosent_hus_np + slutt_average + 
+    factor(prisomrade) + factor(month(date)),
   data = all_data_samlet
 )
 
@@ -645,10 +647,10 @@ modell_p1 <- lm(
 # 7. OLS problemstiling 1: 
 
 modell_p1 <- lm(
-  forbruk_hus ~ prosent_hus_NP +
-    slutt_Average +
-    factor(PRISOMRÅDE) +
-    factor(month(Date)),
+  forbruk_hus ~ prosent_hus_np +
+    slutt_average +
+    factor(prisomrade) +
+    factor(month(date)),
   data = all_data_samlet
 )
 
@@ -657,40 +659,18 @@ modell_p1 <- lm(
 
 #### **3.2.2 Prisdynamikk og adopsjon av Norgespris: Problemstilling 2**
 
-For å undersøke sammenhengen mellom strømpriser, magasinfylling og husholdningenes adopsjon av Norgespris estimeres følgende modell:
+Vi ønsket å undersøke hva som påvirket husholdningene til å signere avtale om Norgespris. Vi fikk tall fra statnett om antall som hadde signert hver dag, og dermed regne ut antall nye signeringer hver dag.
 
-$\text{prosent\_hus\_NP}_{it} = \beta_0 + \beta_1 \text{slutt\_Average}_{it} + \beta_2 \text{fyllingsgrad}_{it} + \alpha_i + \gamma t + \varepsilon_{it}$
+$\ \Delta nye_\_signeringer_i = \sum_i^N Norgespris - \sum_i^{N-1} Norgespris$
 
-( Her representerer `slutt_Average` gjennomsnittlig strømpris etter støtte, $\text{fyllingsgrad}_{it}$ fanger opp den ukentlige magasinfyllingen fra NVE, og $t$ en lineær tidstrend (`as.numeric(Date)`). Tidstrenden inkluderes for å kontrollere for den generelle utviklingen i Norgespris-adopsjonen over perioden. ) \<- fjerne?
+Dette ble gjort, da prosentandelen med Norgespris i seg selv er lite egnet til å se hvordan strømprisene påvirker adopsjonsraten. Prosentandel av gjenværende som har signert den dagen blir regnet ut med
+
+$\text{nye\_signeringer}_{it} = \beta_0 + \beta_1 + \text{slutt\_(max,min,average})_{it} + \text{stotte\_(max,min,average})_{it} + \text{fordel\_(max,min,average})_{it} + \alpha_i + \gamma t + \varepsilon_{it}$
+
+( Her er slutt_verdiene prisen etter strømstøtte, stotte\_ verdifiene den faktiske støtten man får, og fordel\_ verdiene er differansen mellom strømpris og strømstøtte. I tilegg inkluderes priområder og måneder for å se om det er underliggende trender mellom prisområdene eller tidspunktet på året. Den siste kategorien forteller oss også noe om forbrukernes historiske forventninger.
 
 ```{r}
-#| include: false
 
-# Modell 2A: Kun nettopris
-modell_2A <- lm(
-  prosent_hus_NP ~ slutt_Average,
-  data = all_data_samlet
-)
-
-
-#Modell 2B: Nettopris, magasinfylling og område
-modell_2B <- lm(
-  prosent_hus_NP ~
-    slutt_Average +
-    fyllingsgrad +
-    factor(PRISOMRÅDE),
-  data = all_data_samlet
-)
-
-# Modell 2C: Utvider med lineær tidstrend
-modell_2C <- lm(
-  prosent_hus_NP ~
-    slutt_Average +
-    fyllingsgrad +
-    factor(PRISOMRÅDE) +
-    as.numeric(Date),
-  data = all_data_samlet
-)
 ```
 
 #### **3.2.3 Magasinfylling og spotpris: Problemstilling 3**

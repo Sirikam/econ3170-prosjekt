@@ -70,18 +70,19 @@ Fra Nord Pool benytter vi daglige aggregerte spotpriser for de fem norske prisom
 
 Prisdataene ble lastet ned i separate Excel-filer og importert til R ved hjelp av `readxl`. Filene ble kombinert til samlede datasett. Metadata og "NA" observasjoner fjernet. Datoene ble standardisert og sortert kronologisk. Timeprisene ble tilsvarende kombinert.
 
-Spotprisene er opprinnelig oppgitt i NOK/MWh og konvertert til NOK/kWh ved å dele på 1000. Dette gir sammenlignbare måleenheter på tvers av data. \<- **Em, dobbelsjekk at vi trenger dette**
+Spotprisene er opprinnelig oppgitt i NOK/MWh og konvertert til NOK/kWh ved å dele på 1000. Dette gir sammenlignbare måleenheter på tvers av data. I tillegg er måleenheten for strømstøtte og norgespris definert som støtte i NOK/kWh, og det er dermed naturlig å ha dataen på denne enheten.
 
 For timeprisene ble daglige oppsummeringsverdier (minimum, maksimum og gjennomsnitt) skilt fra de ordinære timeobservasjonene for å unngå at ulike tidsoppløsninger blandes i analysene.
 
 ```{r}
-#| include: false
+#| eval: true
+#| echo: true
 
 #pris er oppgitt i kr per MWh
 
 # Finn alle Excel-filer i mappen
 filer <- list.files(
-  "data-kilde/Nordpool",
+  here::here("data-kilde", "Nordpool"),
   pattern = "\\.xlsx$",
   full.names = TRUE
 )
@@ -146,11 +147,11 @@ beregn_prisområde <- function(data, omrade_navn) {
       names_from = c(EAC_GRUPPE, FORBRUKSGRUPPE),
       values_from = c(ANTALL_NORGESPRIS, ANTALL, FORBRUK, FORBRUK_NORGESPRIS),
       values_fill = 0  # Sørger for at manglende grupper blir 0 i stedet for NA
-    ) |>
+    ) #|> 
     #rowwise() |>
     #mutate(
     #ungroup() 
-# }
+}
 
 # 2. Henter ut de 5 tabellene
 # 3. Beregn én samlet tabell og splitt i 5 deltabeller
@@ -191,11 +192,12 @@ stotteutregner <- function(cc) {
         ), 
         .names = "stotte_{.col}"
       )
-    ) |> 
+    ) #|> 
     # Beregner sluttpris per prisområde
    
     # Legger til Norgespris
   #return(cc_ny)
+  }
 ```
 
 ### 2.4 NVE – fyllingsgrad i vannmagasiner
@@ -215,16 +217,25 @@ Valget av estimeringsmetoder bygger på skillet mellom økonomisk parameterestim
 
 # 1. NORD POOL - Priser 
 
-mappe <- "data-kilde/Nordpool_2025_2026" #standard plassering i prosjektet
+library(tidyverse)
+library(readxl)
+library(lubridate)
+library(here)
+
+mappe <- here::here("data-kilde", "Nordpool_2025_2026")
+
+#mappe <- '/econ3170_prosjekt/data-kilde/Nordpool_2025_2026/' #standard plassering i prosjektet
 
 filer <- list.files(
   path = mappe,
   pattern = "\\.xlsx$",
   full.names = TRUE,
+  recursive = TRUE,
   ignore.case = TRUE
 )
 
-#length(filer) #sjekke at jeg ikke har glemt å laste ned noen av dagene
+print(filer)
+length(filer) #sjekke at jeg ikke har glemt å laste ned noen av dagene
 
 priser_per_time <- map_dfr(filer, function(fil) {
   
@@ -241,6 +252,10 @@ priser_per_time <- map_dfr(filer, function(fil) {
 #data settet inneholder avergae, min og max fra Nordpool. Lager egen tabel til dem
 #Ønsker samme format på tabellen som prisene
 
+print(priser_per_time)
+print(dim(priser_per_time))
+print(names(priser_per_time))
+
 dognstatistikk <- priser_per_time |>
   filter(hour %in% c("Min:", "Max:", "Average:")) |>
   rename(Statistic = hour) |> 
@@ -254,7 +269,7 @@ dognstatistikk_w <- priser_per_time |> #wide format
   pivot_wider(names_from = Statistic,
               values_from = starts_with("NO")) |> 
   clean_names()
-             
+
 
 #fjerne min, max og average fra hoveddata
 timepriser <- priser_per_time |>
@@ -265,9 +280,11 @@ timepriser <- priser_per_time |>
 
 #maalerdata <- read_csv2('data-kilde/maaler/strommaalere.csv')
 
+mappe <- here::here("data-kilde", "maaler")
+
 # Finn alle Excel-filer i mappen
 filer <- list.files(
-  path = "data-kilde/maaler",
+  path = here::here("data-kilde", "maaler"),
   pattern = "\\.(xls|xlsx|csv)$",
   full.names = TRUE,
   ignore.case = TRUE
@@ -335,9 +352,9 @@ maal_liste <- maal_alle |>
 
 # 3. NVE - FYLLINGSGRAD I VANNMAGASINER
 
-#les in filer som skal emd i en liste
+#les in filer som skal med i en liste
 filer <- list.files(
-  "data-kilde/fylling",
+  here::here("data-kilde", "fylling"),
   pattern = "\\.(xls|xlsx|csv)$",
   full.names = TRUE
 )
@@ -485,193 +502,209 @@ terskelverdier <- c(0.7, 0.7, 0.7, 0.75, 0.77) #2021-2026
    ) |> rename(Date = `Delivery Date (CET)`) |> 
    clean_names()
 
-stotteutregner <- function(cc){  
-  cc_ny <- cc |> 
-    mutate(
-    across(.cols = starts_with("no"),
-      
-      ~ case_when(
-        # 2020-21, før støtte (støtten startet des 2021, så her blir det 0)
-        `date` < as.Date("2021-12-01") & .x >= 0.7 ~ 0,
-        
-        # 2021.12 - 2022.03 (Desember 2021 var støtten 55 %)
-        `date` < as.Date("2022-01-01") & 
-          `date` >= as.Date("2021-12-01") &
-          .x >= 0.7 ~ (.x - 0.7) * 0.55,
-        
-        # 2022.01 - 2022.03 (Januar-mars 2022 økte den til 80 %)
-        `date` < as.Date("2022-04-01") & 
-          `date` >= as.Date("2022-01-01") &
-          .x >= 0.7 ~ (.x - 0.7) * 0.8,
-        
-        # 2022.4 - 2022.8 (April-august 2022 var den 80 %)
-        `date` < as.Date("2022-09-01") & 
-          `date` >= as.Date("2022-04-01") &
-          .x >= 0.7 ~ (.x - 0.7) * 0.8,
-        
-        # 2022.09 - 2022.12 
-        `date` < as.Date("2023-01-01") & 
-          `date` >= as.Date("2022-09-01") &
-          .x >= 0.7 ~ (.x - 0.7) * 0.9,
-        
-        # 2023.01 - 2023.09
-        `date` < as.Date("2023-10-01") & 
-          `date` >= as.Date("2023-01-01") &
-          .x >= 0.7 ~ (.x - 0.7) * 0.9,
-        
-        # 2023.10 - 2023.12 timespris begynner her, trenger bedre data
-        `date` < as.Date("2024-01-01") & 
-          `date` >= as.Date("2023-10-01") &
-          .x >= 0.7 ~ (.x - 0.7) * 0.9,
-        
-        # 2024.01 - 2024.12 (Terskel økte til 73 øre)
-        `date` < as.Date("2025-01-01") & 
-          `date` >= as.Date("2024-01-01") &
-          .x >= 0.73 ~ (.x - 0.73) * 0.9,
-        
-        # 2025.01 - 2025.12 (Terskel økte til 75 øre)
-        `date` < as.Date("2026-01-01") & 
-          `date` >= as.Date("2025-01-01") &
-          .x >= 0.75 ~ (.x - 0.75) * 0.9,
-        
-        # 2026.01 -> (Terskel økte til 77 øre)
-        `date` >= as.Date("2026-01-01") &
-          .x >= 0.77 ~ (.x - 0.77) * 0.9,
-        
-        TRUE ~ 0
-      ), 
-      
-      .names = "stotte_{.col}"
-    )
-  ) |> # beregner endelig pris ved å trekke fra stotten på prisen
-    mutate(
-      across(.cols = starts_with("no"),
-             .fns = \(x) x - pick(paste0("stotte_", cur_column()))[[1]],
-             .names = "slutt_{.col}"
-      )
-    )|> #beregner pris for omraadene gitt at det er valgt norgespris
-  mutate(
-    norgespris_umva
-    = case_when(
-      #foer stromstotte
-      `date` < as.Date("2025-10-01") ~ 0,
-      TRUE ~ 0.4
-    )
-  ) |> 
-  mutate(
-    norgespris_umva
-    = case_when(
-      #foer stromstotte
-      `date` < as.Date("2025-10-01") ~ 0,
-      TRUE ~ 0.5
-      )
-    )|>
-    mutate(
-      across(
-        starts_with("slutt_"),
-        \(x) x - norgespris_umva,
-        .names = "fordel_{sub('slutt_', '', .col)}"
-      )
-    )
-  return(cc_ny)
-}
+ stotteutregner <- function(cc){  
+   cc_ny <- cc |> 
+     mutate(
+       across(.cols = starts_with("no"),
+              
+              ~ case_when(
+                # 2020-21, før støtte (støtten startet des 2021, så her blir det 0)
+                `date` < as.Date("2021-12-01") & .x >= 0.7 ~ 0,
+                
+                # 2021.12 - 2022.03 (Desember 2021 var støtten 55 %)
+                `date` < as.Date("2022-01-01") & 
+                  `date` >= as.Date("2021-12-01") &
+                  .x >= 0.7 ~ (.x - 0.7) * 0.55,
+                
+                # 2022.01 - 2022.03 (Januar-mars 2022 økte den til 80 %)
+                `date` < as.Date("2022-04-01") & 
+                  `date` >= as.Date("2022-01-01") &
+                  .x >= 0.7 ~ (.x - 0.7) * 0.8,
+                
+                # 2022.4 - 2022.8 (April-august 2022 var den 80 %)
+                `date` < as.Date("2022-09-01") & 
+                  `date` >= as.Date("2022-04-01") &
+                  .x >= 0.7 ~ (.x - 0.7) * 0.8,
+                
+                # 2022.09 - 2022.12 
+                `date` < as.Date("2023-01-01") & 
+                  `date` >= as.Date("2022-09-01") &
+                  .x >= 0.7 ~ (.x - 0.7) * 0.9,
+                
+                # 2023.01 - 2023.09
+                `date` < as.Date("2023-10-01") & 
+                  `date` >= as.Date("2023-01-01") &
+                  .x >= 0.7 ~ (.x - 0.7) * 0.9,
+                
+                # 2023.10 - 2023.12 timespris begynner her, trenger bedre data
+                `date` < as.Date("2024-01-01") & 
+                  `date` >= as.Date("2023-10-01") &
+                  .x >= 0.7 ~ (.x - 0.7) * 0.9,
+                
+                # 2024.01 - 2024.12 (Terskel økte til 73 øre)
+                `date` < as.Date("2025-01-01") & 
+                  `date` >= as.Date("2024-01-01") &
+                  .x >= 0.73 ~ (.x - 0.73) * 0.9,
+                
+                # 2025.01 - 2025.12 (Terskel økte til 75 øre)
+                `date` < as.Date("2026-01-01") & 
+                  `date` >= as.Date("2025-01-01") &
+                  .x >= 0.75 ~ (.x - 0.75) * 0.9,
+                
+                # 2026.01 -> (Terskel økte til 77 øre)
+                `date` >= as.Date("2026-01-01") &
+                  .x >= 0.77 ~ (.x - 0.77) * 0.9,
+                
+                TRUE ~ 0
+              ), 
+              
+              .names = "stotte_{.col}"
+       )
+     ) |> # beregner endelig pris ved å trekke fra stotten på prisen
+     mutate(
+       across(.cols = starts_with("no"),
+              .fns = \(x) x - pick(paste0("stotte_", cur_column()))[[1]],
+              .names = "slutt_{.col}"
+       )
+     )|> #beregner pris for omraadene gitt at det er valgt norgespris
+     mutate(
+       norgespris_umva
+       = case_when(
+         #foer stromstotte
+         `date` < as.Date("2025-10-01") ~ 0,
+         TRUE ~ 0.4
+       )
+     ) |> 
+     mutate(
+       norgespris_mmva
+       = case_when(
+         #foer stromstotte
+         `date` < as.Date("2025-10-01") ~ 0,
+         TRUE ~ 0.5
+       )
+     )|>
+     mutate(
+       across(
+         starts_with("slutt_"),
+         \(x) x - norgespris_umva,
+         .names = "fordel_{sub('slutt_', '', .col)}"
+       )
+     )
+   return(cc_ny)
+ }
 
 # 5. SAMMENSTILLING AV ALLE DATA
 
-# 5.1. ELHUB: Samler målerdata for alle 5 prisområder
-
-omraader <- c("NO1", "NO2", "NO3", "NO4", "NO5")
-
-maal_samlet <- map_dfr(omraader, ~ beregn_prisområde(maalerdata, .x)) |> 
-  as_tibble()
-
-
-# 5.2. PRISER OG STRØMSTØTTE: Beregner og omformer til langt panelformat
-
-# Kjører støtteberegningen på dagsdataene
-dogn_stotte <- stotteutregner(dognstatistikk_w) |> 
-  clean_names()
-
-#names(dogn_stotte)
-
-#view(dogn_stotte)
-
-# Endrer kolonnenavnene for spotpris så de blir entydige før pivotering
-priser_long <- dogn_stotte |> 
-  rename_with(
-    ~ paste0("spotpris_", .x),
-    .cols = matches("^no[1-5]_nok_(min|max|average)$")
-  ) |> 
-  pivot_longer(
-    cols = matches(
-      "^(spotpris|stotte|slutt)_no[1-5]_nok_(min|max|average)$"
-    ),
-    names_to = c("pristype", "prisomrade", "maling"),
-    names_pattern =
-      "^(spotpris|stotte|slutt)_(no[1-5])_nok_(min|max|average)$",
-    values_to = "verdi"
-  ) |> 
-  pivot_wider(
-    names_from = c(pristype, maling),
-    values_from = verdi,
-    names_glue = "{pristype}_{maling}"
-  ) |>
-  mutate(
-    prisomrade = toupper(prisomrade)
-  ) |> 
-  clean_names()
-
-
-#view(priser_long)
-
-# 5.3. MAGASINFYLLING (NVE): Henter klargjorte data
-
-fyll_long <- fyll_2020_2026 |>
-  select(date, ar, uke, prisomrade, fyllingsgrad)
-
-
-# 5.4. SAMMENSTILLING: Bygger det endelige masterdatasettet. +
-# 5.5. Ser at NordPool sine aggregerte prisdata fra 2020 -26 mangler 
-# legger de til
-
-# 5.6. SAMMENSTILLING
-
-all_data_samlet <- priser_long |>
-  inner_join(
-    maal_samlet,
-    by = c("date", "prisomrade")
-  ) |>
-  mutate(
-    ar = year(date),
-    uke = isoweek(date)
-  ) |>
-  left_join(
-    fyll_long |>
-      select(date, prisomrade, fyllingsgrad),
-    by = c("date", "prisomrade")
-  ) |>
-  arrange(prisomrade, date) |>
-  group_by(prisomrade) |>
-  fill(fyllingsgrad, .direction = "down") |>
-  ungroup() |>
-  left_join(
-    spotpris_historisk_long,
-    by = c("date", "prisomrade")
-  )
+ # 1. ELHUB: Samler målerdata for alle 5 prisområder
+ 
+ omraader <- c("NO1", "NO2", "NO3", "NO4", "NO5")
+ 
+ maal_samlet <- map_dfr(omraader, ~ beregn_prisområde(maalerdata, .x)) |> 
+   as_tibble()
+ 
+ 
+ # 2. PRISER OG STRØMSTØTTE: Beregner og omformer til langt panelformat
+ 
+ # Kjører støtteberegningen på dagsdataene
+ dogn_stotte <- stotteutregner(dognstatistikk_w) |> 
+   clean_names()
+ 
+ #names(dogn_stotte)
+ 
+ #view(dogn_stotte)
+ 
+ # Endrer kolonnenavnene for spotpris så de blir entydige før pivotering
+ priser_long <- dogn_stotte |> 
+   rename_with(
+     ~ paste0("spotpris_", .x),
+     .cols = matches("^no[1-5]_nok_(min|max|average)$")
+   ) |> 
+   pivot_longer(
+     cols = matches(
+       "^(spotpris|stotte|slutt|fordel)_no[1-5]_nok_(min|max|average)$"
+     ),
+     names_to = c("pristype", "prisomrade", "maling"),
+     names_pattern =
+       "^(spotpris|stotte|slutt|fordel)_(no[1-5])_nok_(min|max|average)$",
+     values_to = "verdi"
+   ) |> 
+   pivot_wider(
+     names_from = c(pristype, maling),
+     values_from = verdi,
+     names_glue = "{pristype}_{maling}"
+   ) |>
+   mutate(
+     prisomrade = toupper(prisomrade)
+   ) |> 
+   clean_names()
+ 
+ 
+ #view(priser_long)
+ 
+ # 3. MAGASINFYLLING (NVE): Henter klargjorte data
+ 
+ fyll_long <- fyll_2020_2026 |>
+   select(date, ar, uke, prisomrade, fyllingsgrad)
+ 
+ 
+ # 4. SAMMENSTILLING: Bygger det endelige masterdatasettet. +
+ # 5. Ser at NordPool sine aggregerte prisdata fra 2020 -26 mangler 
+ # legger de til
+ 
+ # 4. SAMMENSTILLING
+ 
+ all_data_samlet <- priser_long |>
+   inner_join(
+     maal_samlet,
+     by = c("date", "prisomrade")
+   ) |>
+   mutate(
+     ar = year(date),
+     uke = isoweek(date)
+   ) |>
+   left_join(
+     fyll_long |>
+       select(date, prisomrade, fyllingsgrad),
+     by = c("date", "prisomrade")
+   ) |>
+   arrange(prisomrade, date) |>
+   group_by(prisomrade) |>
+   fill(fyllingsgrad, .direction = "down") |>
+   ungroup() |>
+   left_join(
+     spotpris_historisk_long,
+     by = c("date", "prisomrade")
+   )
 
 ```
 
 ### 3.1 Empirisk datastruktur og paneldatamodellering
 
-Analysen bruker det sammensatte datasettet all_data_samlet, som inneholder daglige observasjoner for de fem norske elspotområdene. For å kontrollere for regionale forskjeller og sesongvariasjoner benyttes faste effekter. Den generelle modellstrukturen er:
+Analysen bruker det sammensatte datasettet all_data_samlet, som inneholder daglige observasjoner for de fem norske strømprisområdene. For å kontrollere for regionale forskjeller og sesongvariasjoner benyttes faste effekter. Den generelle modellstrukturen er:
 
 $y_{it} = \beta_0 + \mathbf{\beta} \mathbf{X}_{it} + \alpha_i + \delta_m + \varepsilon_{it}$
 
 Her representerer $y_{it}$ den avhengige variabelen, mens $X_{it}$ er forklaringsvariablene. Områdefaste effekter $(\alpha_i)$ kontrollerer for tidskonstante forskjeller mellom prisområdene, mens månedsfaste effekter $(\delta_m)$ fanger opp sesongvariasjoner, blant annet knyttet til temperatur og oppvarmingsbehov.
 
-### 3.2 Spesifikasjon av estimeringsmodellene (OLS)
+### 3.2 Modeller 
 
-Det estimeres totalt fire OLS-modeller for å undersøke oppgavens problemstillinger.
+#### 3.2.1 OLS
+
+#### 3.2.2 Regularisert regresjon og LASSO-modellering
+
+I tillegg til OLS benyttes LASSO-regresjon (Least Absolute Shrinkage and Selection Operator) som en alternativ estimeringsmetode. LASSO kombinerer lineær regresjon med en$\ L_1$ -straff som begrenser størrelsen på koeffisientene og kan sette mindre relevante koeffisienter lik null. Metoden brukes dermed til variabelseleksjon og kan redusere risikoen for overtilpasning [@tibshirani_regression_1996; @hastie_elements_2009; @fonti_feature_2017; @gentzkow_text_2019].
+
+LASSO-modellen estimeres ved å minimere:
+
+$\hat{\beta}_{\text{lasso}} = \arg\min_{\beta} \left( \sum_{i=1}^N \left( y_i - \beta_0 - \sum_{j=1}^p x_{ij}\beta_j \right)^2 + \lambda \sum_{j=1}^p |\beta_j| \right)$
+
+Straffeparameteren $\lambda$ bestemmer graden av regularisering. En høyere verdi gir sterkere krymping av koeffisientene, mens en lavere verdi gjør modellen mer lik ordinær lineær regresjon.
+
+For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE og $R^2$ som evalueringsmål. Den endelige modellen evalueres deretter på testsettet.
+
+### 3.3 Problemstillinger
+
+Det er tre problemstillinger vi ser på i oppgaven, som undersøker sammenhengene mellom spesifiserte variabler fra hoveddatasettet. Her vil det avhengig av problemstillingen bli satt opp en eller flere kombinasjoner av modeller for å teste resultatet. Problemstillingene er de samme som var definert i introduksjonen.
 
 #### 3.2.1 Norgespris og strømforbruk: Problemstilling 1
 
@@ -770,18 +803,6 @@ ols_fyllingsgrad <- lm(
 
 #summary(ols_fyllingsgrad)
 ```
-
-### 3.3 Regularisert regresjon og LASSO-modellering
-
-I tillegg til OLS benyttes LASSO-regresjon (Least Absolute Shrinkage and Selection Operator) som en alternativ estimeringsmetode. LASSO kombinerer lineær regresjon med en $L_1$ -straff som begrenser størrelsen på koeffisientene og kan sette mindre relevante koeffisienter lik null. Metoden brukes dermed til variabelseleksjon og kan redusere risikoen for overtilpasning [@tibshirani_regression_1996; @hastie_elements_2009; @fonti_feature_2017; @gentzkow_text_2019].
-
-LASSO-modellen estimeres ved å minimere:
-
-$\hat{\beta}_{\text{lasso}} = \arg\min_{\beta} \left( \sum_{i=1}^N \left( y_i - \beta_0 - \sum_{j=1}^p x_{ij}\beta_j \right)^2 + \lambda \sum_{j=1}^p |\beta_j| \right)$
-
-Straffeparameteren $\lambda$ bestemmer graden av regularisering. En høyere verdi gir sterkere krymping av koeffisientene, mens en lavere verdi gjør modellen mer lik ordinær lineær regresjon.
-
-For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE og $R^2$ som evalueringsmål. Den endelige modellen evalueres deretter på testsettet.
 
 ```{r}
 #| include: false
@@ -1082,13 +1103,224 @@ Sammenligningen av OLS og LASSO viser at LASSO har bedre prediksjonsevne enn OLS
 
 ### 4.3 Prisdynamikk og adopsjon av Norgespris: Problemstilling 2
 
-For å undersøke sammenhengen mellom strømpriser og husholdningenes adopsjon av Norgespris estimeres tre OLS-modeller med gradvis flere forklaringsvariabler. Modell 2A inkluderer nettopris som eneste forklaringsvariabel. Modell 2B inkluderer i tillegg magasinfylling og områdefaste effekter. Modell 2C utvider modellen ytterligere med en lineær tidstrend for å kontrollere for den generelle utviklingen i Norgespris-adopsjonen over tid.
+Her så vi på hvordan de ulike støtteordningene og differansen mellom dem spilte inn på adopsjonsraten til Norgespris. Her ville vi både se hvordan verdien som helhet virket opp mot en standard minste kvadrats metode, men også om vi kunne peke ut noen variabler som hadde en stor påvirkning på resultatet.
 
-*Merknad: Standardfeil rapporteres i parentes. Modell 2A har 1825 observasjoner, mens modell 2B og 2C har 1800 observasjoner. Forskjellen skyldes 25 manglende observasjoner for magasinfylling, som medfører at disse observasjonene utelates fra modell 2B og 2C.*
+```{r}
+#| include: false
+# #Hvordan varierer strømforbruket mellom husholdninger med og uten Norgespris? 
 
-At sammenhengen mellom nettopris og Norgespris-adopsjon blir betydelig svakere når kontrollvariablene inkluderes, tyder på at den enkle sammenhengen i modell 2A delvis fanger opp andre forhold. De geografiske forskjellene mellom prisområdene og den generelle utviklingen over tid ser ut til å ha stor betydning for variasjonen i adopsjonen. Den positive tidstrenden viser at Norgespris-adopsjonen har økt gjennom perioden, også når det kontrolleres for strømpris, magasinfylling og prisområde.
+#LASSO 
+library(glmnet)
+library(dplyr)
+library(tidymodels)
 
-Den negative sammenhengen mellom magasinfylling og Norgespris-adopsjon kan indikere at adopsjonen er høyere i perioder med lavere magasinfylling. Dette kan være forenlig med at forventninger om høyere strømpriser påvirker husholdningenes valg av strømavtale. Resultatene kan imidlertid ikke fastslå hvilke forhold som faktisk ligger bak husholdningenes avtalevalg. Samlet viser analysen at både geografiske forskjeller og tidsutvikling er viktige for å forstå variasjonen i Norgespris-adopsjonen.
+lasso_data <- all_data_samlet |>
+  select(
+    nye_signeringer,
+    slutt_max,
+    slutt_min,
+    slutt_average,
+    prisomrade,
+    date,
+    stotte_min,
+    stotte_max,
+    stotte_average,
+    fordel_average,
+    fordel_max,
+    fordel_min
+  ) |>
+  drop_na() |>
+  mutate(
+    prisomrade = factor(prisomrade),
+    måned = factor(month(date))
+  ) |>
+  select(-date)
+
+# Deler data i trening (80 %) og test (20 %)
+
+data_split <- initial_split(lasso_data, prop = 0.8)
+
+train_data <- training(data_split)
+test_data  <- testing(data_split)
+
+# Oppretter Recipe
+
+lasso_rec <- recipe(nye_signeringer ~ ., data = train_data) |>
+  step_dummy(all_nominal_predictors()) |>
+  step_zv(all_predictors()) |>
+  step_normalize(all_numeric_predictors())
+
+# Spesifiserer LASSO-modellen
+
+lasso_spec <- linear_reg(
+  penalty = tune(),
+  mixture = 1
+) |>
+  set_engine("glmnet")
+
+
+lasso_wf <- workflow() |>
+  add_recipe(lasso_rec) |>
+  add_model(lasso_spec)
+
+# velger hvor mange deler den skal ha 
+
+set.seed(3170)
+
+folds <- vfold_cv(train_data, v = 10)
+
+grid_lambda <- grid_regular(
+  penalty(range = c(-4, 1)),
+  levels = 50
+)
+
+lasso_res <- tune_grid(
+  lasso_wf,
+  resamples = folds,
+  grid = grid_lambda,
+  metrics = metric_set(rmse, rsq)
+)
+
+
+# finner beste lambda 
+
+best_lambda_p2 <- select_best(
+  lasso_res,
+  metric = "rmse"
+)
+
+best_lambda_p2
+
+# tester modellen på testdaten 
+
+final_lasso_wf <- finalize_workflow(
+  lasso_wf,
+  best_lambda_p2
+)
+
+final_lasso_fit_p2 <- last_fit(
+  final_lasso_wf,
+  split = data_split
+)
+
+collect_metrics(final_lasso_fit_p2)
+
+# finner koeffesientene 
+
+final_model_train <- fit(
+  final_lasso_wf,
+  data = train_data
+)
+
+koeffisienter_lasso_p2 <- final_model_train |>
+  extract_fit_parsnip() |>
+  tidy() |>
+  filter(estimate != 0)
+
+# Sammenlikne OLS modellen med testdata fra denne LASSOen
+
+# 1. Estimerer OLS på treningsdataene
+modell_p2_pred <- lm(
+  nye_signeringer ~ slutt_max+
+    slutt_min +
+    slutt_average +
+    stotte_min +
+    stotte_max +
+    stotte_average +
+    fordel_average +
+    fordel_max +
+    fordel_min +
+    prisomrade +
+    måned,
+  data = train_data
+)
+
+summary(modell_p2_pred)
+
+# 2. Predikerer forbruk på testdataene
+prediksjoner_ols_p2 <- test_data |>
+  mutate(
+    .pred = predict(modell_p2_pred, newdata = test_data)
+  )
+
+# 3. Beregner prediksjonsmål for OLS
+ols_prediksjonsmal_p2 <- metric_set(rmse, rsq, mae)(
+  prediksjoner_ols_p2,
+  truth = nye_signeringer,
+  estimate = .pred
+) |>
+  mutate(Modell = "OLS")
+
+# 4. Henter LASSO-prediksjonene fra samme testsett
+prediksjoner_lasso_p2 <- collect_predictions(final_lasso_fit_p2)
+
+# 5. Beregner prediksjonsmål for LASSO
+lasso_prediksjonsmal_p2 <- metric_set(rmse, rsq, mae)(
+  prediksjoner_lasso_p2,
+  truth = nye_signeringer,
+  estimate = .pred
+) |>
+  mutate(Modell = "LASSO")
+
+# 6. Samler resultatene i én tabell
+sammenligning_prediksjon_p2 <- bind_rows(
+  ols_prediksjonsmal_p2,
+  lasso_prediksjonsmal_p2
+) |>
+  select(Modell, .metric, .estimate)
+
+sammenligning_prediksjon_p2
+
+```
+
+```{r}
+#| echo: false
+
+library(dplyr)
+library(knitr)
+library(broom)
+
+best_lambda_p2 |>
+  select(penalty) |>
+  mutate(penalty = round(penalty, 4)) |>
+  knitr::kable(
+    caption = "Valgt lambda for LASSO-modellen",
+    col.names = "Lambda"
+  )
+
+tidy(modell_p2_pred) |>
+  mutate(
+    estimate = round(estimate, 2),
+    std.error = round(std.error, 2),
+    statistic = round(statistic, 2),
+    p.value = format.pval(p.value, digits = 3, eps = 0.001)
+  ) |>
+  kable(
+    caption = "Regresjonskoeffisienter for prediksjonsmodellen",
+    col.names = c(
+      "Variabel",
+      "Estimat",
+      "Standardfeil",
+      "t-verdi",
+      "p-verdi"
+    )
+  )
+
+koeffisienter_lasso_p2 |>
+  kable(
+    caption = "Koeffisienter fra LASSO-modellen",
+    digits = 3
+  )
+
+sammenligning_prediksjon_p2 |>
+  mutate(
+    across(where(is.numeric), ~ round(.x, 2))
+  ) |>
+  kable(
+    caption = "Sammenligning av observerte og predikerte verdier"
+  )
+
+```
 
 ### 4.4 Magasinfylling og spotprisdannelse: Problemstilling 3
 
@@ -1166,6 +1398,7 @@ knitr::kable(
   ols_fylling_tabell,
   caption = "OLS-regresjon: Magasinfylling og spotpriser"
 )
+
 ```
 
 *Merknad: NO1 er referanseområdet. Standardfeil rapporteres sammen med koeffisientene. \*\*, \*\* og \* angir statistisk signifikans på henholdsvis 1-, 5- og 10-prosentnivå.*
