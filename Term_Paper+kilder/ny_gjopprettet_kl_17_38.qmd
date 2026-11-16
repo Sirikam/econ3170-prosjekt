@@ -3,7 +3,7 @@ title: "Gjennomrettet"
 subtitle: "Term paper in ECON 3170/4170, autumn 2026"
 author: "Ny gruppe 0001, kandidatnummer 170011 og 170029"
 date: "16.11.2026"
-format: html
+format: pdf
 editor: visual
 toc: true
 bibliography: ECON3170_kilder.bib
@@ -609,7 +609,7 @@ all_data_samlet <- priser_long |>
 
 Analysen benytter data med ulik tidsoppløsning, tilpasset de enkelte problemstillingene. Datagrunnlaget omfatter daglige og ukentlige observasjoner for de fem norske strømprisområdene. For å kontrollere for regionale forskjeller og tidsvariasjoner inkluderes områdespesifikke og tidsrelaterte kontrollvariabler i modellene.
 
-Den generelle modellstrukturen kan uttrykkes som: y\_{it} = \beta\*0 +\* \boldsymbol{\beta}'\mathbf{X}{it} + \alpha\_i + \delta\*m +\* \varepsilon{it}
+Den generelle modellstrukturen kan uttrykkes som: $y_{it} = \beta*0 +* \boldsymbol{\beta}'\mathbf{X}{it} + \alpha_i + \delta*m +* \varepsilon{it}$
 
 Her representerer y\_{it}\$ den avhengige variabelen, mens $X_{it}$ er forklaringsvariablene. Områdespesifikke effekter $(\alpha_i)$ fanger opp forskjeller mellom prisområdene. Tidsrelaterte kontrollvariabler $(\delta_t)$ benyttes for å kontrollere for sesongvariasjoner eller generelle tidstrender, avhengig av problemstillingen.
 
@@ -623,7 +623,7 @@ OLS benyttes i alle tre problemstillingene. I problemstilling 1 og 3 brukes meto
 
 #### 3.2.2 Regularisert regresjon (LASSO)
 
-LASSO-regresjon (Least Absolute Shrinkage and Selection Operator) benyttes som en supplerende metode i problemstilling 1 og 2. Metoden kombinerer lineær regresjon med en (L_1)-straff som begrenser størrelsen på koeffisientene og kan sette mindre relevante koeffisienter lik null. Dette muliggjør variabelseleksjon og kan redusere risikoen for overtilpasning [@tibshirani_regression_1996; @hastie_elements_2009; @fonti_feature_2017; @gentzkow_text_2019].
+LASSO-regresjon (Least Absolute Shrinkage and Selection Operator) benyttes som en supplerende metode i problemstilling 1 og 2. Metoden kombinerer lineær regresjon med en $L_1$-straff som begrenser størrelsen på koeffisientene og kan sette mindre relevante koeffisienter lik null. Dette muliggjør variabelseleksjon og kan redusere risikoen for overtilpasning [@tibshirani_regression_1996; @hastie_elements_2009; @fonti_feature_2017; @gentzkow_text_2019].
 
 LASSO-modellen estimeres ved å minimere:
 
@@ -804,7 +804,7 @@ koeffisienter_lasso <- final_model_train |>
 #koeffisienter_lasso
 ```
 
-*Metodisk merknad om valg av* (\lambda): Kryssvalideringen valgte en svært lav verdi for (\lambda), som ligger på nedre grense av søkeområdet. Dette innebærer svak regularisering, men er ikke i seg selv et tegn på overtilpasning. Resultatet indikerer at modellen foretrekker lite koeffisientkrymping innenfor det undersøkte søkeområdet. Modellens prediksjonsevne vurderes derfor også på det separate testsettet og sammenlignes med OLS [@hastie_elements_2009].
+*Metodisk merknad om valg av* $\lambda$: Kryssvalideringen valgte en svært lav verdi for $\lambda$, som ligger på nedre grense av søkeområdet. Dette innebærer svak regularisering, men er ikke i seg selv et tegn på overtilpasning. Resultatet indikerer at modellen foretrekker lite koeffisientkrymping innenfor det undersøkte søkeområdet. Modellens prediksjonsevne vurderes derfor også på det separate testsettet og sammenlignes med OLS [@hastie_elements_2009].
 
 Ettersom Norgespris er en frivillig ordning, kan husholdningenes avtalevalg være påvirket av forventet strømforbruk og prisfølsomhet. Dette gir risiko for seleksjonsskjevhet og begrenser muligheten for å tolke sammenhengene kausalt.
 
