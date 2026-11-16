@@ -3,7 +3,7 @@ title: "Gjennomrettet"
 subtitle: "Term paper in ECON 3170/4170, autumn 2026"
 author: "Ny gruppe 0001, kandidatnummer 170011 og 170029"
 date: "16.11.2026"
-format: pdf
+format: html
 editor: visual
 toc: true
 bibliography: ECON3170_kilder.bib
@@ -78,11 +78,13 @@ Dataene ble importert fra CSV-filer og omstrukturert fra bredt til langt format 
 
 Det er viktig å merke seg at antall målepunkter ikke nødvendigvis tilsvarer antall husholdninger, ettersom én husholdning kan disponere flere målepunkter.
 
-### 2.3 Konstruksjon av reell sluttpris og strømstøtte Bendik du må sjekke at dette er riktig siden jeg ikke har jobba med koden
+### 2.3 Konstruksjon av reell sluttpris og strømstøtte 
+
+**Bendik du må sjekke at dette er riktig siden jeg ikke har jobba med koden**
 
 For å undersøke hvilke prissignaler husholdningene står overfor, beregnes en estimert sluttpris etter strømstøtte. Spotprisen alene gir ikke et fullstendig bilde av husholdningenes faktiske priskostnad, ettersom staten har gitt strømstøtte siden desember 2021.
 
-Sluttprisen beregnes ved å trekke beregnet strømstøtte fra spotprisen. Beregningen tar hensyn til historiske endringer i støtteordningens dekningsgrad og innslagsterskel. Fra desember 2021 var støttesatsen først 55 %, før den ble økt til 80 % og senere 90 %. Innslagsterskelen ble gradvis justert fra 70 øre/kWh til 77 øre/kWh i 2026.
+Sluttprisen beregnes ved å trekke beregnet strømstøtte fra spotprisen. Beregningen tar hensyn til historiske endringer i støtteordningens dekningsgrad og innslagsterskel. Fra desember 2021 var støttesatsen først 55 %, før den ble økt til 80 % og senere 90 %. Innslagsterskelen ble gradvis justert fra 70 øre/kWh til 77 øre/kWh i 2026. \<- finne kilde Bendik
 
 Videre konstrueres Norgespris som en referansepris på 40 øre/kWh ekskl. mva. (50 øre inkl. mva.) fra 1. oktober 2025.
 
@@ -645,9 +647,9 @@ For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) o
 
 De tre problemstillingene undersøker ulike sammenhenger i datasettet. Modellene tilpasses derfor den enkelte problemstillingen med hensyn til avhengig variabel, forklaringsvariabler og tidsrelaterte kontrollvariabler.
 
-### 3.3.1 Norgespris og strømforbruk: Problemstilling 1
+#### 3.3.1 Norgespris og strømforbruk: Problemstilling 1
 
-Problemstillingen undersøker sammenhengen mellom andelen husholdningenes strømforbruk som er knyttet til Norgespris og husholdningenes samlede strømforbruk. Modellen inkluderer områdefaste effekter og månedseffekter for å kontrollere for geografiske forskjeller og sesongvariasjoner.
+Problemstillingen undersøker sammenhengen mellom andelen av husholdningenes strømforbruk som er knyttet til Norgespris og husholdningenes samlede strømforbruk. Modellen inkluderer områdefaste effekter og månedseffekter for å kontrollere for geografiske forskjeller og sesongvariasjoner.
 
 For å undersøke sammenhengen spesifiseres følgende modell: $$
 \text{forbruk\_hus}_{it}
@@ -660,20 +662,6 @@ For å undersøke sammenhengen spesifiseres følgende modell: $$
 $$
 
 Her er $\text{forbruk\_hus}_{it}$ husholdningenes samlede strømforbruk i prisområde $i$ på tidspunkt $t$, målt i kWh, mens $\text{prosent\_forbruk\_hus\_np}_{it}$ angir andelen av husholdningenes samlede strømforbruk som er knyttet til Norgespris. $\text{slutt\_average}_{it}$ angir gjennomsnittlig strømpris etter strømstøtte (NOK/kWh). $\alpha_i$ representerer områdefaste effekter, mens $\delta_m$ representerer månedseffekter.
-
-```{r}
-#| eval: false
-#| echo: true
-
-# Estimering av OLS-modell med faste effekter for område og måned
-modell_p1 <- lm(
-  forbruk_hus ~ prosent_forbruk_hus_np +
-    slutt_average +
-    factor(prisomrade) +
-    factor(month(date)),
-  data = all_data_samlet
-)
-```
 
 ```{r}
 #| include: false
@@ -691,9 +679,9 @@ modell_p1 <- lm(
 #summary(modell_p1)
 ```
 
-LASSO benyttes i tillegg for å undersøke variabelseleksjon og prediksjonsevne. Prediksjonsevnen til OLS og LASSO sammenlignes på et felles testsett. Datasettet deles tilfeldig i trenings- og testsett, og kryssvalideringen gjennomføres tilsvarende uten å ta hensyn til tidsrekkefølgen. Prediksjonsresultatene må derfor tolkes som modellens evne til å predikere observasjoner fra et tilfeldig utvalg av datasettet, og ikke som et mål på evnen til å predikere fremtidig strømforbruk.
+I tillegg estimeres en LASSO-modell for å undersøke variabelseleksjon og prediksjonsevne. OLS og LASSO sammenlignes på det samme tilfeldige testsettet, basert på et tilfeldig trenings- og testutvalg (80/20) og 10-fold kryssvalidering. Ettersom datasettet ikke deles etter tidsrekkefølge, må prediksjonsresultatene tolkes som evnen til å predikere tilfeldig utvalgte observasjoner, ikke fremtidig strømforbruk.
 
-For å sikre en sammenlignbar evaluering benyttes de samme forklaringsvariablene i OLS- og LASSO-modellen. I LASSO standardiseres de numeriske prediktorene etter at kategoriske variabler er omgjort til dummyvariabler. OLS estimeres med variablene på opprinnelig skala. Begge modellene evalueres på det samme testsettet.
+For å sikre sammenlignbarhet benyttes de samme forklaringsvariablene i begge modellene. I LASSO omgjøres kategoriske variabler til dummyvariabler, og de numeriske prediktorene standardiseres før estimering.
 
 ```{r}
 #| include: false
@@ -800,7 +788,7 @@ koeffisienter_lasso <- final_model_train |>
 #koeffisienter_lasso
 ```
 
-*Metodisk merknad om valg av* $\lambda$: Kryssvalideringen valgte en svært lav verdi for $\lambda$, som ligger på nedre grense av søkeområdet. Dette innebærer svak regularisering, men er ikke i seg selv et tegn på overtilpasning. Resultatet indikerer at modellen foretrekker lite koeffisientkrymping innenfor det undersøkte søkeområdet. Modellens prediksjonsevne vurderes derfor også på det separate testsettet og sammenlignes med OLS [@hastie_elements_2009].
+*Metodisk merknad om valg av* $\lambda$: Kryssvalideringen valgte en svært lav verdi for $\lambda$, spå nedre grense av søkeområdet. Dette innebærer svak regularisering, men er ikke i seg selv et tegn på overtilpasning. Modellen foretrekker dermed lite koeffisientkrymping innenfor det undersøkte søkeområdet. Prediksjonsevnen vurderes også på det separate testsettet og sammenlignes med OLS [@hastie_elements_2009].
 
 Ettersom Norgespris er en frivillig ordning, kan husholdningenes avtalevalg være påvirket av forventet strømforbruk og prisfølsomhet. Dette gir risiko for seleksjonsskjevhet og begrenser muligheten for å tolke sammenhengene kausalt.
 
