@@ -1,4 +1,5 @@
 # #Hvordan varierer strømforbruket mellom husholdninger med og uten Norgespris? 
+set.seed(3170)
 
 #LASSO 
 library(glmnet)
@@ -9,11 +10,6 @@ lasso_data <- all_data_samlet |>
   select(
     forbruk_hus,
     prosent_forbruk_hus_np,
-    norgespris_umva,
-    forbruk_hus_np,
-    spotpris_average,
-    slutt_min,
-    slutt_max,
     slutt_average,
     prisomrade,
     date
@@ -54,7 +50,6 @@ lasso_wf <- workflow() |>
 
 # velger hvor mange deler den skal ha 
 
-set.seed(3170)
 
 folds <- vfold_cv(train_data, v = 10)
 
@@ -67,7 +62,7 @@ lasso_res <- tune_grid(
   lasso_wf,
   resamples = folds,
   grid = grid_lambda,
-  metrics = metric_set(rmse, rsq)
+  metrics = metric_set(rmse, rsq_trad, mae)
 )
 
 
@@ -131,7 +126,7 @@ prediksjoner_ols <- test_data |>
   )
 
 # 3. Beregner prediksjonsmål for OLS
-ols_prediksjonsmal <- metric_set(rmse, rsq, mae)(
+ols_prediksjonsmal <- metric_set(rmse, rsq_trad, mae)(
   prediksjoner_ols,
   truth = forbruk_hus,
   estimate = .pred
@@ -142,7 +137,7 @@ ols_prediksjonsmal <- metric_set(rmse, rsq, mae)(
 prediksjoner_lasso <- collect_predictions(final_lasso_fit)
 
 # 5. Beregner prediksjonsmål for LASSO
-lasso_prediksjonsmal <- metric_set(rmse, rsq, mae)(
+lasso_prediksjonsmal <- metric_set(rmse, rsq_trad, mae)(
   prediksjoner_lasso,
   truth = forbruk_hus,
   estimate = .pred

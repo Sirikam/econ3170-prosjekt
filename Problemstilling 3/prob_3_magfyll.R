@@ -22,7 +22,7 @@ ols_fyllingsgrad <- lm(
   spotpris_aggregert_historisk ~ fyllingsgrad +
     factor(prisomrade) +
     as.numeric(date),
-  data = all_data_samlet
+  data = prob_3_data_fyllingsgrad
 )
 
 summary(ols_fyllingsgrad)

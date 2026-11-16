@@ -5,10 +5,10 @@ library(knitr)
 
 # OLS
 ols_tabell <- tidy(modell_p1) |>
-  filter(term %in% c("prosent_hus_np", "slutt_average")) |>
+  filter(term %in% c("prosent_forbruk_hus_np", "slutt_average")) |>
   mutate(
     Variabel = recode(term,
-                      "prosent_hus_np" = "Andel husholdninger med Norgespris",
+                      "prosent_forbruk_hus_np" = "Andel av forbruket knyttet til Norgespris",
                       "slutt_average" = "Spotpris"
     ),
     OLS = sprintf("%.0f (%.0f)", estimate, std.error)
@@ -17,10 +17,10 @@ ols_tabell <- tidy(modell_p1) |>
 
 # LASSO
 lasso_tabell <- koeffisienter_lasso |>
-  filter(term %in% c("prosent_hus_np", "slutt_average")) |>
+  filter(term %in% c("prosent_forbruk_hus_np", "slutt_average")) |>
   mutate(
     Variabel = recode(term,
-                      "prosent_hus_np" = "Andel husholdninger med Norgespris",
+                      "prosent_forbruk_hus_np" = "Andel av forbruket knyttet til Norgespris",
                       "slutt_average" = "Spotpris"
     ),
     LASSO = round(estimate, 0)

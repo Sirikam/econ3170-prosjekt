@@ -8,9 +8,15 @@ library(janitor)
 #pris er oppgitt i kr per MWh
 
 # Finn alle Excel-filer i mappen
+#filer <- list.files(
+ # "data-kilde/Nordpool",
+#  pattern = "\\.xlsx$",
+ # full.names = TRUE
+#)
+
 filer <- list.files(
   "data-kilde/Nordpool",
-  pattern = "\\.xlsx$",
+  pattern = "^[^~].*\\.xlsx$",
   full.names = TRUE
 )
 
