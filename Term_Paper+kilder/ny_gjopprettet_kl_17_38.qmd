@@ -64,21 +64,22 @@ Hele databehandlingsprosessen og de empiriske analysene er gjennomført i R med 
 
 Rådataene er hentet i CSV- og Excel-format, bearbeidet individuelt også kombinert til et felles datagrunnlag for analysene.
 
-### 2.1 Nord Pool
+### 2.1 Nord Pool - strompriser_Nordpool.R
 
 Fra Nord Pool benytter vi daglige aggregerte spotpriser for de fem norske prisområdene (NO1–NO5) i perioden 2020–29. september 2026. I tillegg benyttes timebaserte spotpriser for perioden 1. oktober 2025–30. september 2026.
 
 Prisdataene ble lastet ned i separate Excel-filer og importert til R ved hjelp av `readxl`. Filene ble kombinert til samlede datasett. Metadata og "NA" observasjoner fjernet. Datoene ble standardisert og sortert kronologisk. Timeprisene ble tilsvarende kombinert. For timeprisene ble daglige oppsummeringsverdier (minimum, maksimum og gjennomsnitt) skilt fra de ordinære timeobservasjonene for å unngå at ulike tidsoppløsninger blandes i analysene.
 
-Prisene i begge datasettene er opprinnelig oppgitt i NOK/MWh. Vi har konvertert til NOK/kWh ved å dele på 1000. Dette gir sammenlignbare måleenheter på tvers av data.
+Prisene i begge datasettene er opprinnelig oppgitt i NOK/MWh. Vi har konvertert til NOK/kWh ved å dele på 1000. Dette gir sammenlignbare måleenheter på tvers av data, særlig opp mot at strømstøtte og norgespris er definert i NOK/kWh.
 
-### 2.2. Elhub – Norgespris og strømforbruk
+### 2.2. Elhub – Norgespris og strømforbruk - funksjon_for_maaler.R
 
-Dataene ble importert fra CSV-filer og omstrukturert fra bredt til langt format for å aggregere undergruppene til samlevariabler for husholdninger og fritidsboliger. På bakgrunn av disse ble det beregnet andeler av målepunkter med Norgespris og andeler av strømforbruket som dekkes av ordningen. **Se vedlegg xx for å se utdrag/hele koden. Strukturen og oppsettet av funksjonen er lik for alle datasettene. \<- Bendik**
+
+Dataene ble importert fra CSV-filer og omstrukturert fra bredt til langt format for å aggregere undergruppene til samlevariabler for husholdninger og fritidsboliger. På bakgrunn av disse ble det beregnet andeler av målepunkter med Norgespris og andeler av strømforbruket som dekkes av ordningen. 
 
 Det er viktig å merke seg at antall målepunkter ikke nødvendigvis tilsvarer antall husholdninger, ettersom én husholdning kan disponere flere målepunkter.
 
-### 2.3. Konstruksjon av reell sluttpris og strømstøtte
+### 2.3. Konstruksjon av reell sluttpris og strømstøtte - stottefunk.R
 
 For å undersøke hvilke prissignaler husholdningene står overfor, beregnes en estimert sluttpris etter strømstøtte. Spotprisen alene gir ikke et fullstendig bilde av husholdningenes faktiske priskostnad, ettersom staten har gitt strømstøtte siden desember 2021. [@regjeringen_stromstotte]
 
@@ -86,9 +87,9 @@ Sluttprisen beregnes ved å trekke beregnet strømstøtte fra spotprisen. Beregn
 
 Videre konstrueres Norgespris som en referansepris på 40 øre/kWh ekskl. mva. (50 øre inkl. mva.) fra 1. oktober 2025.
 
-Utdrag av funksjon for støtteutregner få vise datawrangling og utregning av ny data? **Se vedlegg xx for å se utdrag/hele koden. Strukturen og oppsettet av funksjonen er lik for alle datasettene. \<- Bendik**
+Utdrag av funksjon for støtteutregner få vise datawrangling og utregning av ny data? 
 
-### 2.4. NVE – fyllingsgrad i vannmagasiner
+### 2.4. NVE – fyllingsgrad i vannmagasiner - fylling.R
 
 For å undersøke sammenhengen mellom magasinfylling og strømpriser benyttes ukentlige data fra Norges vassdrags- og energidirektorat (NVE) for perioden 2020–2026, fordelt på de fem norske prisområdene. Fyllingsgraden gir informasjon om tilgjengelige vannkraftressurser og kan påvirke kraftprodusentenes vannverdier og forventninger om fremtidig krafttilgang.
 
