@@ -78,7 +78,7 @@ Dataene ble importert fra CSV-filer og omstrukturert fra bredt til langt format 
 
 Det er viktig å merke seg at antall målepunkter ikke nødvendigvis tilsvarer antall husholdninger, ettersom én husholdning kan disponere flere målepunkter.
 
-### 2.3. Konstruksjon av reell sluttpris og strømstøtte 
+### 2.3. Konstruksjon av reell sluttpris og strømstøtte
 
 **Bendik du må sjekke at dette er riktig siden jeg ikke har jobba med koden**
 
@@ -1300,7 +1300,7 @@ knitr::kable(
 
 *Merknad: NO1 er referanseområdet. Standardfeil rapporteres sammen med koeffisientene.* **,** og \* angir statistisk signifikans på henholdsvis 0,1-, 1- og 5-prosentnivå.\*
 
-KKoeffisienten for magasinfylling er −0,6716 og statistisk signifikant på 0,1-prosentnivå. Ettersom fyllingsgraden er målt fra 0 til 1, tilsvarer en økning på 10 prosentpoeng en reduksjon i spotprisen på omtrent 0,067 kr/kWh, kontrollert for prisområde og dato. Resultatet viser dermed en negativ sammenheng mellom magasinfylling og spotpris.
+Koeffisienten for magasinfylling er −0,6716 og statistisk signifikant på 0,1-prosentnivå. Ettersom fyllingsgraden er målt fra 0 til 1, tilsvarer en økning på 10 prosentpoeng en reduksjon i spotprisen på omtrent 0,067 kr/kWh, kontrollert for prisområde og dato. Resultatet viser dermed en negativ sammenheng mellom magasinfylling og spotpris.
 
 Regresjonen viser også geografiske forskjeller i spotprisene. NO3 og NO4 har henholdsvis 0,451 og 0,547 kr/kWh lavere spotpriser enn NO1, kontrollert for magasinfylling og dato. Begge forskjellene er statistisk signifikante på 0,1-prosentnivå. For NO2 og NO5 er det ikke statistisk signifikante forskjeller sammenlignet med NO1.
 
@@ -1320,7 +1320,7 @@ Videre finner analysen en negativ og statistisk signifikant sammenheng mellom ma
 
 KI har blitt brukt på litt ulike måter. For enkelhetsskyld starter vi med å nevne hvilke KI platformer som har blitt brukt: GPTUiO, ChatGPT, **Bendik** Gemini.
 
-Opplever at ChatGPT er bedre til å assistere med feilsøking i koden, idemyldring og språk, mens GPT UiO er bedre for håndtere større mengder data for å se sammenhenger da den har større minne enn ChatGPT. Med større mengder data menes lengre koder, og større feilsøkingsprossessert der minnet til ChatGPT ofte går tomt og man ønsker å beholde kontinuiteten i feilsøkingen i stede for å opprette nytt samtalevindu hver gang minnet for den samtaletråden er full. Begge modellene har assistert med å rense koder, forbedre koder og feilsøke. Forklaringer på hvordan vi har arbeidet med KI kommer under. Enkelte korte formuleringer og standardiserte kodeuttrykk er være beholdt uendret når det er begrenset rom for meningsfull alternativ formulering, for eksempel ved enkle faktabeskrivelser eller vanlig R-syntaks. Dette gjelder ikke faglige vurderinger, analyser eller tolkninger, som er utarbeidet av oss.
+**Begge** modellene har assistert med å rense koder, forbedre koder og feilsøke. Forklaringer på hvordan vi har arbeidet med KI kommer under. Enkelte korte formuleringer og standardiserte kodeuttrykk er være beholdt uendret når det er begrenset rom for meningsfull alternativ formulering, for eksempel ved enkle faktabeskrivelser eller vanlig R-syntaks. Dette gjelder ikke faglige vurderinger, analyser eller tolkninger, som er utarbeidet av oss.
 
 ### 6.1. KI og idemyldring for problemstillinger
 
