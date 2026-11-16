@@ -1256,7 +1256,7 @@ Som man kan se av tabellene, er det først og fremst liten forskjell mellom OLS 
 
 De verdiene som skiller seg ut, er støtte_min, slutt_average, og støtte_max med t og p-verdier som er av interesse. Siden hypotesen er at disse verdiene skal ha en påvirkning på antall signeringer på Norgesprisavtalen, vil det særlig være grunn til å tro at minimums støttenivå vil være en potensiell sterk predikator. Det er samtidig viktig å se dette opp mot de ulike månedene, hvor særlig måned 9 og 10 skiller seg ut. Datasettet løper fra 1.10.25 til 30.09.26, og det kommer tydelig frem at avtalen i seg selv var svært uventet, men at når husholdningen har tilpasset seg den nye hverdagen vil prediskjonsvnen til modellen forbedres. mao at det går fra høy t-verdi og lav p-verdi, til lav t-verdi og høy p-verdi.
 
-Her kommer det frem at modellen har begrensninger, og at det ville gitt mer informasjon om man undersøkte færre variabler av gangen, særlig for å kunne si mer spesifikt om støtte, norgespris og differanse da disse variablene i sin natur er avhenige av hverandre.
+Her kommer det frem at modellen har begrensninger, og at det ville gitt mer informasjon om man undersøkte færre variabler av gangen, særlig for å kunne si mer spesifikt om støtte, norgespris og differanse da disse variablene i sin natur er avhengige av hverandre.
 
 ### 4.4. Magasinfylling og spotprisdannelse: Problemstilling 3
 
