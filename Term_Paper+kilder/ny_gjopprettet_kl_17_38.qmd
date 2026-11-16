@@ -32,7 +32,7 @@ library(knitr)
 
 ## Abstract
 
-\[Abstract: 3–5 setninger\]
+Denne oppgaven undersøker sammenhengen mellom Norgespris, strømpriser og husholdningenes strømforbruk i Norge. Med utgangspunkt i data fra Nord Pool, Elhub og NVE for perioden 2020–2026 analyseres forskjeller i strømforbruk mellom husholdninger med ulik Norgespris-adopsjon, sammenhengen mellom strømpriser og nye signeringer av Norgespris, samt forholdet mellom magasinfylling og spotpriser. Analysen kombinerer deskriptiv statistikk med OLS- og LASSO-regresjon for å undersøke statistiske sammenhenger og modellens prediksjonsevne. Resultatene viser en negativ sammenheng mellom magasinfylling og spotpriser, mens OLS og LASSO har tilnærmet lik prediksjonsevne i analysen av husholdningenes strømforbruk. Legg til resultat fra problemstilling 2.
 
 ## 1. Introduksjon og objektiv
 
@@ -1338,7 +1338,7 @@ Datovariabelen har en positiv koeffisient på 0,0001423 og er statistisk signifi
 
 ## 6. Bruk av KI
 
-KI har blitt brukt på litt ulike måter. For enkelhetsskyld starter vi med å nevne hvilke KI platformer som har blitt brukt: GPTUiO, ChatGPT, Bendik Gemini.
+KI har blitt brukt på litt ulike måter. For enkelhetsskyld starter vi med å nevne hvilke KI platformer som har blitt brukt: GPTUiO, ChatGPT, **Bendik** Gemini.
 
 Opplever at ChatGPT er bedre til å assistere med feilsøking i koden, idemyldring og språk, mens GPT UiO er bedre for håndtere større mengder data for å se sammenhenger da den har større minne enn ChatGPT. Med større mengder data menes lengre koder, og større feilsøkingsprossessert der minnet til ChatGPT ofte går tomt og man ønsker å beholde kontinuiteten i feilsøkingen i stede for å opprette nytt samtalevindu hver gang minnet for den samtaletråden er full. Begge modellene har assistert med å rense koder, forbedre koder og feilsøke. Forklaringer på hvordan vi har arbeidet med KI kommer under. Enkelte korte formuleringer og standardiserte kodeuttrykk er være beholdt uendret når det er begrenset rom for meningsfull alternativ formulering, for eksempel ved enkle faktabeskrivelser eller vanlig R-syntaks. Dette gjelder ikke faglige vurderinger, analyser eller tolkninger, som er utarbeidet av oss.
 
