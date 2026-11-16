@@ -640,8 +640,9 @@ y_i-\beta_0-\sum_{j=1}^{p}x_{ij}\beta_j
 \lambda\sum_{j=1}^{p}|\beta_j|
 \right]
 $$
+Styrken på regulariseringen styres av hyperparameteren $\lambda \ge 0$. Dersom $\lambda$ økes, tvinges koeffisienter mot null, noe som utfører automatisk variabelseleksjon. Omvendt vil $L_1$-straffen gå mot null når $\lambda \to 0$, slik at LASSO-modellen konvergerer mot en ordinær ustraffet OLS-modell [@lind_econ3170_2026; @tibshirani_regression_1996]. Siden $L_1$-straffen er sensitiv for måleskalaer, blir alle numeriske variabler skalert og standardisert i oppskriften før estimering [@kuhn_tidy_2023; @lind_econ3170_2026].
 
-Straffeparameteren $\lambda$ bestemmer graden av regularisering. En høyere verdi gir sterkere krymping av koeffisientene, mens en lavere verdi gjør modellen mer lik ordinær lineær regresjon.
+For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE som utgangspunkt for modellvalget . RMSE og $R^2$ benyttes i kryssvalideringen, mens RMSE, $R^2$ og MAE og MAE benyttes til å evaluere og sammenligne OLS- og LASSO-modellens prediksjonsevne på det samme testsettet [@lind_econ3170_2026; @hammersmark_econ3170_2026; @kuhn_tidy_2023].
 
 For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE som utgangspunkt for modellvalget. RMSE og $R^2$ benyttes i kryssvalideringen, mens RMSE, $R^2$ og MAE og MAE benyttes til å evaluere og sammenligne OLS- og LASSO-modellens prediksjonsevne på det samme testsettet.
 
@@ -681,7 +682,9 @@ modell_p1 <- lm(
 #summary(modell_p1)
 ```
 
-I tillegg estimeres en LASSO-modell for å undersøke variabelseleksjon og prediksjonsevne. OLS og LASSO sammenlignes på det samme tilfeldige testsettet, basert på et tilfeldig trenings- og testutvalg og 10-fold kryssvalidering. Ettersom datasettet ikke deles etter tidsrekkefølge, må prediksjonsresultatene tolkes som evnen til å predikere tilfeldig utvalgte observasjoner, ikke fremtidig prediksjon av sammenhyeng mellom strømforbruk og Norgespris.
+ tillegg estimeres en LASSO-modell for å undersøke variabelseleksjon og prediksjonsevne. OLS og LASSO sammenlignes på det samme tilfeldige testsettet, basert på et tilfeldig trenings- og testutvalg og 10-fold kryssvalidering. Siden datasettet har en daglig paneldatastruktur, innebærer tilfeldig radvalg at testdagene vil ha nærliggende treningsdager før og etter seg. På grunn av sterk daglig autokorrelasjon i kraftmarkedet (hvor priser og forbruk påstøter hverandre fra dag til dag), vil tilfeldig oppsplitting måles som modellens evne til å fylle ut tilfeldige dager i den observerte perioden (interpolere), heller enn å ekstrapolere framtidige tidsperioder [@hammersmark_econ3170_2026] . Dette medfører at de beregnede prediksjonsfeilene (RMSE) vil bli noe lavere og mer overoptimistiske enn hva en tidsbasert oppsplitting ville gitt.
+
+Siden inngåelse av Norgespris er et frivillig valg for husholdningene, medfører modellspesifikasjonen fare for seleksjonsskjevhet. Husholdninger med et i utgangspunktet høyt forventet strømforbruk (for eksempel store eneboliger med elbillading og elektrisk oppvarming) har i teorien et sterkere økonomisk motiv til å tegne fastpris for å forsikre seg mot høye pristopper. Estimeringen av $\hat{\beta}_1$ måler derfor en observerbar samvariasjon i utvalget etter kontroll for geografi og sesong, og kan ikke tolkes som en ren kausal effekt av at Norgespris i seg selv forårsaker økt forbruk [@hammersmark_econ3170_2026; @athey_machine_2019].
 
 For å sikre sammenlignbarhet benyttes de samme forklaringsvariablene i begge modellene. I LASSO omgjøres kategoriske variabler til dummyvariabler, og de numeriske prediktorene standardiseres før estimering.
 
@@ -790,7 +793,7 @@ koeffisienter_lasso <- final_model_train |>
 #koeffisienter_lasso
 ```
 
-*Metodisk merknad om valg av* $\lambda$: Kryssvalideringen valgte en svært lav verdi for $\lambda$, spå nedre grense av søkeområdet. Dette innebærer svak regularisering. Modellen foretrekker dermed lite koeffisientkrymping innenfor det undersøkte søkeområdet. Prediksjonsevnen vurderes også på det separate testsettet og sammenlignes med OLS [@hastie_elements_2009].
+Metodisk merknad om valg av $\lambda$: Kryssvalideringen valgte en svært lav verdi for $\lambda$ = $10^{-4}$ , som er i nedre grense av søkeområdet. Dette innebærer svak regularisering. Modellen foretrekker dermed lite koeffisientkrymping innenfor det undersøkte søkeområdet [@hastie_elements_2009].
 
 Ettersom Norgespris er en frivillig ordning, kan husholdningenes avtalevalg være påvirket av forventet strømforbruk og prisfølsomhet. Dette gir risiko for seleksjonsskjevhet og begrenser muligheten for å tolke sammenhengene kausalt.
 
@@ -918,7 +921,11 @@ kable(
 
 *Merknad: OLS-koeffisienter rapporteres med standardfeil i parentes. LASSO-koeffisientene viser estimerte koeffisienter etter standardisering av forklaringsvariablene. Koeffisientene er avrundet til nærmeste heltall.*
 
-For å vurdere hvor godt modellene predikerer husholdningenes strømforbruk, sammenlignes OLS og LASSO på et felles testsett. Dette gjør det mulig å undersøke om regulariseringen i LASSO gir bedre prediksjoner enn den ordinære lineære regresjonsmodellen.
+Den posistive og signifikante koeffisienten for Norgespris-adopsjon $(\hat{\beta}_1 = +13,53\text{ mill} )$ reflekterer i hovedsak en sammensetnings- og seleksjonseffekt. Husholdninger som velger fastpris har gjennomgående et høyere baseline-forbruk enn gjennomsnittshusholdningen. I tillegg kan fastprisstrukturen gi opphav til en viss moral hazard-effekt, der den faste prisen reduserer incitamentet til å spare strøm i høylastperioder. Siden dataene er aggregert på prisområdenivå og avtaleinngåelsen er frivillig, viser resultatet at områder og perioder med høy Norgespris-dekning har høyere samlet forbruk, uten at det beviser at avtalen alene har endret husholdningenes adferd [@athey_machine_2019; @hammersmark_econ3170_2026].
+
+Sammenligningen av OLS og LASSO viser svært små forskjeller i prediksjonsevne på testsettet. OLS oppnår marginalt lavere RMSE, mens LASSO har marginalt lavere MAE. OLS oppnår en R² på 0,866, mens LASSO oppnår 0,865 Resultatene gir dermed ikke grunnlag for å konkludere med at én av modellene har klart bedre prediksjonsevne enn den andre.
+
+Kryssvalideringskurven viser at ved å øke $\lambda$ vil prediksjonsfeil (RMSE) på valideringsfoldene øke. Dette bekrefter at indikatorvariablene for elspotområder, månedsdummier og nettopris alle tilfører reell informasjon, og at den opprinnelige OLS-spesifikasjonen i utgangspunktet er velstilpasset datastrukturen uten å være overtilpasset [@lind_econ3170_2026].
 
 ```{r}
 #| include: false
