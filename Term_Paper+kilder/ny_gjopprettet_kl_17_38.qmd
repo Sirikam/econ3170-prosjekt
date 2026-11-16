@@ -1337,8 +1337,18 @@ Datovariabelen har en positiv koeffisient på 0,0001423 og er statistisk signifi
 ## 5. Konklusjon
 
 ## 6. Bruk av KI
+KI har blitt brukt på litt ulike måter. For enkelhetsskyld starter vi med å nevne hvilke KI platformer som har blitt brukt: GPTUiO, ChatGPT, Bendik Gemini. Opplever at ChatGPT er bedre til å assistere med feilsøking i koden, idemyldring og språk, mens GPT UiO er bedre for håndtere større mengder data for å se sammenhenger da den har større minne enn ChatGPT. Begge modellene har assistert med å rense koder eller forbedre koder. Forklaringer på hvordan vi har arbeidet med KI kommer under. 
 
-## 7. Kilder
+6.1 KI og idemyldring for problemstillinger. 
+
+KI er brukt til å komme med forslag til formulering til problermsstillinger basert på vår temmatiske ide og ønsker om vinkling. Disse forslagene har blitt bearbeidet videre av oss, både i form av at vi har kombinert flere av formuleringene da vi opplever at forslagene kommer til kort, men også underveis i arbeidsprosessen når vi har bedre oversikt over dataen vi har samlet. 
+
+6.2. KI, koding og feilsøking. 
+
+
+6.3 
+
+
 ## 7. Kilder
 
 ::: {#refs}
