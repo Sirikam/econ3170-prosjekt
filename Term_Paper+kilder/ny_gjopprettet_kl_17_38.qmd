@@ -32,7 +32,7 @@ library(knitr)
 
 ## Abstract
 
-Denne oppgaven undersøker sammenhengen mellom Norgespris, strømpriser og husholdningenes strømforbruk i Norge. Med utgangspunkt i data fra Nord Pool, Elhub og NVE for perioden 2020–2026 analyseres forskjeller i strømforbruk mellom husholdninger med ulik Norgespris-adopsjon, sammenhengen mellom strømpriser og nye signeringer av Norgespris, samt forholdet mellom magasinfylling og spotpriser. Analysen kombinerer deskriptiv statistikk med OLS- og LASSO-regresjon for å undersøke statistiske sammenhenger og modellens prediksjonsevne. Resultatene viser en negativ sammenheng mellom magasinfylling og spotpriser, mens OLS og LASSO har tilnærmet lik prediksjonsevne i analysen av husholdningenes strømforbruk. Legg til resultat fra problemstilling 2.
+Denne oppgaven undersøker sammenhengen mellom Norgespris, strømpriser og husholdningenes strømforbruk i Norge. Med utgangspunkt i data fra Nord Pool, Elhub og NVE for perioden 2020–2026 analyseres forskjeller i strømforbruk mellom husholdninger med ulik Norgespris-adopsjon, sammenhengen mellom strømpriser og nye signeringer av Norgespris, samt forholdet mellom magasinfylling og spotpriser. Analysen kombinerer deskriptiv statistikk med OLS- og LASSO-regresjon for å undersøke statistiske sammenhenger og modellens prediksjonsevne. Resultatene viser en negativ sammenheng mellom magasinfylling og spotpriser, mens OLS og LASSO har tilnærmet lik prediksjonsevne i analysen av husholdningenes strømforbruk. **Legg til resultat fra problemstilling 2 \<- Bendik**
 
 ## 1. Introduksjon og objektiv
 
@@ -68,11 +68,9 @@ Rådataene er hentet i CSV- og Excel-format, bearbeidet individuelt også kombin
 
 Fra Nord Pool benytter vi daglige aggregerte spotpriser for de fem norske prisområdene (NO1–NO5) i perioden 2020–29. september 2026. I tillegg benyttes timebaserte spotpriser for perioden 1. oktober 2025–30. september 2026.
 
-Prisdataene ble lastet ned i separate Excel-filer og importert til R ved hjelp av `readxl`. Filene ble kombinert til samlede datasett. Metadata og "NA" observasjoner fjernet. Datoene ble standardisert og sortert kronologisk. Timeprisene ble tilsvarende kombinert.
+Prisdataene ble lastet ned i separate Excel-filer og importert til R ved hjelp av `readxl`. Filene ble kombinert til samlede datasett. Metadata og "NA" observasjoner fjernet. Datoene ble standardisert og sortert kronologisk. Timeprisene ble tilsvarende kombinert. For timeprisene ble daglige oppsummeringsverdier (minimum, maksimum og gjennomsnitt) skilt fra de ordinære timeobservasjonene for å unngå at ulike tidsoppløsninger blandes i analysene.
 
-Prisene i begge datasettene er opprinnelig oppgitt i NOK/MWh. Vi har konvertert til NOK/kWh ved å dele på 1000. Dette gir sammenlignbare måleenheter på tvers av data. I tillegg er måleenheten for strømstøtte og norgespris definert som støtte i NOK/kWh, og det er dermed naturlig å ha dataen på denne enheten.
-
-For timeprisene ble daglige oppsummeringsverdier (minimum, maksimum og gjennomsnitt) skilt fra de ordinære timeobservasjonene for å unngå at ulike tidsoppløsninger blandes i analysene.
+Prisene i begge datasettene er opprinnelig oppgitt i NOK/MWh. Vi har konvertert til NOK/kWh ved å dele på 1000. Dette gir sammenlignbare måleenheter på tvers av data.
 
 ### 2.2 Elhub – Norgespris og strømforbruk
 
@@ -94,13 +92,11 @@ Utdrag av funksjon for støtteutregner få vise datawrangling og utregning av ny
 
 For å undersøke sammenhengen mellom magasinfylling og strømpriser benyttes ukentlige data fra Norges vassdrags- og energidirektorat (NVE) for perioden 2020–2026, fordelt på de fem norske prisområdene. Fyllingsgraden gir informasjon om tilgjengelige vannkraftressurser og kan påvirke kraftprodusentenes vannverdier og forventninger om fremtidig krafttilgang.
 
-Excel-filene ble importert og bearbeidet i R. Relevante kolonner ble hentet ut, og datasettene ble omstrukturert og slått sammen ved hjelp av årstall og ukenummer som felles variabler. Manglende observasjoner ble fjernet. Dataene ble deretter organisert i langt format, der hver observasjon representerer fyllingsgraden i ett prisområde for en bestemt uke. Med R-pakken `ISOweek` ble årstall og ISO-ukenummer konvertert til kalenderdatoer, med mandag som referansedag. Til slutt ble datasettet sortert etter prisområde og dato, og variabelnavnene standardisert.
+Excel-filene ble importert og bearbeidet i R. Datasettene ble omstrukturert og slått sammen ved hjelp av årstall og ukenummer som felles variabler. Manglende observasjoner ble fjernet. Dataene ble deretter organisert i langt format, der hver observasjon representerer fyllingsgraden i ett prisområde for en bestemt uke. Med R-pakken `ISOweek` ble årstall og ISO-ukenummer konvertert til kalenderdatoer, med mandag som referansedag. Til slutt ble datasettet sortert etter prisområde og dato, og variabelnavnene standardisert. \<- Dette er rart
 
 ## 3. Metode
 
 Analysen benytter ordinær minste kvadraters metode (OLS) og regularisert regresjon (LASSO) for å undersøke statistiske sammenhenger og prediksjonsevne. OLS benyttes som hovedmetode for å estimere sammenhenger mellom variablene, mens LASSO brukes som en supplerende metode for variabelseleksjon og prediksjon i problemstilling 1 og 2. I problemstilling 1 og 2 sammenlignes også prediksjonsevnen til OLS og LASSO på felles testsett. Databehandling og modellering er gjennomført i R, med Tidyverse og Tidymodels som sentrale rammeverk [@wickham_r_2016; @kuhn_tidy_2023].
-
-Valget av estimeringsmetoder bygger på skillet mellom økonomisk parameterestimering og prediksjon [@athey_machine_2019; @hammersmark_econ3170_2026].
 
 ```{r}
 #| include: false
@@ -611,7 +607,7 @@ Analysen benytter data med ulik tidsoppløsning, tilpasset de enkelte problemsti
 
 Den generelle modellstrukturen kan uttrykkes som: $y_{it} = \beta*0 +* \boldsymbol{\beta}'\mathbf{X}{it} + \alpha_i + \delta*m +* \varepsilon{it}$
 
-Her representerer y\_{it}\$ den avhengige variabelen, mens $X_{it}$ er forklaringsvariablene. Områdespesifikke effekter $(\alpha_i)$ fanger opp forskjeller mellom prisområdene. Tidsrelaterte kontrollvariabler $(\delta_t)$ benyttes for å kontrollere for sesongvariasjoner eller generelle tidstrender, avhengig av problemstillingen.
+Her representerer $y_{it}$ den avhengige variabelen, mens $X_{it}$ er forklaringsvariablene. Områdespesifikke effekter $(\alpha_i)$ fanger opp forskjeller mellom prisområdene. Tidsrelaterte kontrollvariabler $(\delta_t)$ benyttes for å kontrollere for sesongvariasjoner eller generelle tidstrender, avhengig av problemstillingen.
 
 ### 3.2 Estimerings- og prediksjonsmetoder
 
@@ -643,7 +639,7 @@ $$
 
 Straffeparameteren $(\lambda)$ bestemmer graden av regularisering. En høyere verdi gir sterkere krymping av koeffisientene, mens en lavere verdi gjør modellen mer lik ordinær lineær regresjon.
 
-For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE som utgangspunkt for modellvalget. RMSE og (R\^2) benyttes i kryssvalideringen, mens RMSE, (R\^2) og MAE benyttes ved evaluering på testsettet. Prediksjonsevnen til OLS og LASSO sammenlignes på det samme testsettet.
+For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE som utgangspunkt for modellvalget. RMSE og ($R^2$) benyttes i kryssvalideringen, mens RMSE, ($R^2$) og MAE benyttes ved evaluering på testsettet. Prediksjonsevnen til OLS og LASSO sammenlignes på det samme testsettet.
 
 ### 3.3 Modellspesifikasjoner
 
@@ -1260,8 +1256,6 @@ Figur 4.3 viser tydelige geografiske forskjeller i gjennomsnittlig magasinfyllin
 #### 4.4.2 Sammenhengen mellom magasinfylling og spotpris
 
 For å undersøke den visuelle sammenhengen mellom magasinfylling og spotpris presenteres spredningsdiagrammer med separate trendlinjer for hvert prisområde.
-
-![Figur 4.4: Magainsinfylling og spotpris](Problemstilling%203/Magfyll_spott_peromrade_2020_26.png){width="312"}
 
 Figur 4.4 gir en første indikasjon på hvordan spotprisene varierer med magasinfyllingen, og om sammenhengen ser ut til å være forskjellig mellom prisområdene. For å undersøke denne sammenhengen nærmere, og samtidig ta hensyn til geografiske forskjeller og utviklingen over tid, estimeres det deretter en OLS-regresjonsmodell.
 
