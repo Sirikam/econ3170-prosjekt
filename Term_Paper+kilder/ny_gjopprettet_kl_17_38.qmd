@@ -32,7 +32,7 @@ library(knitr)
 
 ## Abstract
 
-Denne oppgaven undersøker sammenhengen mellom Norgespris, strømpriser og husholdningenes strømforbruk i Norge. Med utgangspunkt i data fra Nord Pool, Elhub og NVE for perioden 2020–2026 analyseres forskjeller i strømforbruk mellom husholdninger med ulik Norgespris-adopsjon, sammenhengen mellom strømpriser og nye signeringer av Norgespris, samt forholdet mellom magasinfylling og spotpriser. Analysen kombinerer deskriptiv statistikk med OLS- og LASSO-regresjon for å undersøke statistiske sammenhenger og modellens prediksjonsevne. Resultatene viser en negativ sammenheng mellom magasinfylling og spotpriser, mens OLS og LASSO har tilnærmet lik prediksjonsevne i analysen av husholdningenes strømforbruk. **Legg til resultat fra problemstilling 2 \<- Bendik**
+Denne oppgaven undersøker sammenhengen mellom Norgespris, strømpriser og husholdningenes strømforbruk i Norge. Med utgangspunkt i data fra Nord Pool, Elhub og NVE for perioden 2020–2026 analyseres forskjeller i strømforbruk mellom husholdninger med ulik Norgespris-adopsjon, sammenhengen mellom strømpriser og nye signeringer av Norgespris, samt forholdet mellom magasinfylling og spotpriser. Analysen kombinerer deskriptiv statistikk med OLS- og LASSO-regresjon for å undersøke statistiske sammenhenger og modellens prediksjonsevne. Resultatene viser en negativ sammenheng mellom magasinfylling og spotpriser, mens OLS og LASSO har tilnærmet lik prediksjonsevne i analysen av husholdningenes strømforbruk. Tilsvarende OLS og LASSO ingen klare sammenhenger mellom variabler som kan brukes til å predikere husholdningenes lyst til å inngå Norgesprisavtaler.
 
 ## 1. Introduksjon og objektiv
 
