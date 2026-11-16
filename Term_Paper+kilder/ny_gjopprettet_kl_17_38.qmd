@@ -652,16 +652,16 @@ De tre problemstillingene undersøker ulike sammenhenger i datasettet. Modellene
 Problemstillingen undersøker sammenhengen mellom andelen av husholdningenes strømforbruk som er knyttet til Norgespris og husholdningenes samlede strømforbruk. Modellen inkluderer områdefaste effekter og månedseffekter for å kontrollere for geografiske forskjeller og sesongvariasjoner.
 
 For å undersøke sammenhengen spesifiseres følgende modell: $$
-\text{forbruk_hus}_{it}
+\text{forbruk\_hus}_{it}
 = \beta_0
-+ \beta_1 \text{prosent_forbruk_hus_np}_{it}
-+ \beta_2 \text{slutt_average}_{it}
++ \beta_1 \text{prosent\_forbruk\_hus\_np}_{it}
++ \beta_2 \text{slutt\_average}_{it}
 + \alpha_i
 + \delta_m
 + \varepsilon_{it}
 $$
 
-Her er $\text{forbruk_hus}_{it}$ husholdningenes samlede strømforbruk i prisområde $i$ på tidspunkt $t$, målt i kWh, mens $\text{prosent_forbruk_hus_np}_{it}$ angir andelen av husholdningenes samlede strømforbruk som er knyttet til Norgespris. $\text{slutt_average}_{it}$ angir gjennomsnittlig strømpris etter strømstøtte (NOK/kWh). $\alpha_i$ representerer områdefaste effekter, mens $\delta_m$ representerer månedseffekter.
+$\text{prosent\_forbruk\_hus\_np}_{it}$ angir andelen av husholdningenes samlede strømforbruk som er knyttet til Norgespris. $\text{slutt\_average}_{it}$ angir gjennomsnittlig strømpris etter strømstøtte (NOK/kWh). $\alpha_i$ representerer områdefaste effekter, mens $\delta_m$ representerer månedseffekter.
 
 ```{r}
 #| include: false
@@ -788,7 +788,7 @@ koeffisienter_lasso <- final_model_train |>
 #koeffisienter_lasso
 ```
 
-*Metodisk merknad om valg av* $\lambda$: Kryssvalideringen valgte en svært lav verdi for $\lambda$, spå nedre grense av søkeområdet. Dette innebærer svak regularisering, men er ikke i seg selv et tegn på overtilpasning. Modellen foretrekker dermed lite koeffisientkrymping innenfor det undersøkte søkeområdet. Prediksjonsevnen vurderes også på det separate testsettet og sammenlignes med OLS [@hastie_elements_2009].
+*Metodisk merknad om valg av* $\lambda$: Kryssvalideringen valgte en svært lav verdi for $\lambda$, spå nedre grense av søkeområdet. Dette innebærer svak regularisering. Modellen foretrekker dermed lite koeffisientkrymping innenfor det undersøkte søkeområdet. Prediksjonsevnen vurderes også på det separate testsettet og sammenlignes med OLS [@hastie_elements_2009].
 
 Ettersom Norgespris er en frivillig ordning, kan husholdningenes avtalevalg være påvirket av forventet strømforbruk og prisfølsomhet. Dette gir risiko for seleksjonsskjevhet og begrenser muligheten for å tolke sammenhengene kausalt.
 
@@ -859,7 +859,7 @@ ols_fyllingsgrad <- lm(
 
 ## 4. Resultat og evaluering
 
-I dette kapittelet presenteres resultatene fra de empiriske analysene. Resultatene er strukturert etter oppgavens tre problemstillinger. Først undersøkes sammenhengen mellom Norgespris-adopsjon og husholdningenes samlede strømforbruk. Deretter analyseres sammenhengen mellom strømpriser, magasinfylling og adopsjon av Norgespris. Til slutt undersøkes sammenhengen mellom magasinfylling og spotpriser i de norske prisområdene.
+I dette kapittelet presenteres resultatene fra de empiriske analysene. Resultatene er strukturert etter oppgavens tre problemstillinger. Først undersøkes sammenhengen mellom Norgespris-adopsjon og husholdningenes samlede strømforbruk. Deretter analyseres sammenhengen mellom strømpriser, magasinfylling og adopsjon av Norgespris. Til slutt undersøkes sammenhengen mellom magasinfylling og prisutvikling i prisområdene.
 
 ### 4.1. Historisk utvikling i strømpriser
 
@@ -1233,21 +1233,13 @@ sammenligning_prediksjon_p2 |>
 
 ### 4.4. Magasinfylling og spotprisdannelse: Problemstilling 3
 
-Den tredje problemstillingen undersøker i hvilken grad fyllingsgraden i norske vannmagasiner kan bidra til å forklare variasjoner i spotprisene. Analysen tar utgangspunkt i variasjoner i magasinfylling og spotpriser på tvers av de fem norske prisområdene. Ettersom både magasinfylling og kraftpriser kan variere geografisk, undersøkes først forskjeller mellom prisområdene før sammenhengen mellom fyllingsgrad og spotpris analyseres nærmere.
+Den tredje problemstillingen undersøker i hvilken grad variasjoner i magasinfylling kan bidra til å forklare variasjoner i spotprisene på tvers av de fem norske prisområdene. Analysen starter med en deskriptiv gjennomgang av geografiske forskjeller i magasinfylling og den visuelle sammenhengen mellom magasinfylling og historiske priser, før sammenhengen undersøkes nærmere gjennom OLS-regresjon.
 
-#### 4.4.1. Geografiske forskjeller i magasinfylling
+#### 4.4.1. Deskriptiv analyse
 
-For å undersøke hvordan magasinfyllingen varierer geografisk, presenteres utviklingen over tid for de fem norske prisområdene.
+Figur 4.3 viser utviklingen i gjennomsnittlig magasinfylling over tid og tydelige forskjeller mellom prisområdene. Figur 4.4 viser den visuelle sammenhengen mellom magasinfylling og spotpris, med separate trendlinjer for hvert prisområde. Figurene gir et grunnlag for å undersøke om sammenhengen varierer geografisk, og danner utgangspunkt for regresjonsanalysen.
 
-Figur 4.3 viser tydelige geografiske forskjeller i gjennomsnittlig magasinfylling mellom de norske prisområdene. Dette gir grunnlag for å undersøke om variasjoner i magasinfylling kan bidra til å forklare variasjoner i spotprisene på tvers av områdene.
-
-#### 4.4.2. Sammenhengen mellom magasinfylling og spotpris
-
-For å undersøke den visuelle sammenhengen mellom magasinfylling og spotpris presenteres spredningsdiagrammer med separate trendlinjer for hvert prisområde.
-
-Figur 4.4 gir en første indikasjon på hvordan spotprisene varierer med magasinfyllingen, og om sammenhengen ser ut til å være forskjellig mellom prisområdene. For å undersøke denne sammenhengen nærmere, og samtidig ta hensyn til geografiske forskjeller og utviklingen over tid, estimeres en OLS-regresjonsmodell.
-
-#### 4.4.3. OLS-regresjon
+#### 4.4.2. OLS-regresjon
 
 Modellen er estimert med 1 760 observasjoner og har en R² på 0,213 og en justert R² på 0,211. Dette innebærer at modellen forklarer omtrent 21,1 prosent av variasjonen i spotprisene, justert for antall forklaringsvariabler.
 
@@ -1308,11 +1300,11 @@ knitr::kable(
 
 *Merknad: NO1 er referanseområdet. Standardfeil rapporteres sammen med koeffisientene.* **,** og \* angir statistisk signifikans på henholdsvis 0,1-, 1- og 5-prosentnivå.\*
 
-Koeffisienten for magasinfylling er −0,6716 og statistisk signifikant på 0,1-prosentnivå. Ettersom fyllingsgraden er målt fra 0 til 1, betyr det at en økning i fyllingsgraden på 10 prosentpoeng vil gi en reduksjon i spotprisen på omtrent 0,067 kr/kWh, kontrollert for prisområde og dato. Resultatet indikerer dermed en negativ sammenheng mellom magasinfylling og spotpris.
+KKoeffisienten for magasinfylling er −0,6716 og statistisk signifikant på 0,1-prosentnivå. Ettersom fyllingsgraden er målt fra 0 til 1, tilsvarer en økning på 10 prosentpoeng en reduksjon i spotprisen på omtrent 0,067 kr/kWh, kontrollert for prisområde og dato. Resultatet viser dermed en negativ sammenheng mellom magasinfylling og spotpris.
 
 Regresjonen viser også geografiske forskjeller i spotprisene. NO3 og NO4 har henholdsvis 0,451 og 0,547 kr/kWh lavere spotpriser enn NO1, kontrollert for magasinfylling og dato. Begge forskjellene er statistisk signifikante på 0,1-prosentnivå. For NO2 og NO5 er det ikke statistisk signifikante forskjeller sammenlignet med NO1.
 
-Datovariabelen har en positiv koeffisient på 0,0001423 og er statistisk signifikant på 0,1-prosentnivå. Dette indikerer en positiv lineær tidstrend i spotprisene gjennom analyseperioden. Koeffisienten tilsvarer en økning på omtrent 0,000142 kr/kWh per dag, eller 0,052 kr/kWh per år.
+Datovariabelen har en positiv og statistisk signifikant koeffisient på 0,0001423. Dette indikerer en positiv lineær tidstrend i spotprisene gjennom analyseperioden, tilsvarende en økning på omtrent 0,052 kr/kWh per år.
 
 ## 5. Konklusjon
 
