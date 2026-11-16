@@ -1337,7 +1337,7 @@ Datovariabelen har en positiv koeffisient på 0,0001423 og er statistisk signifi
 ## 5. Konklusjon
 
 ## 6. Bruk av KI
-KI har blitt brukt på litt ulike måter. For enkelhetsskyld starter vi med å nevne hvilke KI platformer som har blitt brukt: GPTUiO, ChatGPT, Bendik Gemini. Opplever at ChatGPT er bedre til å assistere med feilsøking i koden, idemyldring og språk, mens GPT UiO er bedre for håndtere større mengder data for å se sammenhenger da den har større minne enn ChatGPT. Begge modellene har assistert med å rense koder eller forbedre koder. Forklaringer på hvordan vi har arbeidet med KI kommer under. 
+KI har blitt brukt på litt ulike måter. For enkelhetsskyld starter vi med å nevne hvilke KI platformer som har blitt brukt: GPTUiO, ChatGPT, Bendik Gemini. Opplever at ChatGPT er bedre til å assistere med feilsøking i koden, idemyldring og språk, mens GPT UiO er bedre for håndtere større mengder data for å se sammenhenger da den har større minne enn ChatGPT. Begge modellene har assistert med å rense koder eller forbedre koder. Forklaringer på hvordan vi har arbeidet med KI kommer under. Enkelte deler av KI sitt output er blirr beholdt i sin opprinnelige form av den grunn at det begrensinger til hvor mange ulike måter man kan formulere setninger på eller bruke enkle operasjoner som feks. selcet til å velge de variablene vi ønsker å hente frem. 
 
 6.1 KI og idemyldring for problemstillinger. 
 
@@ -1345,9 +1345,12 @@ KI er brukt til å komme med forslag til formulering til problermsstillinger bas
 
 6.2. KI, koding og feilsøking. 
 
+KI er brukt for å hjelpe med å generere koder. Hvis man ikke har funnet svar på problemer eller spørsmål i online forum som f.eks. Stackoverflow er KI brukt til å spørre om hvilke pakker eller metode man kan bruke for å feks. endre datasettet i NVE på fyllingsgrad slik at det ikke bare sorteres på uke, men også dag. Det var nødvendig for å kunne sette det sammen til et stort historisk sett og unngå å få flere NA verdier. KI har også blitt brukt til å forbedre koder. Da har den blitt gitt en selvlaget kode samt en instruks om hva man vil endre elelr hva som er målet med koden og bedt den om å lage de neste stegene. Et annet konkret eksempel er hvordan KI ble brukt for å endre en gammel kode for å pivote flere rådatasett om strømmåler og Norgespris (rådataen fra elhub, gammel kode finnes i mappen gamle scrips og heter maaler.R). Dette var en tung kode som la sammen et stort datasett, og koden ble repetert flere ganger. KI ble gitt denne koden og bedt om å gjøre det om til en funksjon for å gjøre koden kortre og mer leselig. Dog, en funksjon vil ofte bruke lengre tid på å kjøre enn en manuel pivoting, men kan man bruke én funksjon på flere datasett som har samme struktur i stede for å repitere samme kode flere ganger. Ved å få KI til å endre det til en funksjon gikk vi fra 87 linjer med effektiv kode til 48 linjer. Dersom man ønsker å gjennta samme undersøkelser senere når det kommer mer data for Norgespris og strømmåler kan man dermed bare bruke en funksjon og ikke måtte kode alt manuelt. 
+KI er brukt som et supplement til online forum for å hjelpe med å forstå feilkoder fra RStudio, og feilkoder fra Quatro. Spesieltt i Quatro er KI brukt for å forstå feilkodene, og til å backtracke arbeid. Feilen har ofte skyldtes at man har glemt å kopiere inn alle endringene som er gjort i koden(e) i RStudio scripts over til Quatro slik at den kjører på feil verdier eller variabler som er endret. Det samme problemet har skjedd i RStudio. Vi har flere scripts og noen av de bygger på/krever resultate for andre. Har man gjort en endring i ett og glemt å videreføre det oppstår det problemer. 
 
-6.3 
+6.3. KI og skriving. 
 
+Vi har brukt KI til å skrive draft til førsteutkast av teksten. KI har blitt gitt selvskreven introduksjon og problemstillinger samt utarbeidet kode og kulepunkt beskrivelse av databehandling og deler av metode for deretter å blitt bedt om å komme med forslag til struktur av kapittelt samt sette teksten sammen slik at det ikke er kulepunkt struktur. Den selvskrevne teksten som KI har blitt gitt om metode har i tillegg til kulepunktbeskrivelsene inneholdt deter av pensum som kilder som er implementert eller trukket frem som relevant basert på lesing, forelesing og notater. Det vi får som output er deretter blitt kontroller og endret på for å sikre at KI ikke finner opp noe som ikke stemmer med både den litterære kilden men med det faktiske arbeidet. 
 
 ## 7. Kilder
 
