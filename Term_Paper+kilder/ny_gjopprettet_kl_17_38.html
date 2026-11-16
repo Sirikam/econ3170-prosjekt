@@ -158,7 +158,6 @@ window.Quarto = {
   <li><a href="#konklusjon" id="toc-konklusjon" class="nav-link" data-scroll-target="#konklusjon">5. Konklusjon</a></li>
   <li><a href="#bruk-av-ki" id="toc-bruk-av-ki" class="nav-link" data-scroll-target="#bruk-av-ki">6. Bruk av KI</a></li>
   <li><a href="#kilder" id="toc-kilder" class="nav-link" data-scroll-target="#kilder">7. Kilder</a></li>
-  <li><a href="#kilder-1" id="toc-kilder-1" class="nav-link" data-scroll-target="#kilder-1">7. Kilder</a></li>
   <li><a href="#vedlegg" id="toc-vedlegg" class="nav-link" data-scroll-target="#vedlegg">8. Vedlegg</a></li>
   </ul>
 </nav>
@@ -874,12 +873,16 @@ y_i-\beta_0-\sum_{j=1}^{p}x_{ij}\beta_j
 </section>
 <section id="bruk-av-ki" class="level2">
 <h2 class="anchored" data-anchor-id="bruk-av-ki">6. Bruk av KI</h2>
+<p>KI har blitt brukt på litt ulike måter. For enkelhetsskyld starter vi med å nevne hvilke KI platformer som har blitt brukt: GPTUiO, ChatGPT, Bendik Gemini.</p>
+<p>Opplever at ChatGPT er bedre til å assistere med feilsøking i koden, idemyldring og språk, mens GPT UiO er bedre for håndtere større mengder data for å se sammenhenger da den har større minne enn ChatGPT. Med større mengder data menes lengre koder, og større feilsøkingsprossessert der minnet til ChatGPT ofte går tomt og man ønsker å beholde kontinuiteten i feilsøkingen i stede for å opprette nytt samtalevindu hver gang minnet for den samtaletråden er full. Begge modellene har assistert med å rense koder, forbedre koder og feilsøke. Forklaringer på hvordan vi har arbeidet med KI kommer under. Enkelte korte formuleringer og standardiserte kodeuttrykk er være beholdt uendret når det er begrenset rom for meningsfull alternativ formulering, for eksempel ved enkle faktabeskrivelser eller vanlig R-syntaks. Dette gjelder ikke faglige vurderinger, analyser eller tolkninger, som er utarbeidet av oss.</p>
+<p>6.1 KI og idemyldring for problemstillinger.</p>
+<p>KI er brukt til å komme med forslag til formulering til problermsstillinger basert på vår temmatiske ide og ønsker om vinkling. Disse forslagene har blitt bearbeidet videre av oss, både i form av at vi har kombinert flere av formuleringene da vi opplever at forslagene kommer til kort, men også underveis i arbeidsprosessen når vi har bedre oversikt over dataen vi har samlet.</p>
+<p>6.2. KI, koding og feilsøking.</p>
+<p>KI er brukt for å hjelpe med å generere koder. Hvis man ikke har funnet svar på problemer eller spørsmål i online forum som f.eks. Stackoverflow er KI brukt til å spørre om hvilke pakker eller metode man kan bruke for å feks. endre datasettet i NVE på fyllingsgrad slik at det ikke bare sorteres på uke, men også dag. Det var nødvendig for å kunne sette det sammen til et stort historisk sett og unngå å få flere NA verdier. KI ble brukt til å foreslå og forklare standard R-syntaks for innlesing og bearbeiding av data. Vi tok selv stilling til hvilke filer som skulle inngå, hvordan filene var strukturert, hvilke rader som skulle hoppes over, og hvordan resultatet skulle valideres og brukes videre i analysen. Et eksempel er innlesing av flere Excel-filer ved hjelp av lapply() og read_excel(). KI kunne foreslå standard syntaks for dette, mens vi vurderte filutvalget, at de fire første radene skulle hoppes over, og kontrollerte at dataene ble lest inn riktig. Et annet konkret eksempel er hvordan KI ble brukt for å endre en gammel kode for å pivote flere rådatasett om strømmåler og Norgespris (rådataen fra elhub, gammel kode finnes i mappen gamle scrips og heter maaler.R). Dette var en tung kode som la sammen et stort datasett, og koden ble repetert flere ganger. KI ble gitt denne koden og bedt om å gjøre det om til en funksjon for å gjøre koden kortre og mer leselig. Dog, en funksjon vil ofte bruke lengre tid på å kjøre enn en manuel pivoting, men kan man bruke én funksjon på flere datasett som har samme struktur i stede for å repitere samme kode flere ganger. Ved å få KI til å endre det til en funksjon gikk vi fra 87 linjer med effektiv kode til 48 linjer. Dersom man ønsker å gjennta samme undersøkelser senere når det kommer mer data for Norgespris og strømmåler kan man dermed bare bruke en funksjon og ikke måtte kode alt manuelt. KI er brukt som et supplement til online forum for å hjelpe med å forstå feilkoder fra RStudio, og feilkoder fra Quatro. Spesieltt i Quarto er KI brukt for å forstå feilkodene, og til å backtracke arbeid. Feilen har ofte skyldtes at man har glemt å kopiere inn alle endringene som er gjort i koden(e) i RStudio scripts over til Quarto slik at den kjører på feil verdier eller variabler som er endret. Det samme problemet har skjedd i RStudio. Vi har flere scripts og noen av de bygger på/krever resultate for andre. Har man gjort en endring i ett og glemt å videreføre det oppstår det problemer.</p>
+<p>6.3. KI og skriving. KI ble brukt til å foreslå struktur og tekstutkast til deler av oppgaven. Verktøyet fikk som utgangspunkt materiale utarbeidet av oss selv, herunder introduksjon, problemstillinger, kode, beskrivelser av databehandling og metode i punktform. KI ble deretter bedt om å foreslå en kapittelstruktur og omarbeide punktvise beskrivelser til sammenhengende tekst. Materialet inkluderte også relevante deler av pensum og faglige kilder som gruppen hadde identifisert gjennom lesing, forelesninger og egne notater. KI ble ikke brukt som faglig kilde. Alle tekstforslag fra KI ble gjennomgått, kontrollert og bearbeidet av oss. Vi kontrollerte særlig at beskrivelsene var i samsvar med det faktiske arbeidet som var gjennomført, og at faglige påstander og kildehenvisninger var korrekte og basert på originalkildene. Vi er ansvarlig for den endelige teksten, analysen og de faglige vurderingene. KI ble også brukt til språkvask, inkludert kontroll av skrivefeil og forslag til oppstamming av teskt.</p>
 </section>
 <section id="kilder" class="level2">
 <h2 class="anchored" data-anchor-id="kilder">7. Kilder</h2>
-</section>
-<section id="kilder-1" class="level2">
-<h2 class="anchored" data-anchor-id="kilder-1">7. Kilder</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-athey_machine_2019" class="csl-entry" role="listitem">
 Athey, Susan, and Guido W. Imbens. 2019. <span>“Machine Learning Methods That Economists Should Know About.”</span> <em>Annual Review of Economics</em> 11: 685–725. <a href="https://doi.org/10.1146/annurev-economics-080217-053433">https://doi.org/10.1146/annurev-economics-080217-053433</a>.
@@ -939,6 +942,9 @@ Wickham, Hadley, and Garrett Grolemund. 2016. <em>R for Data Science: Import, Ti
 </section>
 <section id="vedlegg" class="level2">
 <h2 class="anchored" data-anchor-id="vedlegg">8. Vedlegg</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#kan legge til alt vi vil ha med som vedlegg i bloks her. Må ta stilling til om vi skal legge alle kodene som er brukt (altså de som kjører i bakgrunnen her + evt noen flere) her eller om de bare skal være del av zip-filen. Jeg tenker vi bare kan legge alt her, i samme rekkefølge som det diskluteres og nevnes i oppgaven. </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 
 </main>
