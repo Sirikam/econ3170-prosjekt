@@ -1361,3 +1361,11 @@ KI ble brukt til å foreslå struktur og tekstutkast til deler av oppgaven. Verk
 :::
 
 ## 8. Vedlegg
+
+```{r}
+#| eval: false
+
+#kan legge til alt vi vil ha med som vedlegg i bloks her. Må ta stilling til om vi skal legge alle kodene som er brukt (altså de som kjører i bakgrunnen her + evt noen flere) her eller om de bare skal være del av zip-filen. Jeg tenker vi bare kan legge alt her, i samme rekkefølge som det diskluteres og nevnes i oppgaven. 
+
+```
+
