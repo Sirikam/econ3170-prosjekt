@@ -686,7 +686,7 @@ $y_{it} = \beta_0 + \mathbf{\beta} \mathbf{X}_{it} + \alpha_i + \delta_m + \vare
 
 Her representerer $y_{it}$ den avhengige variabelen, mens $X_{it}$ er forklaringsvariablene. Områdefaste effekter $(\alpha_i)$ kontrollerer for tidskonstante forskjeller mellom prisområdene, mens månedsfaste effekter $(\delta_m)$ fanger opp sesongvariasjoner, blant annet knyttet til temperatur og oppvarmingsbehov.
 
-### 3.2 Modeller 
+### 3.2 Modeller
 
 #### 3.2.1 OLS
 

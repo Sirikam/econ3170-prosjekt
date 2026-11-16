@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,16 +10,10 @@
 
 <title>Gjennomrettet</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -66,6 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -87,17 +82,18 @@ div.csl-indent {
 <script src="gjennopprettet_files/libs/clipboard/clipboard.min.js"></script>
 <script src="gjennopprettet_files/libs/quarto-html/quarto.js" type="module"></script>
 <script src="gjennopprettet_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="gjennopprettet_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="gjennopprettet_files/libs/quarto-html/popper.min.js"></script>
 <script src="gjennopprettet_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="gjennopprettet_files/libs/quarto-html/anchor.min.js"></script>
 <link href="gjennopprettet_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="gjennopprettet_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="gjennopprettet_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="gjennopprettet_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="gjennopprettet_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="gjennopprettet_files/libs/bootstrap/bootstrap-215b371544c282197b31c8aa00ce3677.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="gjennopprettet_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -205,7 +201,7 @@ window.Quarto = {
 </section>
 <section id="introduksjon-og-objektiv" class="level2">
 <h2 class="anchored" data-anchor-id="introduksjon-og-objektiv">1. Introduksjon og objektiv</h2>
-<p>Strømprisene i Norge har hatt betydelige svingninger de siste årene, særlig mellom de ulike prisområdene. I 2021 nådde strømprisene historiske nivåer, spesielt i Sør-Norge (NO1 og NO2). Dette ble blant annet knyttet til høye kraftpriser i Europa og lavere magasinfylling enn normalt <span class="citation" data-cites="skaansar_kraftaret_2022">(<a href="#ref-skaansar_kraftaret_2022" role="doc-biblioref">Skaansar 2022</a>)</span>. Som følge av prisutviklingen innførte regjeringen strømstøtte i desember 2021 <span class="citation" data-cites="statsministerens_kontor_regjeringen_2021">(<a href="#ref-statsministerens_kontor_regjeringen_2021" role="doc-biblioref"><span class="nocase">kontor et al.</span> 2021</a>)</span>. Prisvolatiliteten fortsatte i 2022 og bidro til at flere husholdninger reduserte strømforbruket sitt <span class="citation" data-cites="aanensen_statistikk_2026 aanensen_lavere_2026 kampevoll_prisen_2026">(<a href="#ref-aanensen_statistikk_2026" role="doc-biblioref">Aanensen et al. 2026</a>; <a href="#ref-aanensen_lavere_2026" role="doc-biblioref">Aanensen 2026</a>; <a href="#ref-kampevoll_prisen_2026" role="doc-biblioref">Kampevoll et al. 2026</a>)</span>.</p>
+<p>Strømprisene i Norge har hatt betydelige svingninger de siste årene, særlig mellom de ulike prisområdene. I 2021 nådde strømprisene historiske nivåer, spesielt i Sør-Norge (NO1 og NO2). Dette ble blant annet knyttet til høye kraftpriser i Europa og lavere magasinfylling enn normalt <span class="citation" data-cites="skaansar_kraftaret_2022">(<a href="#ref-skaansar_kraftaret_2022" role="doc-biblioref">Skaansar 2022</a>)</span>. Som følge av prisutviklingen innførte regjeringen strømstøtte i desember 2021 <span class="citation" data-cites="statsministerens_kontor_regjeringen_2021">(<a href="#ref-statsministerens_kontor_regjeringen_2021" role="doc-biblioref">kontor, Energidepartementet, and Finansdepartementet 2021</a>)</span>. Prisvolatiliteten fortsatte i 2022 og bidro til at flere husholdninger reduserte strømforbruket sitt <span class="citation" data-cites="aanensen_statistikk_2026 aanensen_lavere_2026 kampevoll_prisen_2026">(<a href="#ref-aanensen_statistikk_2026" role="doc-biblioref">T. Aanensen, Skrede, and Holstad 2026</a>; <a href="#ref-aanensen_lavere_2026" role="doc-biblioref">Aanensen 2026</a>; <a href="#ref-kampevoll_prisen_2026" role="doc-biblioref">Kampevoll et al. 2026</a>)</span>.</p>
 <p>Den 1. oktober 2025 innførte regjeringen Norgespris, en frivillig fastprisordning for strøm og fjernvarme. Ordningen ga husholdninger mulighet til å velge en fastpris på 40 øre/kWh ekskl. mva., med formål om å gi større forutsigbarhet i møte med volatile kraftpriser <span class="citation" data-cites="energidepartementet_norgespris_2025">(<a href="#ref-energidepartementet_norgespris_2025" role="doc-biblioref">Energidepartementet 2025</a>)</span>. I oktober 2026 ble det besluttet at ordningen videreføres i 2027, med en justert pris på 45 øre/kWh ekskl. mva. <span class="citation" data-cites="energidepartementet_norgespris_2026">(<a href="#ref-energidepartementet_norgespris_2026" role="doc-biblioref">Energidepartementet 2026</a>)</span>.</p>
 <p>Formålet med oppgaven er å undersøke sammenhengen mellom Norgespris, strømpriser og husholdningenes strømforbruk i Norge.</p>
 <p><strong>Vi undersøker følgende problemstillinger:</strong></p>
@@ -221,7 +217,7 @@ window.Quarto = {
 <p>Hele databehandlingsprosessen og de empiriske analysene er gjennomført i R. Analysen benytter sekundærdata fra tre sentrale aktører i det norske og nordiske kraftmarkedet:</p>
 <ol type="1">
 <li><p>Elhub: Daglige data for aggregert strømforbruk (kWh), antall målepunkter og Norgespris-adopsjon, fordelt på prisområdene NO1–NO5 og forbruksgruppene husholdning og fritidsbolig <span class="citation" data-cites="sannes_norgespris_2026 sannes_norgespris_2026-1 stokke_hammer-dybvad_forbruk_2026">(<a href="#ref-sannes_norgespris_2026" role="doc-biblioref">Sannes and Elhub 2026b</a>, <a href="#ref-sannes_norgespris_2026-1" role="doc-biblioref">2026a</a>; <a href="#ref-stokke_hammer-dybvad_forbruk_2026" role="doc-biblioref">Stokke Hammer-Dybvad and Elhub 2026</a>)</span>.</p></li>
-<li><p>Norges vassdrags- og energidirektorat (NVE): Ukentlige data for fyllingsgraden i norske vannmagasiner <span class="citation" data-cites="norges_vassdrag_og_energidirektorat_magasinstatistikk_2026">(<a href="#ref-norges_vassdrag_og_energidirektorat_magasinstatistikk_2026" role="doc-biblioref"><span class="nocase">energidirektorat</span> 2026</a>)</span>.</p></li>
+<li><p>Norges vassdrags- og energidirektorat (NVE): Ukentlige data for fyllingsgraden i norske vannmagasiner <span class="citation" data-cites="norges_vassdrag_og_energidirektorat_magasinstatistikk_2026">(<a href="#ref-norges_vassdrag_og_energidirektorat_magasinstatistikk_2026" role="doc-biblioref">energidirektorat 2026</a>)</span>.</p></li>
 <li><p>Nord Pool: Daglige aggregerte spotpriser for perioden 2020–2026 og timepriser for perioden 1. oktober 2025–30. september 2026 <span class="citation" data-cites="nordpool_price_2026 nordpool_prices_2026">(<a href="#ref-nordpool_price_2026" role="doc-biblioref">Nordpool 2026a</a>, <a href="#ref-nordpool_prices_2026" role="doc-biblioref">2026b</a>)</span>.</p></li>
 </ol>
 <p>Rådataene er levert i CSV- og Excel-format og bearbeidet i R. Datasettene er deretter kombinert til et felles datagrunnlag for analysene.</p>
@@ -229,7 +225,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="nord-pool">2.1 Nord Pool</h3>
 <p>Fra Nord Pool benytter vi daglige aggregerte spotpriser for de fem norske prisområdene (NO1–NO5) i perioden 2020–30. september 2026. I tillegg benyttes timebaserte spotpriser for perioden 1. oktober 2025–30. september 2026. <strong>&lt;- sjekk dette Emily.</strong></p>
 <p>Prisdataene ble lastet ned i separate Excel-filer og importert til R ved hjelp av <code>readxl</code>. Filene ble kombinert til samlede datasett. Metadata og “NA” observasjoner fjernet. Datoene ble standardisert og sortert kronologisk. Timeprisene ble tilsvarende kombinert.</p>
-<p>Spotprisene er opprinnelig oppgitt i NOK/MWh og konvertert til NOK/kWh ved å dele på 1000. Dette gir sammenlignbare måleenheter på tvers av data. &lt;- <strong>Em, dobbelsjekk at vi trenger dette</strong></p>
+<p>Spotprisene er opprinnelig oppgitt i NOK/MWh og konvertert til NOK/kWh ved å dele på 1000. Dette gir sammenlignbare måleenheter på tvers av data. I tillegg er måleenheten for strømstøtte og norgespris definert som støtte i NOK/kWh, og det er dermed naturlig å ha dataen på denne enheten.</p>
 <p>For timeprisene ble daglige oppsummeringsverdier (minimum, maksimum og gjennomsnitt) skilt fra de ordinære timeobservasjonene for å unngå at ulike tidsoppløsninger blandes i analysene.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#pris er oppgitt i kr per MWh</span></span>
@@ -366,7 +362,7 @@ window.Quarto = {
 </section>
 <section id="regularisert-regresjon-og-lasso-modellering" class="level4">
 <h4 class="anchored" data-anchor-id="regularisert-regresjon-og-lasso-modellering">3.2.2 Regularisert regresjon og LASSO-modellering</h4>
-<p>I tillegg til OLS benyttes LASSO-regresjon (Least Absolute Shrinkage and Selection Operator) som en alternativ estimeringsmetode. LASSO kombinerer lineær regresjon med en<span class="math inline">\(\ L_1\)</span> -straff som begrenser størrelsen på koeffisientene og kan sette mindre relevante koeffisienter lik null. Metoden brukes dermed til variabelseleksjon og kan redusere risikoen for overtilpasning <span class="citation" data-cites="tibshirani_regression_1996 hastie_elements_2009 fonti_feature_2017 gentzkow_text_2019">(<a href="#ref-tibshirani_regression_1996" role="doc-biblioref">Tibshirani 1996</a>; <a href="#ref-hastie_elements_2009" role="doc-biblioref">Hastie et al. 2009</a>; <a href="#ref-fonti_feature_2017" role="doc-biblioref">Fonti 2017</a>; <a href="#ref-gentzkow_text_2019" role="doc-biblioref">Gentzkow et al. 2019</a>)</span>.</p>
+<p>I tillegg til OLS benyttes LASSO-regresjon (Least Absolute Shrinkage and Selection Operator) som en alternativ estimeringsmetode. LASSO kombinerer lineær regresjon med en<span class="math inline">\(\ L_1\)</span> -straff som begrenser størrelsen på koeffisientene og kan sette mindre relevante koeffisienter lik null. Metoden brukes dermed til variabelseleksjon og kan redusere risikoen for overtilpasning <span class="citation" data-cites="tibshirani_regression_1996 hastie_elements_2009 fonti_feature_2017 gentzkow_text_2019">(<a href="#ref-tibshirani_regression_1996" role="doc-biblioref">Tibshirani 1996</a>; <a href="#ref-hastie_elements_2009" role="doc-biblioref">Hastie, Tibshirani, and Friedman 2009</a>; <a href="#ref-fonti_feature_2017" role="doc-biblioref">Fonti 2017</a>; <a href="#ref-gentzkow_text_2019" role="doc-biblioref">Gentzkow, Kelly, and Taddy 2019</a>)</span>.</p>
 <p>LASSO-modellen estimeres ved å minimere:</p>
 <p><span class="math inline">\(\hat{\beta}_{\text{lasso}} = \arg\min_{\beta} \left( \sum_{i=1}^N \left( y_i - \beta_0 - \sum_{j=1}^p x_{ij}\beta_j \right)^2 + \lambda \sum_{j=1}^p |\beta_j| \right)\)</span></p>
 <p>Straffeparameteren <span class="math inline">\(\lambda\)</span> bestemmer graden av regularisering. En høyere verdi gir sterkere krymping av koeffisientene, mens en lavere verdi gjør modellen mer lik ordinær lineær regresjon.</p>
@@ -405,7 +401,7 @@ window.Quarto = {
 <p><span class="math inline">\(\text{spotpris}_{it} = \beta_0 + \beta_1 \text{fyllingsgrad}_{it} + \alpha_i + \delta_{\text{uke}} + \varepsilon_{it}\)</span></p>
 <p>hvor <span class="math inline">\(\delta_{\text{uke}}\)</span> fanger opp historiske sesongmønstre i magasinfylling og etterspørsel.</p>
 <p>Fyllingsgraden måles i prosent, i verdier fra 0 til 1. Områdefaste effekter kontrollerer for regionale forskjeller, mens ukefaste effekter fanger opp sesongmessige variasjoner i blant annet magasinfylling og etterspørsel.</p>
-<p><em>Metodisk merknad om valg av</em> <span class="math inline">\(\lambda\)</span><em><strong>:</strong> Kryssvalideringen valgte en svært lav verdi for</em> <span class="math inline">\(\lambda\)</span><em>. Dette innebærer svak regularisering, men er ikke i seg selv et tegn på overtilpasning. Modellens prediksjonsevne må vurderes ut fra resultatene på testsettet og sammenlignes med OLS <span class="citation" data-cites="hastie_elements_2009">(<a href="#ref-hastie_elements_2009" role="doc-biblioref">Hastie et al. 2009</a>)</span>.</em></p>
+<p><em>Metodisk merknad om valg av</em> <span class="math inline">\(\lambda\)</span><em><strong>:</strong> Kryssvalideringen valgte en svært lav verdi for</em> <span class="math inline">\(\lambda\)</span><em>. Dette innebærer svak regularisering, men er ikke i seg selv et tegn på overtilpasning. Modellens prediksjonsevne må vurderes ut fra resultatene på testsettet og sammenlignes med OLS <span class="citation" data-cites="hastie_elements_2009">(<a href="#ref-hastie_elements_2009" role="doc-biblioref">Hastie, Tibshirani, and Friedman 2009</a>)</span>.</em></p>
 <p>Utdrag fra koden (inneholder kun arbeidskommentarer for å spare plass og forklare arbeidsflyt):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Deler data i trening (80 %) og test (20 %)</span></span>
@@ -467,7 +463,7 @@ window.Quarto = {
 <tr class="odd">
 <td style="text-align: left;">Spotpris</td>
 <td style="text-align: right;">-3611091 (976783)</td>
-<td style="text-align: right;">473171</td>
+<td style="text-align: right;">500625</td>
 </tr>
 </tbody>
 </table>
@@ -489,18 +485,18 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">RMSE</td>
-<td style="text-align: right;">6 152 607</td>
-<td style="text-align: right;">2 294 419</td>
+<td style="text-align: right;">6 301 183</td>
+<td style="text-align: right;">2 216 137</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">R²</td>
-<td style="text-align: right;">0.863</td>
-<td style="text-align: right;">0.981</td>
+<td style="text-align: right;">0.861</td>
+<td style="text-align: right;">0.983</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">MAE</td>
-<td style="text-align: right;">4 587 733</td>
-<td style="text-align: right;">1 890 937</td>
+<td style="text-align: right;">4 484 363</td>
+<td style="text-align: right;">1 813 638</td>
 </tr>
 </tbody>
 </table>
@@ -513,8 +509,20 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="prisdynamikk-og-adopsjon-av-norgespris-problemstilling-2-1">4.3 Prisdynamikk og adopsjon av Norgespris: Problemstilling 2</h3>
 <p>Her så vi på hvordan de ulike støtteordningene og differansen mellom dem spilte inn på adopsjonsraten til Norgespris. Her ville vi både se hvordan verdien som helhet virket opp mot en standard minste kvadrats metode, men også om vi kunne peke ut noen variabler som hadde en stor påvirkning på resultatet.</p>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>Valgt lambda:  1e-04</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Valgt lambda for LASSO-modellen</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Lambda</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1e-04</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -969,69 +977,69 @@ window.Quarto = {
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">8. Vedlegg</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">8. Vedlegg</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-aanensen_lavere_2026" class="csl-entry" role="listitem">
-Aanensen. 2026. <em>Lavere Strømpris for Husholdninger</em>. Statistisk Sentralbyrå. <a href="https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitetspriser/artikler/lavere-strompris-for-husholdninger">https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitetspriser/artikler/lavere-strompris-for-husholdninger</a>.
+Aanensen. 2026. <span>“Lavere Strømpris for Husholdninger.”</span> Statistisk Sentralbyrå. <a href="https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitetspriser/artikler/lavere-strompris-for-husholdninger">https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitetspriser/artikler/lavere-strompris-for-husholdninger</a>.
 </div>
 <div id="ref-aanensen_statistikk_2026" class="csl-entry" role="listitem">
-Aanensen, Thomas, Ståle Skrede, and Magne Holstad. 2026. <em>Statistikk Om Elektrisitetspriser</em>. Statistisk Sentralbyrå. <a href="https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitetspriser">https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitetspriser</a>.
+Aanensen, Thomas, Ståle Skrede, and Magne Holstad. 2026. <span>“Statistikk Om Elektrisitetspriser.”</span> Statistisk Sentralbyrå. <a href="https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitetspriser">https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitetspriser</a>.
 </div>
 <div id="ref-athey_machine_2019" class="csl-entry" role="listitem">
 Athey, Susan, and Guido W. Imbens. 2019. <span>“Machine Learning Methods That Economists Should Know About.”</span> <em>Annual Review of Economics</em> 11: 685–725. <a href="https://doi.org/10.1146/annurev-economics-080217-053433">https://doi.org/10.1146/annurev-economics-080217-053433</a>.
 </div>
 <div id="ref-energidepartementet_norgespris_2025" class="csl-entry" role="listitem">
-Energidepartementet. 2025. <span>“Norgespris På Strøm Og Fjernvarme.”</span> Offentlige myndigheter. In <em>Regjeringen</em>. <a href="https://www.regjeringen.no/no/tema/energi/strom/norgespris-pa-strom-og-fjernvarme/id3120995/">https://www.regjeringen.no/no/tema/energi/strom/norgespris-pa-strom-og-fjernvarme/id3120995/</a>.
+Energidepartementet. 2025. <span>“Norgespris På Strøm Og Fjernvarme.”</span> Offentlige myndigheter. <em>Regjeringen</em>. <a href="https://www.regjeringen.no/no/tema/energi/strom/norgespris-pa-strom-og-fjernvarme/id3120995/">https://www.regjeringen.no/no/tema/energi/strom/norgespris-pa-strom-og-fjernvarme/id3120995/</a>.
 </div>
 <div id="ref-energidepartementet_norgespris_2026" class="csl-entry" role="listitem">
-Energidepartementet. 2026. <span>“Norgespris for 2027 Kan Bestilles Fra 5. Januar.”</span> Offentlige myndigheter. In <em>Regjeringen</em>. <a href="https://www.regjeringen.no/no/aktuelt/norgespris-for-2027-kan-bestilles-fra-5.-januar/id3186516/">https://www.regjeringen.no/no/aktuelt/norgespris-for-2027-kan-bestilles-fra-5.-januar/id3186516/</a>.
+———. 2026. <span>“Norgespris for 2027 Kan Bestilles Fra 5. Januar.”</span> Offentlige myndigheter. <em>Regjeringen</em>. <a href="https://www.regjeringen.no/no/aktuelt/norgespris-for-2027-kan-bestilles-fra-5.-januar/id3186516/">https://www.regjeringen.no/no/aktuelt/norgespris-for-2027-kan-bestilles-fra-5.-januar/id3186516/</a>.
 </div>
 <div id="ref-norges_vassdrag_og_energidirektorat_magasinstatistikk_2026" class="csl-entry" role="listitem">
-<span class="nocase">energidirektorat, Norges vassdrag og</span>. 2026. <em>Magasinstatistikk (%)</em>. <a href="https://www.nve.no/energi/analyser-og-statistikk/magasinstatistikk/">https://www.nve.no/energi/analyser-og-statistikk/magasinstatistikk/</a>.
+energidirektorat, Norges vassdrag og. 2026. <span>“Magasinstatistikk (%).”</span> <a href="https://www.nve.no/energi/analyser-og-statistikk/magasinstatistikk/">https://www.nve.no/energi/analyser-og-statistikk/magasinstatistikk/</a>.
 </div>
 <div id="ref-fonti_feature_2017" class="csl-entry" role="listitem">
-Fonti, Valeria. 2017. <em>Feature Selection Using LASSO</em>. VU Amsterdam. <a href="https://vu-business-analytics.github.io/internship-office/papers/paper-fonti.pdf">https://vu-business-analytics.github.io/internship-office/papers/paper-fonti.pdf</a>.
+Fonti, Valeria. 2017. <span>“Feature Selection Using LASSO.”</span> VU Amsterdam. <a href="https://vu-business-analytics.github.io/internship-office/papers/paper-fonti.pdf">https://vu-business-analytics.github.io/internship-office/papers/paper-fonti.pdf</a>.
 </div>
 <div id="ref-gentzkow_text_2019" class="csl-entry" role="listitem">
 Gentzkow, Matthew, Bryan Kelly, and Matt Taddy. 2019. <span>“Text as Data.”</span> <em>Journal of Economic Literature</em> 57 (3): 535–74. <a href="https://doi.org/10.1257/jel.20181300">https://doi.org/10.1257/jel.20181300</a>.
 </div>
 <div id="ref-hammersmark_econ3170_2026" class="csl-entry" role="listitem">
-Hammersmark, Eirik Brandsaas. 2026. <em>ECON3170: Data Science for Økonomer</em>. Forelesningsnotater og kursmateriell, Universitetet i Oslo.
+Hammersmark, Eirik Brandsaas. 2026. <span>“ECON3170: Data Science for Økonomer.”</span> Forelesningsnotater og kursmateriell, Universitetet i Oslo.
 </div>
 <div id="ref-hastie_elements_2009" class="csl-entry" role="listitem">
 Hastie, Trevor, Robert Tibshirani, and Jerome Friedman. 2009. <em>The Elements of Statistical Learning: Data Mining, Inference, and Prediction</em>. 2nd ed. Springer.
 </div>
 <div id="ref-kampevoll_prisen_2026" class="csl-entry" role="listitem">
-Kampevoll, Fredrik, Tom Balgarard, Caroline Utti, and Truls Alnes Antonsen. 2026. <em>Prisen for Billig Strøm</em>. August. <a href="https://www.nrk.no/norge/xl/prisen-for-billig-strom-1.17944715">https://www.nrk.no/norge/xl/prisen-for-billig-strom-1.17944715</a>.
+Kampevoll, Fredrik, Tom Balgarard, Caroline Utti, and Truls Alnes Antonsen. 2026. <span>“Prisen for Billig Strøm,”</span> August. <a href="https://www.nrk.no/norge/xl/prisen-for-billig-strom-1.17944715">https://www.nrk.no/norge/xl/prisen-for-billig-strom-1.17944715</a>.
 </div>
 <div id="ref-statsministerens_kontor_regjeringen_2021" class="csl-entry" role="listitem">
-<span class="nocase">kontor, Statsministerens, Energidepartementet, and Finansdepartementet</span>. 2021. <span>“Regjeringen Med Milliardpakke i Strømstøtte.”</span> Offentlige myndigheter. In <em>Regjeringen</em>. <a href="https://www.regjeringen.no/no/aktuelt/regjeringen-med-milliardpakke-i-stromstotte/id2891839/">https://www.regjeringen.no/no/aktuelt/regjeringen-med-milliardpakke-i-stromstotte/id2891839/</a>.
+kontor, Statsministerens, Energidepartementet, and Finansdepartementet. 2021. <span>“Regjeringen Med Milliardpakke i Strømstøtte.”</span> Offentlige myndigheter. <em>Regjeringen</em>. <a href="https://www.regjeringen.no/no/aktuelt/regjeringen-med-milliardpakke-i-stromstotte/id2891839/">https://www.regjeringen.no/no/aktuelt/regjeringen-med-milliardpakke-i-stromstotte/id2891839/</a>.
 </div>
 <div id="ref-kuhn_tidy_2023" class="csl-entry" role="listitem">
 Kuhn, Max, and Julia Silge. 2023. <em>Tidy Modeling with r</em>. Version 1.0.0. O’Reilly. <a href="https://www.tmwr.org/">https://www.tmwr.org/</a>.
 </div>
 <div id="ref-nordpool_price_2026" class="csl-entry" role="listitem">
-Nordpool. 2026a. <em>Price Indices</em>. <a href="https://Price indices">Price indices</a>.
+Nordpool. 2026a. <span>“Price Indices.”</span> <a href="https://Price indices">Price indices</a>.
 </div>
 <div id="ref-nordpool_prices_2026" class="csl-entry" role="listitem">
-Nordpool. 2026b. <em>Prices</em>. <a href="https://data.nordpoolgroup.com/auction/day-ahead/prices?deliveryDate=latest&amp;currency=NOK&amp;aggregation=DailyAggregate&amp;deliveryAreas=AT,NO1,NO2,NO3,NO4,NO5">https://data.nordpoolgroup.com/auction/day-ahead/prices?deliveryDate=latest&amp;currency=NOK&amp;aggregation=DailyAggregate&amp;deliveryAreas=AT,NO1,NO2,NO3,NO4,NO5</a>.
+———. 2026b. <span>“Prices.”</span> <a href="https://data.nordpoolgroup.com/auction/day-ahead/prices?deliveryDate=latest&amp;currency=NOK&amp;aggregation=DailyAggregate&amp;deliveryAreas=AT,NO1,NO2,NO3,NO4,NO5">https://data.nordpoolgroup.com/auction/day-ahead/prices?deliveryDate=latest&amp;currency=NOK&amp;aggregation=DailyAggregate&amp;deliveryAreas=AT,NO1,NO2,NO3,NO4,NO5</a>.
 </div>
 <div id="ref-sannes_norgespris_2026-1" class="csl-entry" role="listitem">
-Sannes, Christoffer, and Elhub. 2026a. <em>Norgespris Antall Per Kommune, Forbruksgruppe Og Dag</em>. <a href="https://elhub.no/data-og-innsikt/datakatalog">https://elhub.no/data-og-innsikt/datakatalog</a>.
+Sannes, Christoffer, and Elhub. 2026a. <span>“Norgespris Antall Per Kommune, Forbruksgruppe Og Dag.”</span> <a href="https://elhub.no/data-og-innsikt/datakatalog">https://elhub.no/data-og-innsikt/datakatalog</a>.
 </div>
 <div id="ref-sannes_norgespris_2026" class="csl-entry" role="listitem">
-Sannes, Christoffer, and Elhub. 2026b. <em>Norgespris Antall Per Prisområde, Forbruksgruppe Og Dag</em>. Telling for antall målepunkt med {Norgespriskontrakt} per prisområde og dag. {Tellingen} er gjort for forbruksgruppene husholdningog fritidsboligslik at man kan følge dem separat. <a href="https://elhub.no/data-og-innsikt/datakatalog">https://elhub.no/data-og-innsikt/datakatalog</a>.
+———. 2026b. <span>“Norgespris Antall Per Prisområde, Forbruksgruppe Og Dag.”</span> Telling for antall målepunkt med {Norgespriskontrakt} per prisområde og dag. {Tellingen} er gjort for forbruksgruppene husholdningog fritidsboligslik at man kan følge dem separat. <a href="https://elhub.no/data-og-innsikt/datakatalog">https://elhub.no/data-og-innsikt/datakatalog</a>.
 </div>
 <div id="ref-skaansar_kraftaret_2022" class="csl-entry" role="listitem">
-Skaansar, Ellen. 2022. <em>Kraftåret 2021 - Historisk Høye Kraftpriser</em>. August. <a href="https://www.nve.no/nytt-fra-nve/nyheter-energi/kraftaret-2021-historisk-hoye-kraftpriser/">https://www.nve.no/nytt-fra-nve/nyheter-energi/kraftaret-2021-historisk-hoye-kraftpriser/</a>.
+Skaansar, Ellen. 2022. <span>“Kraftåret 2021 - Historisk Høye Kraftpriser,”</span> August. <a href="https://www.nve.no/nytt-fra-nve/nyheter-energi/kraftaret-2021-historisk-hoye-kraftpriser/">https://www.nve.no/nytt-fra-nve/nyheter-energi/kraftaret-2021-historisk-hoye-kraftpriser/</a>.
 </div>
 <div id="ref-stokke_hammer-dybvad_forbruk_2026" class="csl-entry" role="listitem">
-Stokke Hammer-Dybvad, Alexander, and Elhub. 2026. <em>Forbruk Per <span>Norgespris</span>-Status, Forbruksgruppe, Prisområde Og Antall Målepunker Per Time</em>. <a href="https://elhub.no/data-og-innsikt/datakatalog">https://elhub.no/data-og-innsikt/datakatalog</a>.
+Stokke Hammer-Dybvad, Alexander, and Elhub. 2026. <span>“Forbruk Per <span>Norgespris</span>-Status, Forbruksgruppe, Prisområde Og Antall Målepunker Per Time.”</span> <a href="https://elhub.no/data-og-innsikt/datakatalog">https://elhub.no/data-og-innsikt/datakatalog</a>.
 </div>
 <div id="ref-tibshirani_regression_1996" class="csl-entry" role="listitem">
 Tibshirani, Robert. 1996. <span>“Regression Shrinkage and Selection via the Lasso.”</span> <em>Journal of the Royal Statistical Society: Series B (Methodological)</em> 58 (1): 267–88. <a href="https://doi.org/10.1111/j.2517-6161.1996.tb02080.x">https://doi.org/10.1111/j.2517-6161.1996.tb02080.x</a>.
 </div>
 <div id="ref-wickham_r_2016" class="csl-entry" role="listitem">
-Wickham, Hadley, and Garrett Grolemund. 2016. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. First edition. O’Reilly.
+Wickham, Hadley, and Garrett Grolemund. 2016. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. First edition. Sebastopol, CA: O’Reilly.
 </div>
 </div></section></div></main>
 <!-- /main column -->
