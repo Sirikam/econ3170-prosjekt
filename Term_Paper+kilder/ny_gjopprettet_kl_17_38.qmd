@@ -3,7 +3,7 @@ title: "Gjennomrettet"
 subtitle: "Term paper in ECON 3170/4170, autumn 2026"
 author: "Ny gruppe 0001, kandidatnummer 170011 og 170029"
 date: "16.11.2026"
-format: html
+format: pdf
 editor: visual
 toc: true
 bibliography: ECON3170_kilder.bib
@@ -609,7 +609,7 @@ Analysen benytter data med ulik tidsoppløsning, tilpasset de enkelte problemsti
 
 Den generelle modellstrukturen kan uttrykkes som: $y_{it} = \beta*0 +* \boldsymbol{\beta}'\mathbf{X}{it} + \alpha_i + \delta*m +* \varepsilon{it}$
 
-Her representerer $y_{it}$ den avhengige variabelen, mens $X_{it}$ er forklaringsvariablene. Områdespesifikke effekter $(\alpha_i)$ fanger opp forskjeller mellom prisområdene. Tidsrelaterte kontrollvariabler $(\delta_t)$ benyttes for å kontrollere for sesongvariasjoner eller generelle tidstrender, avhengig av problemstillingen.
+Her representerer $y_{it}$ den avhengige variabelen, mens $X_{it}$ er forklaringsvariablene. Områdespesifikke effekter $\alpha_i$ fanger opp forskjeller mellom prisområdene. Tidsrelaterte kontrollvariabler $\delta_t$ benyttes for å kontrollere for sesongvariasjoner eller generelle tidstrender, avhengig av problemstillingen.
 
 ### 3.2 Estimerings- og prediksjonsmetoder
 
@@ -639,9 +639,9 @@ y_i-\beta_0-\sum_{j=1}^{p}x_{ij}\beta_j
 \right]
 $$
 
-Straffeparameteren $(\lambda)$ bestemmer graden av regularisering. En høyere verdi gir sterkere krymping av koeffisientene, mens en lavere verdi gjør modellen mer lik ordinær lineær regresjon.
+Straffeparameteren $\lambda$ bestemmer graden av regularisering. En høyere verdi gir sterkere krymping av koeffisientene, mens en lavere verdi gjør modellen mer lik ordinær lineær regresjon.
 
-For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE som utgangspunkt for modellvalget. RMSE og ($R^2$) benyttes i kryssvalideringen, mens RMSE, ($R^2$) og MAE benyttes ved evaluering på testsettet. Prediksjonsevnen til OLS og LASSO sammenlignes på det samme testsettet.
+For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE som utgangspunkt for modellvalget. RMSE og $R^2$ benyttes i kryssvalideringen, mens RMSE, $R^2$ og MAE og MAE benyttes til å evaluere og sammenligne OLS- og LASSO-modellens prediksjonsevne på det samme testsettet.
 
 ### 3.3 Modellspesifikasjoner
 
@@ -679,7 +679,7 @@ modell_p1 <- lm(
 #summary(modell_p1)
 ```
 
-I tillegg estimeres en LASSO-modell for å undersøke variabelseleksjon og prediksjonsevne. OLS og LASSO sammenlignes på det samme tilfeldige testsettet, basert på et tilfeldig trenings- og testutvalg (80/20) og 10-fold kryssvalidering. Ettersom datasettet ikke deles etter tidsrekkefølge, må prediksjonsresultatene tolkes som evnen til å predikere tilfeldig utvalgte observasjoner, ikke fremtidig strømforbruk.
+I tillegg estimeres en LASSO-modell for å undersøke variabelseleksjon og prediksjonsevne. OLS og LASSO sammenlignes på det samme tilfeldige testsettet, basert på et tilfeldig trenings- og testutvalg og 10-fold kryssvalidering. Ettersom datasettet ikke deles etter tidsrekkefølge, må prediksjonsresultatene tolkes som evnen til å predikere tilfeldig utvalgte observasjoner, ikke fremtidig prediksjon av sammenhyeng mellom strømforbruk og Norgespris.
 
 For å sikre sammenlignbarhet benyttes de samme forklaringsvariablene i begge modellene. I LASSO omgjøres kategoriske variabler til dummyvariabler, og de numeriske prediktorene standardiseres før estimering.
 
