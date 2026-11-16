@@ -1,6 +1,6 @@
 ---
-title: "Gjennomrettet"
-subtitle: "Term paper in ECON 3170/4170, autumn 2026"
+title: "Kraftmarked, Norgespris og magasinfylling"
+subtitle: "Innlevering i ECON 3170/4170, høsten 2026"
 author: "Ny gruppe 0001, kandidatnummer 170011 og 170029"
 date: "16.11.2026"
 format: pdf
@@ -70,12 +70,11 @@ Fra Nord Pool benytter vi daglige aggregerte spotpriser for de fem norske prisom
 
 Prisdataene ble lastet ned i separate Excel-filer og importert til R ved hjelp av `readxl`. Filene ble kombinert til samlede datasett. Metadata og "NA" observasjoner fjernet. Datoene ble standardisert og sortert kronologisk. Timeprisene ble tilsvarende kombinert. For timeprisene ble daglige oppsummeringsverdier (minimum, maksimum og gjennomsnitt) skilt fra de ordinære timeobservasjonene for å unngå at ulike tidsoppløsninger blandes i analysene.
 
-Prisene i begge datasettene er opprinnelig oppgitt i NOK/MWh. Vi har konvertert til NOK/kWh ved å dele på 1000. Dette gir sammenlignbare måleenheter på tvers av data, særlig opp mot at strømstøtte og norgespris er definert i NOK/kWh.
+Prisene i begge datasettene er opprinnelig oppgitt i NOK/MWh. Vi har konvertert til NOK/kWh ved å dele på 1000. Dette gir sammenlignbare måleenheter på tvers av data, særlig opp mot at strømstøtte og norgespris er definert i NOK/kWh. Variabelnavnene standardisert med janitor
 
 ### 2.2. Elhub – Norgespris og strømforbruk - funksjon_for_maaler.R
 
-
-Dataene ble importert fra CSV-filer og omstrukturert fra bredt til langt format for å aggregere undergruppene til samlevariabler for husholdninger og fritidsboliger. På bakgrunn av disse ble det beregnet andeler av målepunkter med Norgespris og andeler av strømforbruket som dekkes av ordningen. 
+Dataene ble importert fra CSV-filer og omstrukturert fra bredt til langt format for å aggregere undergruppene til samlevariabler for husholdninger og fritidsboliger. På bakgrunn av disse ble det beregnet andeler av målepunkter med Norgespris og andeler av strømforbruket som dekkes av ordningen. variabelnavnene standardisert med janitor.
 
 Det er viktig å merke seg at antall målepunkter ikke nødvendigvis tilsvarer antall husholdninger, ettersom én husholdning kan disponere flere målepunkter.
 
@@ -85,15 +84,13 @@ For å undersøke hvilke prissignaler husholdningene står overfor, beregnes en 
 
 Sluttprisen beregnes ved å trekke beregnet strømstøtte fra spotprisen. Beregningen tar hensyn til historiske endringer i støtteordningens dekningsgrad og innslagsterskel. Fra desember 2021 var støttesatsen først 55 %, før den ble økt til 80 % og senere 90 %. Innslagsterskelen ble gradvis justert fra 70 øre/kWh til 77 øre/kWh i 2026.
 
-Videre konstrueres Norgespris som en referansepris på 40 øre/kWh ekskl. mva. (50 øre inkl. mva.) fra 1. oktober 2025.
-
-Utdrag av funksjon for støtteutregner få vise datawrangling og utregning av ny data? 
+Videre konstrueres Norgespris som en referansepris på 40 øre/kWh ekskl. mva. (50 øre inkl. mva.) fra 1. oktober 2025. Variabelnavnene standardisert med janitor
 
 ### 2.4. NVE – fyllingsgrad i vannmagasiner - fylling.R
 
-For å undersøke sammenhengen mellom magasinfylling og strømpriser benyttes ukentlige data fra Norges vassdrags- og energidirektorat (NVE) for perioden 2020–2026, fordelt på de fem norske prisområdene. Fyllingsgraden gir informasjon om tilgjengelige vannkraftressurser og kan påvirke kraftprodusentenes vannverdier og forventninger om fremtidig krafttilgang.
+For å undersøke sammenhengen mellom magasinfylling og strømpriser benyttes ukentlige data fra Norges vassdrags- og energidirektorat (NVE) for perioden 2020–2026, fordelt på de fem norske prisområdene. Magasinfyllingen sier noe om tilgangen på vannkraft og kan påvirke kraftprodusentenes vurderinger av vannverdien og forventninger til fremtidig krafttilgang.
 
-Excel-filene ble importert og bearbeidet i R. Datasettene ble omstrukturert og slått sammen ved hjelp av årstall og ukenummer som felles variabler. Manglende observasjoner ble fjernet. Dataene ble deretter organisert i langt format, der hver observasjon representerer fyllingsgraden i ett prisområde for en bestemt uke. Med R-pakken `ISOweek` ble årstall og ISO-ukenummer konvertert til kalenderdatoer, med mandag som referansedag. Til slutt ble datasettet sortert etter prisområde og dato, og variabelnavnene ryddet og gjort leselige med janitor R-pakken.
+Excel-filene ble lest inn og bearbeidet i R, der dataene fra de ulike årene ble slått sammen og organisert etter prisområde og uke. Årstall og ISO-ukenummer ble konvertert til datoer med mandag som referansedag ved hjelp av pakken ISOweek. Manglende observasjoner ble fjernet, og variabelnavnene standardisert med janitor.
 
 ## 3. Metode
 
@@ -607,7 +604,6 @@ all_data_samlet <- priser_long |>
 Analysen benytter data med ulik tidsoppløsning, tilpasset de enkelte problemstillingene. Datagrunnlaget omfatter daglige og ukentlige observasjoner for de fem norske strømprisområdene. For å kontrollere for regionale forskjeller og tidsvariasjoner inkluderes områdespesifikke og tidsrelaterte kontrollvariabler i modellene.
 
 Den generelle modellstrukturen kan uttrykkes som: $y_{it} = \beta_0 +* \boldsymbol{\beta}'\mathbf{X}{it} + \alpha_i + \delta*m +* \varepsilon{it}$
-
 Her representerer $y_{it}$ den avhengige variabelen, mens $X_{it}$ er forklaringsvariablene. Områdespesifikke effekter $\alpha_i$ fanger opp forskjeller mellom prisområdene. Tidsrelaterte kontrollvariabler $\delta_t$ benyttes for å kontrollere for sesongvariasjoner eller generelle tidstrender, avhengig av problemstillingen.
 
 ### 3.2. Estimerings- og prediksjonsmetoder
@@ -615,11 +611,9 @@ Her representerer $y_{it}$ den avhengige variabelen, mens $X_{it}$ er forklaring
 #### 3.2.1. Ordinær minste kvadraters metode (OLS)
 
 OLS benyttes til å estimere lineære sammenhenger mellom avhengige variabler og forklaringsvariabler. Metoden estimerer koeffisientene ved å minimere summen av kvadrerte residualer. I et bestemt system kan det minste predikerte kvadratet estimeres ved:
-
 $$
  \hat\beta = arg\min_\beta\text{S}(b) =(X^TX)^{-1}X^Ty 
 $$
-
 OLS benyttes i alle tre problemstillingene. I problemstilling 1 og 3 brukes metoden til å undersøke statistiske sammenhenger, mens den i problemstilling 2 også benyttes som sammenligningsgrunnlag for prediksjon.
 
 #### 3.2.2. Regularisert regresjon (LASSO)
@@ -627,7 +621,6 @@ OLS benyttes i alle tre problemstillingene. I problemstilling 1 og 3 brukes meto
 LASSO-regresjon (Least Absolute Shrinkage and Selection Operator) benyttes som en supplerende metode i problemstilling 1 og 2. Metoden kombinerer lineær regresjon med en $L_1$-straff som begrenser størrelsen på koeffisientene og kan sette mindre relevante koeffisienter lik null. Dette muliggjør variabelseleksjon og kan redusere risikoen for overtilpasning [@tibshirani_regression_1996; @hastie_elements_2009; @fonti_feature_2017; @gentzkow_text_2019].
 
 LASSO-modellen estimeres ved å minimere:
-
 $$
 \hat{\boldsymbol{\beta}}_{\text{lasso}}
 =
@@ -640,9 +633,7 @@ y_i-\beta_0-\sum_{j=1}^{p}x_{ij}\beta_j
 +
 \lambda\sum_{j=1}^{p}|\beta_j|
 \right]
-$$
-Styrken på regulariseringen styres av hyperparameteren $\lambda \ge 0$. Dersom $\lambda$ økes, tvinges koeffisienter mot null, noe som utfører automatisk variabelseleksjon. Omvendt vil $L_1$-straffen gå mot null når $\lambda \to 0$, slik at LASSO-modellen konvergerer mot en ordinær ustraffet OLS-modell [@lind_econ3170_2026; @tibshirani_regression_1996]. Siden $L_1$-straffen er sensitiv for måleskalaer, blir alle numeriske variabler skalert og standardisert i oppskriften før estimering [@kuhn_tidy_2023; @lind_econ3170_2026].
-
+$$ Styrken på regulariseringen styres av hyperparameteren $\lambda \ge 0$. Dersom $\lambda$ økes, tvinges koeffisienter mot null, noe som utfører automatisk variabelseleksjon. Omvendt vil $L_1$-straffen gå mot null når $\lambda \to 0$, slik at LASSO-modellen konvergerer mot en ordinær ustraffet OLS-modell [@lind_econ3170_2026; @tibshirani_regression_1996]. Siden $L_1$-straffen er sensitiv for måleskalaer, blir alle numeriske variabler skalert og standardisert i oppskriften før estimering [@kuhn_tidy_2023; @lind_econ3170_2026].
 For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE som utgangspunkt for modellvalget . RMSE og $R^2$ benyttes i kryssvalideringen, mens RMSE, $R^2$ og MAE og MAE benyttes til å evaluere og sammenligne OLS- og LASSO-modellens prediksjonsevne på det samme testsettet [@lind_econ3170_2026; @hammersmark_econ3170_2026; @kuhn_tidy_2023].
 
 For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE som utgangspunkt for modellvalget. RMSE og $R^2$ benyttes i kryssvalideringen, mens RMSE, $R^2$ og MAE og MAE benyttes til å evaluere og sammenligne OLS- og LASSO-modellens prediksjonsevne på det samme testsettet.
@@ -653,9 +644,9 @@ De tre problemstillingene undersøker ulike sammenhenger i datasettet. Modellene
 
 #### 3.3.1. Norgespris og strømforbruk: Problemstilling 1
 
-Problemstillingen undersøker sammenhengen mellom andelen av husholdningenes strømforbruk som er knyttet til Norgespris og husholdningenes samlede strømforbruk. Modellen inkluderer områdefaste effekter og månedseffekter for å kontrollere for geografiske forskjeller og sesongvariasjoner.
+Problemstillingen undersøker sammenhengen mellom andelen av husholdningenes strømforbruk som er knyttet til Norgespris, og husholdningenes samlede strømforbruk. Modellen inkluderer områdefaste effekter og månedseffekter for å kontrollere for geografiske forskjeller og sesongvariasjoner.
 
-For å undersøke sammenhengen spesifiseres følgende modell: $$
+For å undersøke sammenhengen spesifiseres følgende modell:$$
 \text{forbruk\_hus}_{it}
 = \beta_0
 + \beta_1 \text{prosent\_forbruk\_hus\_np}_{it}
@@ -664,7 +655,6 @@ For å undersøke sammenhengen spesifiseres følgende modell: $$
 + \delta_m
 + \varepsilon_{it}
 $$
-
 $\text{prosent\_forbruk\_hus\_np}_{it}$ angir andelen av husholdningenes samlede strømforbruk som er knyttet til Norgespris. $\text{slutt\_average}_{it}$ angir gjennomsnittlig strømpris etter strømstøtte (NOK/kWh). $\alpha_i$ representerer områdefaste effekter, mens $\delta_m$ representerer månedseffekter.
 
 ```{r}
@@ -682,13 +672,11 @@ modell_p1 <- lm(
 
 #summary(modell_p1)
 ```
+I tillegg estimeres en LASSO-modell for å undersøke variabelseleksjon og prediksjonsevne. Modellene sammenlignes på samme testsett, med et tilfeldig trenings- og testutvalg og 10-fold kryssvalidering. Ettersom datasettet har en daglig panelstruktur, vil tilfeldig oppsplitting innebære at testobservasjoner kan ha nærliggende treningsobservasjoner både før og etter seg. Evalueringen må derfor forstås som modellens evne til å predikere utelatte dager innenfor den observerte perioden (interpolasjon), snarere enn å predikere fremtidige perioder (ekstrapolasjon). Dette kan gi lavere og mer optimistiske prediksjonsfeil enn en tidsbasert oppsplitting [@hammersmark_econ3170_2026].
 
- tillegg estimeres en LASSO-modell for å undersøke variabelseleksjon og prediksjonsevne. OLS og LASSO sammenlignes på det samme tilfeldige testsettet, basert på et tilfeldig trenings- og testutvalg og 10-fold kryssvalidering. Siden datasettet har en daglig paneldatastruktur, innebærer tilfeldig radvalg at testdagene vil ha nærliggende treningsdager før og etter seg. På grunn av sterk daglig autokorrelasjon i kraftmarkedet (hvor priser og forbruk påstøter hverandre fra dag til dag), vil tilfeldig oppsplitting måles som modellens evne til å fylle ut tilfeldige dager i den observerte perioden (interpolere), heller enn å ekstrapolere framtidige tidsperioder [@hammersmark_econ3170_2026] . Dette medfører at de beregnede prediksjonsfeilene (RMSE) vil bli noe lavere og mer overoptimistiske enn hva en tidsbasert oppsplitting ville gitt.
-
-Siden inngåelse av Norgespris er et frivillig valg for husholdningene, medfører modellspesifikasjonen fare for seleksjonsskjevhet. Husholdninger med et i utgangspunktet høyt forventet strømforbruk (for eksempel store eneboliger med elbillading og elektrisk oppvarming) har i teorien et sterkere økonomisk motiv til å tegne fastpris for å forsikre seg mot høye pristopper. Estimeringen av $\hat{\beta}_1$ måler derfor en observerbar samvariasjon i utvalget etter kontroll for geografi og sesong, og kan ikke tolkes som en ren kausal effekt av at Norgespris i seg selv forårsaker økt forbruk [@hammersmark_econ3170_2026; @athey_machine_2019].
+Ettersom Norgespris er en frivillig ordning, kan avtalevalget være påvirket av husholdningenes forventede strømforbruk og prisfølsomhet. Dette gir risiko for seleksjonsskjevhet. Koeffisienten for Norgespris-andelen må derfor tolkes som en observert sammenheng, ikke som en kausal effekt av ordningen på strømforbruket. Estimeringen av $\hat{\beta}_1$ måler derfor en observerbar samvariasjon i utvalget etter kontroll for geografi og sesong, og kan ikke tolkes som en ren kausal effekt av at Norgespris i seg selv forårsaker økt forbruk [@hammersmark_econ3170_2026; @athey_machine_2019].
 
 For å sikre sammenlignbarhet benyttes de samme forklaringsvariablene i begge modellene. I LASSO omgjøres kategoriske variabler til dummyvariabler, og de numeriske prediktorene standardiseres før estimering.
-
 ```{r}
 #| include: false
 # 8. LASSO av problemstilling 1
@@ -793,7 +781,6 @@ koeffisienter_lasso <- final_model_train |>
 
 #koeffisienter_lasso
 ```
-
 Metodisk merknad om valg av $\lambda$: Kryssvalideringen valgte en svært lav verdi for $\lambda$ = $10^{-4}$ , som er i nedre grense av søkeområdet. Dette innebærer svak regularisering. Modellen foretrekker dermed lite koeffisientkrymping innenfor det undersøkte søkeområdet [@hastie_elements_2009].
 
 Ettersom Norgespris er en frivillig ordning, kan husholdningenes avtalevalg være påvirket av forventet strømforbruk og prisfølsomhet. Dette gir risiko for seleksjonsskjevhet og begrenser muligheten for å tolke sammenhengene kausalt.
@@ -801,23 +788,18 @@ Ettersom Norgespris er en frivillig ordning, kan husholdningenes avtalevalg vær
 #### 3.3.2. Prisdynamikk og adopsjon av Norgespris: Problemstilling 2
 
 Vi ønsket å undersøke hva som påvirket husholdningene til å signere avtale om Norgespris. Prosentandelen med Norgespris er seg selv er lite egnet til å se hvordan strømprisene påvirker adopsjonsraten, da den blir svært liten opp mot den totale andelen strømkunder. Vi brukte derfor tall fra statnett om antall som hadde signert totalt frem tild en dagen, og regnet ut antall nye signeringer hver dag.
-
 $$
 \Delta nye\_signeringer_i = \sum_i^NNorgespris - \sum_i^{N-1}Norgespris
 $$
-
 Her er i er starten på datasettet og N er dagen som blir regnet ut. Med denne verdien kunne vi dermed undersøke om de ulike prisivåene påvirket hvor mange som signerte norgespris samme dag. Dette er en enkel model som kan beskrives slik:
-
 $$
 nye\_signeringer_{i} = \beta_0 + \beta_{1-3}slutt_{it} + \beta_{4-6}stotte_{it} + \beta_{7-9}fordel_{it} + \alpha_i + \delta_m + \epsilon_{it}
 $$
-
 Her er de ulike $\beta_{\text{n}}X_{it}$ verdiene beskrevet maksimum, minimum og gjennomsnitt av slutt-, stotte- og fordel- verdiene. Videre representerer $\alpha_i$ områdefaste effekter, mens $\delta_m$ representerer månedseffekter. Dette er henholdsvis prisen etter strømstøtte, støtten man får og fordelen ved å ha Norgespris. Områdefaste og månedseffekter er med for å fange opp andre beslektede effekter rundt som sesongbaserte effekter, eller smitte fra trender i andre prisområder.
 
 #### 3.3.3. Magasinfylling og spotpris: Problemstilling 3
 
-Problemstillingen undersøker i hvilken grad variasjoner i magasinfylling kan bidra til å forklare variasjoner i spotpriser på tvers av de fem norske prisområdene. Analysen benytter ukentlige observasjoner av magasinfylling og spotpriser for de fem norske prisområdene i perioden 2020–2026.
-
+Problemstillingen undersøker sammenhengen mellom magasinfylling og spotpriser på tvers av de fem norske prisområdene. Analysen benytter ukentlige observasjoner av magasinfylling og spotpriser i perioden 2020–2026.
 $$
 \text{spotpris}_{it}
 = \beta_0
@@ -825,10 +807,7 @@ $$
 + \alpha_i
 + \gamma t
 + \varepsilon_{it}
-$$
-
-Modellen estimeres med OLS, der spotpris er avhengig variabel og fyllingsgrad er forklaringsvariabel. Prisområde inkluderes som en kategorisk variabel for å kontrollere for geografiske forskjeller i prisnivået, mens dato inngår som en lineær tidstrend for å kontrollere for den generelle utviklingen i spotprisene gjennom analyseperioden.
-
+$$ Modellen estimeres med OLS, der spotpris er avhengig variabel og fyllingsgrad er forklaringsvariabel. Prisområde inkluderes som en kategorisk variabel for å kontrollere for geografiske prisforskjeller, mens dato inngår som en lineær tidstrend for å fange opp den generelle prisutviklingen gjennom analyseperioden.
 ```{r}
 #| include: false
 
@@ -864,21 +843,23 @@ ols_fyllingsgrad <- lm(
 #summary(ols_fyllingsgrad)
 ```
 
-**Se vedlegg xx for å se utdrag/hele koden. Strukturen og oppsettet av funksjonen er lik for alle datasettene.**
-
 ## 4. Resultat og evaluering
 
 I dette kapittelet presenteres resultatene fra de empiriske analysene. Resultatene er strukturert etter oppgavens tre problemstillinger. Først undersøkes sammenhengen mellom Norgespris-adopsjon og husholdningenes samlede strømforbruk. Deretter analyseres sammenhengen mellom strømpriser, magasinfylling og adopsjon av Norgespris. Til slutt undersøkes sammenhengen mellom magasinfylling og prisutvikling i prisområdene.
 
 ### 4.1. Historisk utvikling i strømpriser
 
-Figur 4.1 viser utviklingen i gjennomsnittlige døgnpriser i de fem norske prisområdene fra 2020 til 2026. Figuren illustrerer både variasjoner i strømprisene over tid og geografiske forskjeller mellom prisområdene. Prisområdene har hatt ulik prisutvikling, noe som understreker betydningen av å kontrollere for geografiske forskjeller i de videre regresjonsanalysene.
+![Figur 4.1.](images/utvikling%20i%20gjnsnt%20dognpris%20per%20omraaade.png){width="288"}
+
+Figur 4.1 viser utviklingen i gjennomsnittlige døgnpriser i de fem norske prisområdene fra 2020 til 2026. Prisområdene har hatt ulik prisutvikling, noe som understreker betydningen av å kontrollere for geografiske forskjeller i de videre regresjonsanalysene.
 
 ### 4.2. Norgespris og strømforbruk: Problemstilling 1
 
-For å undersøke sammenhengen mellom Norgespris-andelen av husholdningenes strømforbruk og husholdningenes samlede strømforbruk estimeres en OLS-modell med samlet husholdningsforbruk som avhengig variabel. Modellen inkluderer andelen av husholdningenes samlede strømforbruk som er knyttet til Norgespris, strømpris etter strømstøtte, områdefaste effekter og månedseffekter.
+For å undersøke sammenhengen mellom Norgespris-andelen av husholdningenes strømforbruk og samlet husholdningsforbruk estimeres en OLS-modell. Modellen inkluderer strømpris etter strømstøtte, områdefaste effekter og månedseffekter.
 
-Figur 4.2 viser den deskriptive sammenhengen mellom andelen av husholdningenes strømforbruk som er knyttet til Norgespris og samlet husholdningsforbruk, fordelt på prisområde. Trendlinjene illustrerer hvordan sammenhengen varierer mellom prisområdene.
+![Figur 4.2](images/Norgespris_stromforbruk.png){width="248"}
+
+Figur 4.2 viser den deskriptive sammenhengen mellom Norgespris-andelen av husholdningenes strømforbruk og samlet husholdningsforbruk, fordelt på prisområde i perioden 1.10.2025 til 30.11.2026. Trendlinjene illustrerer geografiske forskjeller i sammenhengen.
 
 ```{r}
 #| echo: false
@@ -922,11 +903,7 @@ kable(
 
 *Merknad: OLS-koeffisienter rapporteres med standardfeil i parentes. LASSO-koeffisientene viser estimerte koeffisienter etter standardisering av forklaringsvariablene. Koeffisientene er avrundet til nærmeste heltall.*
 
-Den posistive og signifikante koeffisienten for Norgespris-adopsjon $(\hat{\beta}_1 = +13,53\text{ mill} )$ reflekterer i hovedsak en sammensetnings- og seleksjonseffekt. Husholdninger som velger fastpris har gjennomgående et høyere baseline-forbruk enn gjennomsnittshusholdningen. I tillegg kan fastprisstrukturen gi opphav til en viss moral hazard-effekt, der den faste prisen reduserer incitamentet til å spare strøm i høylastperioder. Siden dataene er aggregert på prisområdenivå og avtaleinngåelsen er frivillig, viser resultatet at områder og perioder med høy Norgespris-dekning har høyere samlet forbruk, uten at det beviser at avtalen alene har endret husholdningenes adferd [@athey_machine_2019; @hammersmark_econ3170_2026].
-
-Sammenligningen av OLS og LASSO viser svært små forskjeller i prediksjonsevne på testsettet. OLS oppnår marginalt lavere RMSE, mens LASSO har marginalt lavere MAE. OLS oppnår en R² på 0,866, mens LASSO oppnår 0,865 Resultatene gir dermed ikke grunnlag for å konkludere med at én av modellene har klart bedre prediksjonsevne enn den andre.
-
-Kryssvalideringskurven viser at ved å øke $\lambda$ vil prediksjonsfeil (RMSE) på valideringsfoldene øke. Dette bekrefter at indikatorvariablene for elspotområder, månedsdummier og nettopris alle tilfører reell informasjon, og at den opprinnelige OLS-spesifikasjonen i utgangspunktet er velstilpasset datastrukturen uten å være overtilpasset [@lind_econ3170_2026].
+Den positive og statistisk signifikante koeffisienten for Norgespris-andelen $(\hat{\beta}_1 = +13,53\text{ mill} )$ reflekterer i hovedsak en sammensetnings- og seleksjonseffekt. Husholdninger som velger fastpris, kan ha et høyere forventet grunnforbruk enn gjennomsnittet. I tillegg kan fastprisstrukturen skape en form for moral hazard, ved at redusert eksponering for høye spotpriser svekker insentivet til å spare strøm i perioder med høyt forbruk. Ettersom dataene er aggregert på prisområdenivå og avtaleinngåelsen er frivillig, viser resultatet en positiv sammenheng mellom Norgespris-dekning og samlet husholdningsforbruk, men dokumenterer ikke en kausal effekt av ordningen [@athey_machine_2019; @hammersmark_econ3170_2026].
 
 ```{r}
 #| include: false
@@ -1019,7 +996,9 @@ knitr::kable(
 )
 ```
 
-Sammenligningen av OLS og LASSO viser svært små forskjeller i prediksjonsevne på testsettet. OLS oppnår marginalt lavere RMSE, mens LASSO har marginalt lavere MAE. OLS oppnår en R² på 0,866, mens LASSO oppnår 0,865 Resultatene gir dermed ikke grunnlag for å konkludere med at én av modellene har klart bedre prediksjonsevne enn den andre.
+OLS og LASSO viser tilnærmet lik prediksjonsevne på testsettet. OLS oppnår marginalt lavere RMSE, mens LASSO har marginalt lavere MAE. Modellene oppnår henholdsvis en R² på 0,866 og 0,865. Forskjellene er små og gir ikke grunnlag for å konkludere med at én modell har klart bedre prediksjonsevne enn den andre. Resultatene gir dermed ikke grunnlag for å konkludere med at én av modellene har klart bedre prediksjonsevne enn den andre.
+
+Kryssvalideringen viser at prediksjonsfeilen øker med høyere $\lambda$. Dette tyder på at forklaringsvariablene bidrar med relevant informasjon, og at sterkere regularisering ikke forbedrer modellens prediksjonsevne [@lind_econ3170_2026].
 
 LASSO-modellen beholder samtlige forklaringsvariabler med en svært lav valgt verdi for lambda. Regulariseringen fører dermed ikke til at noen av variablene fjernes. I denne analysen gir LASSO gir ingen tydelig forbedring sammenlignet med OLS. Den positive sammenhengen mellom Norgespris-andelen av husholdningenes strømforbruk kan heller ikke tolkes kausalt, ettersom husholdningenes valg av strømavtale ikke er tilfeldig.
 
@@ -1268,15 +1247,21 @@ Her kommer det frem at modellen har begrensninger, og at det ville gitt mer info
 
 ### 4.4. Magasinfylling og spotprisdannelse: Problemstilling 3
 
-Den tredje problemstillingen undersøker i hvilken grad variasjoner i magasinfylling kan bidra til å forklare variasjoner i spotprisene på tvers av de fem norske prisområdene. Analysen starter med en deskriptiv gjennomgang av geografiske forskjeller i magasinfylling og den visuelle sammenhengen mellom magasinfylling og historiske priser, før sammenhengen undersøkes nærmere gjennom OLS-regresjon.
+Den tredje problemstillingen undersøker sammenhengen mellom magasinfylling og spotpriser på tvers av de fem norske prisområdene. Først presenteres geografiske forskjeller og den deskriptive sammenhengen mellom variablene. Deretter estimeres en OLS-modell.
 
 #### 4.4.1. Deskriptiv analyse
 
-Figur 4.3 viser utviklingen i gjennomsnittlig magasinfylling over tid og tydelige forskjeller mellom prisområdene. Figur 4.4 viser den visuelle sammenhengen mellom magasinfylling og spotpris, med separate trendlinjer for hvert prisområde. Figurene gir et grunnlag for å undersøke om sammenhengen varierer geografisk, og danner utgangspunkt for regresjonsanalysen.
+::: {layout-ncol="2"}
+![Figur 4.3](images/utvikling%202020_2026.png){fig-align="left" width="286" height="234"}
+
+![Figur 4.4](images/Magfyll_spott_peromrade_2020_26.png){fig-align="right" width="278" height="258"}
+:::
+
+Figur 4.3 viser utviklingen i gjennomsnittlig magasinfylling over tid og forskjeller mellom prisområdene. Figur 4.4 illustrerer den deskriptive sammenhengen mellom magasinfylling og spotpris, med separate trendlinjer for hvert prisområde.
 
 #### 4.4.2. OLS-regresjon
 
-Modellen er estimert med 1 760 observasjoner og har en R² på 0,213 og en justert R² på 0,211. Dette innebærer at modellen forklarer omtrent 21,1 prosent av variasjonen i spotprisene, justert for antall forklaringsvariabler.
+OLS-modellen er estimert med 1 760 observasjoner og har en R² på 0,213 og en justert R² på 0,211. Modellen forklarer dermed ca. 21,1 prosent av variasjonen i spotprisene, justert for antall forklaringsvariabler.
 
 ```{r}
 #| echo: false
@@ -1335,11 +1320,11 @@ knitr::kable(
 
 *Merknad: NO1 er referanseområdet. Standardfeil rapporteres sammen med koeffisientene.* **,** og \* angir statistisk signifikans på henholdsvis 0,1-, 1- og 5-prosentnivå.\*
 
-Koeffisienten for magasinfylling er −0,6716 og statistisk signifikant på 0,1-prosentnivå. Ettersom fyllingsgraden er målt fra 0 til 1, tilsvarer en økning på 10 prosentpoeng en reduksjon i spotprisen på omtrent 0,067 kr/kWh, kontrollert for prisområde og dato. Resultatet viser dermed en negativ sammenheng mellom magasinfylling og spotpris.
+Koeffisienten for magasinfylling er −0,6716 og statistisk signifikant på 0,1-prosentnivå. Ettersom fyllingsgraden er målt fra 0 til 1, tilsvarer en økning på 10 prosentpoeng en reduksjon i spotprisen på om lag 0,067 kr/kWh, kontrollert for prisområde og dato. Resultatet viser en negativ sammenheng mellom magasinfylling og spotpris.
 
-Regresjonen viser også geografiske forskjeller i spotprisene. NO3 og NO4 har henholdsvis 0,451 og 0,547 kr/kWh lavere spotpriser enn NO1, kontrollert for magasinfylling og dato. Begge forskjellene er statistisk signifikante på 0,1-prosentnivå. For NO2 og NO5 er det ikke statistisk signifikante forskjeller sammenlignet med NO1.
+Det er også geografiske forskjeller i spotprisene. Sammenlignet med NO1 har NO3 og NO4 henholdsvis 0,451 og 0,547 kr/kWh lavere spotpriser, kontrollert for magasinfylling og dato. Begge forskjellene er statistisk signifikante på 0,1-prosentnivå. For NO2 og NO5 er forskjellene fra NO1 ikke statistisk signifikante.
 
-Datovariabelen har en positiv og statistisk signifikant koeffisient på 0,0001423. Dette indikerer en positiv lineær tidstrend i spotprisene gjennom analyseperioden, tilsvarende en økning på omtrent 0,052 kr/kWh per år.
+Datovariabelen har en positiv og statistisk signifikant koeffisient på 0,0001423, noe som tilsvarer en økning i spotprisen på ca. 0,052 kr/kWh per år.
 
 ## 5. Konklusjon
 
@@ -1349,13 +1334,11 @@ Når vi undersøkte strømprisen og differansen spotprisen med strømstøtte har
 
 Videre finner analysen en negativ og statistisk signifikant sammenheng mellom magasinfylling og spotpriser. Høyere magasinfylling er dermed forbundet med lavere spotpriser, også når det kontrolleres for prisområde og tidsutvikling.
 
-Samlet viser analysene at strømforbruk, adopsjon av Norgespris og spotpriser henger sammen med ulike forhold ved strømmarkedet. Resultatene må imidlertid tolkes som statistiske sammenhenger, og ikke nødvendigvis som uttrykk for årsakssammenhenger.
+Samlet viser analysene at både husholdningenes strømforbruk, inngåelse av Norgespris-avtaler og spotpriser varierer i sammenheng med ulike forhold i strømmarkedet. Resultatene må likevel tolkes med forsiktighet. Analysene identifiserer statistiske sammenhenger, men gir ikke grunnlag for å fastslå årsakssammenhenger.
 
 ## 6. Bruk av KI
 
-KI har blitt brukt på litt ulike måter. For enkelhetsskyld starter vi med å nevne hvilke KI platformer som har blitt brukt: GPTUiO, ChatGPT
-
-**Begge** modellene har assistert med å rense koder, forbedre koder og feilsøke. Forklaringer på hvordan vi har arbeidet med KI kommer under. Enkelte korte formuleringer og standardiserte kodeuttrykk er være beholdt uendret når det er begrenset rom for meningsfull alternativ formulering, for eksempel ved enkle faktabeskrivelser eller vanlig R-syntaks. Dette gjelder ikke faglige vurderinger, analyser eller tolkninger, som er utarbeidet av oss.
+KI har blitt brukt på ulike måter. Modellene som er bruk er GPTUiO og ChatGPT. Begge modellene har assistert med å rense koder, forbedre koder og feilsøke. Forklaringer på hvordan vi har arbeidet med KI kommer under. Enkelte korte formuleringer og standardiserte kodeuttrykk er være beholdt uendret når det er begrenset rom for meningsfull alternativ formulering, for eksempel ved enkle faktabeskrivelser eller vanlig R-syntaks. Dette gjelder ikke faglige vurderinger, analyser eller tolkninger, som er utarbeidet av oss.
 
 ### 6.1. KI og idemyldring for problemstillinger
 
@@ -1363,26 +1346,19 @@ KI er brukt til å komme med forslag til formulering til problermsstillinger bas
 
 ### 6.2. KI, koding og feilsøking
 
-KI er brukt for å hjelpe med å generere koder. Hvis man ikke har funnet svar på problemer eller spørsmål i online forum som f.eks. Stackoverflow er KI brukt til å spørre om hvilke pakker eller metode man kan bruke for å feks. endre datasettet i NVE på fyllingsgrad slik at det ikke bare sorteres på uke, men også dag. Det var nødvendig for å kunne sette det sammen til et stort historisk sett og unngå å få flere NA verdier. KI ble brukt til å foreslå og forklare standard R-syntaks for innlesing og bearbeiding av data. Vi tok selv stilling til hvilke filer som skulle inngå, hvordan filene var strukturert, hvilke rader som skulle hoppes over, og hvordan resultatet skulle valideres og brukes videre i analysen. Et eksempel er innlesing av flere Excel-filer ved hjelp av lapply() og read_excel(). KI kunne foreslå standard syntaks for dette, mens vi vurderte filutvalget, at de fire første radene skulle hoppes over, og kontrollerte at dataene ble lest inn riktig.
+KI ble brukt som støtte i utvikling, bearbeiding og feilsøking av R-kode, særlig når vi ikke fant relevante løsninger i nettbaserte forum som Stack Overflow. Verktøyene ble blant annet brukt til å undersøke hvilke pakker og metoder som kunne brukes til å bearbeide NVE-dataene for magasinfylling, slik at observasjonene kunne knyttes til kalenderdatoer og kombineres i ett historisk datasett.
 
-Et annet konkret eksempel er hvordan KI ble brukt for å endre en gammel kode for å pivote flere rådatasett om strømmåler og Norgespris (rådataen fra elhub, gammel kode finnes i mappen gamle scrips og heter maaler.R). Dette var en tung kode som la sammen et stort datasett, og koden ble repetert flere ganger. KI ble gitt denne koden og bedt om å gjøre det om til en funksjon for å gjøre koden kompakt og mer leselig. Dog, en funksjon vil ofte bruke lengre tid på å kjøre enn en manuel pivoting, men kan man bruke én funksjon på flere datasett som har samme struktur i stede for å repitere samme kode flere ganger. Ved å få KI til å endre det til en funksjon gikk vi fra 87 linjer med effektiv kode til 48 linjer. Dersom man ønsker å gjennta samme undersøkelser senere når det kommer mer data for Norgespris og strømmåler kan man dermed bare bruke en funksjon og ikke måtte kode alt manuelt.
+KI foreslo også standard R-syntaks for innlesing og bearbeiding av data. Gruppen tok selv stilling til hvilke filer som skulle inngå, hvordan filene var strukturert, hvilke rader som skulle hoppes over, og hvordan resultatene skulle kontrolleres. Et eksempel er innlesing av flere Excel-filer ved hjelp av lapply() og read_excel(). KI foreslo syntaksen, mens gruppen vurderte filutvalget, bestemte at de fire første radene skulle hoppes over, og kontrollerte at dataene ble lest inn korrekt.
 
-KI er brukt som et supplement til online forum for å hjelpe med å forstå feilkoder fra RStudio, og feilkoder fra Quatro. Spesieltt i Quarto er KI brukt for å forstå feilkodene, og til å backtracke arbeid. Feilen har ofte skyldtes at man har glemt å kopiere inn alle endringene som er gjort i koden(e) i RStudio scripts over til Quarto slik at den kjører på feil verdier eller variabler som er endret. Det samme problemet har skjedd i RStudio. Vi har flere scripts og noen av de bygger på/krever resultate for andre. Har man gjort en endring i ett og glemt å videreføre det oppstår det problemer.
+Et annet eksempel er omarbeidingen av en eldre kode for bearbeiding av rådata fra Elhub om strømmålere og Norgespris (se maaler.R i mappen gamle scripts). Den opprinnelige koden besto av gjentatte operasjoner for å sette sammen flere datasett. KI ble bedt om å gjøre koden om til en funksjon som kunne brukes på datasett med samme struktur. Dette reduserte koden fra 87 til 48 linjer og gjorde den enklere å vedlikeholde og gjenbruke når nye data blir tilgjengelige.
+
+KI ble også brukt som supplement til nettbaserte forum ved feilsøking i RStudio og Quarto. Dette omfattet blant annet å tolke feilmeldinger og spore feil tilbake til tidligere endringer i koden. En tilbakevendende utfordring var at endringer i RStudio-skriptene ikke alltid ble overført til Quarto-dokumentet, eller at endringer i ett skript ikke ble fulgt opp i andre skript som var avhengige av det. KI ble brukt til å forstå slike feil og identifisere mulige årsaker.
 
 ### 6.3. KI og skriving
 
-KI ble brukt til å foreslå struktur og tekstutkast til deler av oppgaven. Verktøyet fikk som utgangspunkt materiale utarbeidet av oss selv, herunder introduksjon, problemstillinger, kode, beskrivelser av databehandling og metode i punktform. KI ble deretter bedt om å foreslå en kapittelstruktur og omarbeide punktvise beskrivelser til sammenhengende tekst. Materialet inkluderte også relevante deler av pensum og faglige kilder som gruppen hadde identifisert gjennom lesing, forelesninger og egne notater. KI ble ikke brukt som faglig kilde. Alle tekstforslag fra KI ble gjennomgått, kontrollert og bearbeidet av oss. Vi kontrollerte særlig at beskrivelsene var i samsvar med det faktiske arbeidet som var gjennomført, og at faglige påstander og kildehenvisninger var korrekte og basert på originalkildene. Vi er ansvarlig for den endelige teksten, analysen og de faglige vurderingene. KI ble også brukt til språkvask, inkludert kontroll av skrivefeil og forslag til oppstramming av teskt.
+KI ble brukt til å foreslå struktur og tekstutkast til deler av oppgaven. Verktøyet fikk som utgangspunkt materiale utarbeidet av oss selv, herunder introduksjon, problemstillinger, kode, beskrivelser av databehandling og metode i punktform. KI ble deretter bedt om å foreslå en kapittelstruktur og omarbeide punktvise beskrivelser til sammenhengende tekst. Alle tekstforslag fra KI ble gjennomgått, kontrollert og bearbeidet av oss. Vi kontrollerte særlig at beskrivelsene var i samsvar med det faktiske arbeidet som var gjennomført. KI ble også brukt til språkvask, inkludert kontroll av skrivefeil og forslag til oppstramming av teskt.
 
 ## 7. Kilder
 
 ::: {#refs}
 :::
-
-## 8. Vedlegg
-
-```{r}
-#| eval: false
-
-#kan legge til alt vi vil ha med som vedlegg i bloks her. Må ta stilling til om vi skal legge alle kodene som er brukt (altså de som kjører i bakgrunnen her + evt noen flere) her eller om de bare skal være del av zip-filen. Jeg tenker vi bare kan legge alt her, i samme rekkefølge som det diskluteres og nevnes i oppgaven. 
-
-```
