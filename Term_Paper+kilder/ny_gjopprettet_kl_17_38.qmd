@@ -1336,6 +1336,14 @@ Datovariabelen har en positiv koeffisient på 0,0001423 og er statistisk signifi
 
 ## 5. Konklusjon
 
+Oppgaven har undersøkt sammenhenger mellom Norgespris, strømpriser, husholdningenes strømforbruk og magasinfylling i Norge. Analysen av husholdningenes strømforbruk viser at OLS- og LASSO-modellene har tilnærmet lik prediksjonsevne. Dette tyder på at LASSO ikke gir noen vesentlig forbedring sammenlignet med OLS i denne analysen.
+
+**For problemstilling 2 viser analysen a**t. **\<- Bendik**
+
+Videre finner analysen en negativ og statistisk signifikant sammenheng mellom magasinfylling og spotpriser. Høyere magasinfylling er dermed forbundet med lavere spotpriser, også når det kontrolleres for prisområde og tidsutvikling.
+
+**Samlet viser analysene at strømforbruk, adopsjon av Norgespris og spotpriser henger sammen med ulike forhold ved strømmarkedet. Resultatene må imidlertid tolkes som statistiske sammenhenger, og ikke nødvendigvis som uttrykk for årsakssammenhenger. \<- Bendik**
+
 ## 6. Bruk av KI
 
 KI har blitt brukt på litt ulike måter. For enkelhetsskyld starter vi med å nevne hvilke KI platformer som har blitt brukt: GPTUiO, ChatGPT, **Bendik** Gemini.
