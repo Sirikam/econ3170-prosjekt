@@ -98,17 +98,13 @@ strompriser <- bind_rows(data_liste) |>
   arrange(`Delivery Date (CET)`) |>
   mutate(across(starts_with("NO"), ~ .x / 1000))  #Reduserer fra NOK/MWh til NOK/kWh
 
-#names(strompriser)
-#glimpse(strompriser)
-
-strompriser |>
-  summarise(
-    fra = min(`Delivery Date (CET)`, na.rm = TRUE),
-    til = max(`Delivery Date (CET)`, na.rm = TRUE),
-    antall_datoer = n_distinct(`Delivery Date (CET)`)
-  )
-
-# glimpse(strompriser)
+#for å vise frem hvor mange datoer det er
+#strompriser |>
+#  summarise(
+#    fra = min(`Delivery Date (CET)`, na.rm = TRUE),
+#    til = max(`Delivery Date (CET)`, na.rm = TRUE),
+#    antall_datoer = n_distinct(`Delivery Date (CET)`)
+#  )
 
 # Historisk aggregert Nord Pool-spotpris i langt format:
 # Én rad per dato og prisområde
