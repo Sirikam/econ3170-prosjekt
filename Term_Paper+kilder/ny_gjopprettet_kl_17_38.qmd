@@ -80,11 +80,9 @@ Det er viktig å merke seg at antall målepunkter ikke nødvendigvis tilsvarer a
 
 ### 2.3. Konstruksjon av reell sluttpris og strømstøtte
 
-**Bendik du må sjekke at dette er riktig siden jeg ikke har jobba med koden**
+For å undersøke hvilke prissignaler husholdningene står overfor, beregnes en estimert sluttpris etter strømstøtte. Spotprisen alene gir ikke et fullstendig bilde av husholdningenes faktiske priskostnad, ettersom staten har gitt strømstøtte siden desember 2021. [@regjeringen_stromstotte]
 
-For å undersøke hvilke prissignaler husholdningene står overfor, beregnes en estimert sluttpris etter strømstøtte. Spotprisen alene gir ikke et fullstendig bilde av husholdningenes faktiske priskostnad, ettersom staten har gitt strømstøtte siden desember 2021.
-
-Sluttprisen beregnes ved å trekke beregnet strømstøtte fra spotprisen. Beregningen tar hensyn til historiske endringer i støtteordningens dekningsgrad og innslagsterskel. Fra desember 2021 var støttesatsen først 55 %, før den ble økt til 80 % og senere 90 %. Innslagsterskelen ble gradvis justert fra 70 øre/kWh til 77 øre/kWh i 2026. \<- finne kilde Bendik
+Sluttprisen beregnes ved å trekke beregnet strømstøtte fra spotprisen. Beregningen tar hensyn til historiske endringer i støtteordningens dekningsgrad og innslagsterskel. Fra desember 2021 var støttesatsen først 55 %, før den ble økt til 80 % og senere 90 %. Innslagsterskelen ble gradvis justert fra 70 øre/kWh til 77 øre/kWh i 2026.
 
 Videre konstrueres Norgespris som en referansepris på 40 øre/kWh ekskl. mva. (50 øre inkl. mva.) fra 1. oktober 2025.
 
@@ -94,7 +92,7 @@ Utdrag av funksjon for støtteutregner få vise datawrangling og utregning av ny
 
 For å undersøke sammenhengen mellom magasinfylling og strømpriser benyttes ukentlige data fra Norges vassdrags- og energidirektorat (NVE) for perioden 2020–2026, fordelt på de fem norske prisområdene. Fyllingsgraden gir informasjon om tilgjengelige vannkraftressurser og kan påvirke kraftprodusentenes vannverdier og forventninger om fremtidig krafttilgang.
 
-Excel-filene ble importert og bearbeidet i R. Datasettene ble omstrukturert og slått sammen ved hjelp av årstall og ukenummer som felles variabler. Manglende observasjoner ble fjernet. Dataene ble deretter organisert i langt format, der hver observasjon representerer fyllingsgraden i ett prisområde for en bestemt uke. Med R-pakken `ISOweek` ble årstall og ISO-ukenummer konvertert til kalenderdatoer, med mandag som referansedag. Til slutt ble datasettet sortert etter prisområde og dato, og variabelnavnene standardisert. \<- Dette er rart
+Excel-filene ble importert og bearbeidet i R. Datasettene ble omstrukturert og slått sammen ved hjelp av årstall og ukenummer som felles variabler. Manglende observasjoner ble fjernet. Dataene ble deretter organisert i langt format, der hver observasjon representerer fyllingsgraden i ett prisområde for en bestemt uke. Med R-pakken `ISOweek` ble årstall og ISO-ukenummer konvertert til kalenderdatoer, med mandag som referansedag. Til slutt ble datasettet sortert etter prisområde og dato, og variabelnavnene ryddet og gjort leselige med janitor R-pakken.
 
 ## 3. Metode
 
@@ -615,7 +613,11 @@ Her representerer $y_{it}$ den avhengige variabelen, mens $X_{it}$ er forklaring
 
 #### 3.2.1. Ordinær minste kvadraters metode (OLS)
 
-OLS benyttes til å estimere lineære sammenhenger mellom avhengige variabler og forklaringsvariabler. Metoden estimerer koeffisientene ved å minimere summen av kvadrerte residualer.
+OLS benyttes til å estimere lineære sammenhenger mellom avhengige variabler og forklaringsvariabler. Metoden estimerer koeffisientene ved å minimere summen av kvadrerte residualer. I et bestemt system kan det minste predikerte kvadratet estimeres ved:
+
+$$
+ \hat\beta = arg\min_\beta\text{S}(b) =(X^TX)^{-1}X^Ty 
+$$
 
 OLS benyttes i alle tre problemstillingene. I problemstilling 1 og 3 brukes metoden til å undersøke statistiske sammenhenger, mens den i problemstilling 2 også benyttes som sammenligningsgrunnlag for prediksjon.
 
@@ -794,16 +796,19 @@ Ettersom Norgespris er en frivillig ordning, kan husholdningenes avtalevalg vær
 
 #### 3.3.2. Prisdynamikk og adopsjon av Norgespris: Problemstilling 2
 
-Problemstillingen undersøker sammenhengen mellom strømpriser, støtteordninger og nye signeringer av Norgespris. Nye signeringer benyttes som avhengig variabel.
+Vi ønsket å undersøke hva som påvirket husholdningene til å signere avtale om Norgespris. Prosentandelen med Norgespris er seg selv er lite egnet til å se hvordan strømprisene påvirker adopsjonsraten, da den blir svært liten opp mot den totale andelen strømkunder. Vi brukte derfor tall fra statnett om antall som hadde signert totalt frem tild en dagen, og regnet ut antall nye signeringer hver dag.
 
-Det estimeres en OLS-modell med strømpriser, støttebeløp og fordelingsvariabler som forklaringsvariabler. Prisområde og måned inkluderes som kategoriske variabler.
+$$
+\Delta nye\_signeringer_i = \sum_i^NNorgespris - \sum_i^{N-1}Norgespris
+$$
 
-LASSO benyttes som en supplerende metode for å undersøke hvilke forklaringsvariabler som beholdes gjennom regulariseringen. Prediksjonsevnen til OLS og LASSO sammenlignes på et felles testsett.
+Her er i er starten på datasettet og N er dagen som blir regnet ut. Med denne verdien kunne vi dermed undersøke om de ulike prisivåene påvirket hvor mange som signerte norgespris samme dag. Dette er en enkel model som kan beskrives slik:
 
-```{r}
-#| include: false
+$$
+nye\_signeringer_{i} = \beta_0 + \beta_{1-3}slutt_{it} + \beta_{4-6}stotte_{it} + \beta_{7-9}fordel_{it} + \alpha_i + \delta_m + \epsilon_{it}
+$$
 
-```
+Her er de ulike $\beta_{\text{n}}X_{it}$ verdiene beskrevet maksimum, minimum og gjennomsnitt av slutt-, stotte- og fordel- verdiene. Videre representerer $\alpha_i$ områdefaste effekter, mens $\delta_m$ representerer månedseffekter. Dette er henholdsvis prisen etter strømstøtte, støtten man får og fordelen ved å ha Norgespris. Områdefaste og månedseffekter er med for å fange opp andre beslektede effekter rundt som sesongbaserte effekter, eller smitte fra trender i andre prisområder.
 
 #### 3.3.3. Magasinfylling og spotpris: Problemstilling 3
 
@@ -1185,9 +1190,6 @@ sammenligning_prediksjon_p2
 ```{r}
 #| echo: false
 
-library(dplyr)
-library(knitr)
-library(broom)
 
 best_lambda_p2 |>
   select(penalty) |>
@@ -1215,21 +1217,46 @@ tidy(modell_p2_pred) |>
     )
   )
 
-koeffisienter_lasso_p2 |>
-  kable(
-    caption = "Koeffisienter fra LASSO-modellen",
-    digits = 3
-  )
-
-sammenligning_prediksjon_p2 |>
+prediksjon_tabell_2 <- sammenligning_prediksjon_p2 |>
   mutate(
-    across(where(is.numeric), ~ round(.x, 2))
+    .estimate = ifelse(
+      .metric == "rsq_trad",
+      sprintf("%.3f", .estimate),
+      format(
+        round(.estimate, 3),
+        big.mark = " ",
+        scientific = FALSE,
+        trim = TRUE
+      )
+    )
   ) |>
-  kable(
-    caption = "Sammenligning av observerte og predikerte verdier"
-  )
+  pivot_wider(
+    names_from = Modell,
+    values_from = .estimate
+  ) |>
+  mutate(
+    Mål = recode(
+      .metric,
+      "rmse" = "RMSE",
+      "rsq" = "R²",
+      "mae" = "MAE"
+    )
+  ) |>
+  select(Mål, OLS, LASSO)
 
+# Presenterer tabellen
+knitr::kable(
+  prediksjon_tabell_2,
+  caption = "Sammenligning av prediksjonsevne for OLS og LASSO",
+  align = "lrr"
+)
 ```
+
+Som man kan se av tabellene, er det først og fremst liten forskjell mellom OLS og LASSO. Det samsvarer med en lav $\lambda$ og at Lasso modellen i liten grad har klart å presse variabler til 0. Det andre som kommer frem er at fordelen ved å inngått norgespris er både avhengig av andre verdier, men også i liten grad i stand til å predikere interessen for avtalen.
+
+De verdiene som skiller seg ut, er støtte_min, slutt_average, og støtte_max med t og p-verdier som er av interesse. Siden hypotesen er at disse verdiene skal ha en påvirkning på antall signeringer på Norgesprisavtalen, vil det særlig være grunn til å tro at minimums støttenivå vil være en potensiell sterk predikator. Det er samtidig viktig å se dette opp mot de ulike månedene, hvor særlig måned 9 og 10 skiller seg ut. Datasettet løper fra 1.10.25 til 30.09.26, og det kommer tydelig frem at avtalen i seg selv var svært uventet, men at når husholdningen har tilpasset seg den nye hverdagen vil prediskjonsvnen til modellen forbedres. mao at det går fra høy t-verdi og lav p-verdi, til lav t-verdi og høy p-verdi.
+
+Her kommer det frem at modellen har begrensninger, og at det ville gitt mer informasjon om man undersøkte færre variabler av gangen, særlig for å kunne si mer spesifikt om støtte, norgespris og differanse da disse variablene i sin natur er avhenige av hverandre.
 
 ### 4.4. Magasinfylling og spotprisdannelse: Problemstilling 3
 
@@ -1310,15 +1337,15 @@ Datovariabelen har en positiv og statistisk signifikant koeffisient på 0,000142
 
 Oppgaven har undersøkt sammenhenger mellom Norgespris, strømpriser, husholdningenes strømforbruk og magasinfylling i Norge. Analysen av husholdningenes strømforbruk viser at OLS- og LASSO-modellene har tilnærmet lik prediksjonsevne. Dette tyder på at LASSO ikke gir noen vesentlig forbedring sammenlignet med OLS i denne analysen.
 
-**For problemstilling 2 viser analysen a**t. **\<- Bendik**
+Når vi undersøkte strømprisen og differansen spotprisen med strømstøtte har ovenfor signering av avtale om Norgespris, var igjen differansen mellom OLS og LASSO liten. Det var antydninger til at noen variabler kunne i større grad predikere signeringstall, men sånn modellen var satt opp ble ikke dette undersøkt nærme nok. Her ville videre undersøkelser av spesifikke verdier, eller en inkludering av andre variabler gitt mer sikre resultater.
 
 Videre finner analysen en negativ og statistisk signifikant sammenheng mellom magasinfylling og spotpriser. Høyere magasinfylling er dermed forbundet med lavere spotpriser, også når det kontrolleres for prisområde og tidsutvikling.
 
-**Samlet viser analysene at strømforbruk, adopsjon av Norgespris og spotpriser henger sammen med ulike forhold ved strømmarkedet. Resultatene må imidlertid tolkes som statistiske sammenhenger, og ikke nødvendigvis som uttrykk for årsakssammenhenger. \<- Bendik**
+Samlet viser analysene at strømforbruk, adopsjon av Norgespris og spotpriser henger sammen med ulike forhold ved strømmarkedet. Resultatene må imidlertid tolkes som statistiske sammenhenger, og ikke nødvendigvis som uttrykk for årsakssammenhenger.
 
 ## 6. Bruk av KI
 
-KI har blitt brukt på litt ulike måter. For enkelhetsskyld starter vi med å nevne hvilke KI platformer som har blitt brukt: GPTUiO, ChatGPT, **Bendik** Gemini.
+KI har blitt brukt på litt ulike måter. For enkelhetsskyld starter vi med å nevne hvilke KI platformer som har blitt brukt: GPTUiO, ChatGPT
 
 **Begge** modellene har assistert med å rense koder, forbedre koder og feilsøke. Forklaringer på hvordan vi har arbeidet med KI kommer under. Enkelte korte formuleringer og standardiserte kodeuttrykk er være beholdt uendret når det er begrenset rom for meningsfull alternativ formulering, for eksempel ved enkle faktabeskrivelser eller vanlig R-syntaks. Dette gjelder ikke faglige vurderinger, analyser eller tolkninger, som er utarbeidet av oss.
 
@@ -1330,13 +1357,13 @@ KI er brukt til å komme med forslag til formulering til problermsstillinger bas
 
 KI er brukt for å hjelpe med å generere koder. Hvis man ikke har funnet svar på problemer eller spørsmål i online forum som f.eks. Stackoverflow er KI brukt til å spørre om hvilke pakker eller metode man kan bruke for å feks. endre datasettet i NVE på fyllingsgrad slik at det ikke bare sorteres på uke, men også dag. Det var nødvendig for å kunne sette det sammen til et stort historisk sett og unngå å få flere NA verdier. KI ble brukt til å foreslå og forklare standard R-syntaks for innlesing og bearbeiding av data. Vi tok selv stilling til hvilke filer som skulle inngå, hvordan filene var strukturert, hvilke rader som skulle hoppes over, og hvordan resultatet skulle valideres og brukes videre i analysen. Et eksempel er innlesing av flere Excel-filer ved hjelp av lapply() og read_excel(). KI kunne foreslå standard syntaks for dette, mens vi vurderte filutvalget, at de fire første radene skulle hoppes over, og kontrollerte at dataene ble lest inn riktig.
 
-Et annet konkret eksempel er hvordan KI ble brukt for å endre en gammel kode for å pivote flere rådatasett om strømmåler og Norgespris (rådataen fra elhub, gammel kode finnes i mappen gamle scrips og heter maaler.R). Dette var en tung kode som la sammen et stort datasett, og koden ble repetert flere ganger. KI ble gitt denne koden og bedt om å gjøre det om til en funksjon for å gjøre koden kortre og mer leselig. Dog, en funksjon vil ofte bruke lengre tid på å kjøre enn en manuel pivoting, men kan man bruke én funksjon på flere datasett som har samme struktur i stede for å repitere samme kode flere ganger. Ved å få KI til å endre det til en funksjon gikk vi fra 87 linjer med effektiv kode til 48 linjer. Dersom man ønsker å gjennta samme undersøkelser senere når det kommer mer data for Norgespris og strømmåler kan man dermed bare bruke en funksjon og ikke måtte kode alt manuelt.
+Et annet konkret eksempel er hvordan KI ble brukt for å endre en gammel kode for å pivote flere rådatasett om strømmåler og Norgespris (rådataen fra elhub, gammel kode finnes i mappen gamle scrips og heter maaler.R). Dette var en tung kode som la sammen et stort datasett, og koden ble repetert flere ganger. KI ble gitt denne koden og bedt om å gjøre det om til en funksjon for å gjøre koden kompakt og mer leselig. Dog, en funksjon vil ofte bruke lengre tid på å kjøre enn en manuel pivoting, men kan man bruke én funksjon på flere datasett som har samme struktur i stede for å repitere samme kode flere ganger. Ved å få KI til å endre det til en funksjon gikk vi fra 87 linjer med effektiv kode til 48 linjer. Dersom man ønsker å gjennta samme undersøkelser senere når det kommer mer data for Norgespris og strømmåler kan man dermed bare bruke en funksjon og ikke måtte kode alt manuelt.
 
 KI er brukt som et supplement til online forum for å hjelpe med å forstå feilkoder fra RStudio, og feilkoder fra Quatro. Spesieltt i Quarto er KI brukt for å forstå feilkodene, og til å backtracke arbeid. Feilen har ofte skyldtes at man har glemt å kopiere inn alle endringene som er gjort i koden(e) i RStudio scripts over til Quarto slik at den kjører på feil verdier eller variabler som er endret. Det samme problemet har skjedd i RStudio. Vi har flere scripts og noen av de bygger på/krever resultate for andre. Har man gjort en endring i ett og glemt å videreføre det oppstår det problemer.
 
 ### 6.3. KI og skriving
 
-KI ble brukt til å foreslå struktur og tekstutkast til deler av oppgaven. Verktøyet fikk som utgangspunkt materiale utarbeidet av oss selv, herunder introduksjon, problemstillinger, kode, beskrivelser av databehandling og metode i punktform. KI ble deretter bedt om å foreslå en kapittelstruktur og omarbeide punktvise beskrivelser til sammenhengende tekst. Materialet inkluderte også relevante deler av pensum og faglige kilder som gruppen hadde identifisert gjennom lesing, forelesninger og egne notater. KI ble ikke brukt som faglig kilde. Alle tekstforslag fra KI ble gjennomgått, kontrollert og bearbeidet av oss. Vi kontrollerte særlig at beskrivelsene var i samsvar med det faktiske arbeidet som var gjennomført, og at faglige påstander og kildehenvisninger var korrekte og basert på originalkildene. Vi er ansvarlig for den endelige teksten, analysen og de faglige vurderingene. KI ble også brukt til språkvask, inkludert kontroll av skrivefeil og forslag til oppstamming av teskt.
+KI ble brukt til å foreslå struktur og tekstutkast til deler av oppgaven. Verktøyet fikk som utgangspunkt materiale utarbeidet av oss selv, herunder introduksjon, problemstillinger, kode, beskrivelser av databehandling og metode i punktform. KI ble deretter bedt om å foreslå en kapittelstruktur og omarbeide punktvise beskrivelser til sammenhengende tekst. Materialet inkluderte også relevante deler av pensum og faglige kilder som gruppen hadde identifisert gjennom lesing, forelesninger og egne notater. KI ble ikke brukt som faglig kilde. Alle tekstforslag fra KI ble gjennomgått, kontrollert og bearbeidet av oss. Vi kontrollerte særlig at beskrivelsene var i samsvar med det faktiske arbeidet som var gjennomført, og at faglige påstander og kildehenvisninger var korrekte og basert på originalkildene. Vi er ansvarlig for den endelige teksten, analysen og de faglige vurderingene. KI ble også brukt til språkvask, inkludert kontroll av skrivefeil og forslag til oppstramming av teskt.
 
 ## 7. Kilder
 

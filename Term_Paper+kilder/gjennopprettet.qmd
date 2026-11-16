@@ -20,6 +20,7 @@ library(lubridate)
 library(purrr)
 library(dplyr)
 library(janitor)
+library(here)
 
 # Pakker for regresjon og statistisk analyse
 library(glmnet)
@@ -684,7 +685,13 @@ Her representerer $y_{it}$ den avhengige variabelen, mens $X_{it}$ er forklaring
 
 ### 3.2 Modeller
 
-#### 3.2.1 OLS
+#### 3.2.1 OLS (Ordinær minste kvadraters metode)
+
+Den standardiserte minste kvadrats metode er en lineær regresjonsmetode som ser på den kvadrerte avstanden fra den teoretiske estimerte linjen til veriden(e) vi undersøker, og de ulike verdiene i et datasett. Gitt at den resulterende matrisen er et overbestemt system, mao. at det er flere verdier en ukjente variabler , kan den minste avstanden til verdien(e) vi undersøker beskrives som
+
+$\ \hat\beta_{ols} = \arg\min_\beta S(b) = (X^TX)^{-1} X^Ty$
+
+En viktig antagelse her er at det er et lineært forhold mellom verdiene og at de er uavhengige. Dersom variablene er avhengige av hverandre, vil dette påvirke resultatet og kan gi en dårlig prediksjonsmodell.
 
 #### 3.2.2 Regularisert regresjon og LASSO-modellering
 
@@ -744,16 +751,15 @@ modell_p1 <- lm(
 
 #### 3.2.2 Prisdynamikk og adopsjon av Norgespris: Problemstilling 2
 
-For å undersøke sammenhengen mellom strømpriser, magasinfylling og husholdningenes adopsjon av Norgespris estimeres følgende modell:
+Vi ønsket å undersøke hva som påvirket husholdningene til å signere avtale om Norgespris. Prosentandelen med Norgespris er seg selv er lite egnet til å se hvordan strømprisene påvirker adopsjonsraten, da den blir svært liten opp mot den totale andelen strømkunder. Vi brukte derfor tall fra statnett om antall som hadde signert totalt frem tild en dagen, og regnet ut antall nye signeringer hver dag.
 
-$\text{prosent\_hus\_NP}_{it} = \beta_0 + \beta_1 \text{slutt\_Average}_{it} + \beta_2 \text{fyllingsgrad}_{it} + \alpha_i + \gamma t + \varepsilon_{it}$
+$\ \Delta nye_\_signeringer_i = \sum_i^N Norgespris - \sum_i^{N-1} Norgespris$
 
-( Her representerer `slutt_Average` gjennomsnittlig strømpris etter støtte, $\text{fyllingsgrad}_{it}$ fanger opp den ukentlige magasinfyllingen fra NVE, og $t$ en lineær tidstrend (`as.numeric(Date)`). Tidstrenden inkluderes for å kontrollere for den generelle utviklingen i Norgespris-adopsjonen over perioden. ) \<- fjerne?
+Her er i er starten på datasettet og N er dagen som blir regnet ut. Med denne verdien kunne vi dermed undersøke om de ulike prisivåene påvirket hvor mange som signerte norgespris samme dag. Dette er en e
 
-```{r}
-#| include: false
+$\text{nye\_signeringer}_{it} = \beta_0 + \text{slutt\_(max,min,average})_{it} + \text{stotte\_(max,min,average})_{it} + \text{fordel\_(max,min,average})_{it} + \alpha_i + \gamma t + \varepsilon_{it}$
 
-```
+Her er de ulike $\beta_{\text{n}}X_{it}$ verdiene beskrevet som slutt\_ verdiene prisen etter strømstøtte, stotte\_ verdifiene den faktiske støtten man får, og fordel\_ verdiene er differansen mellom strømpris og strømstøtte. I tillegg inkluderes priområder og måneder for å se om det er underliggende trender mellom prisområdene eller tidspunktet på året. Den siste kategorien forteller oss også noe om forbrukernes historiske forventninger til sitt eget behov for strøm, og dermed deres interesse for avtalen.
 
 #### 3.2.3 Magasinfylling og spotpris: Problemstilling 3
 
