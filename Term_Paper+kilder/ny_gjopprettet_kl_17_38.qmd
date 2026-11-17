@@ -2,7 +2,7 @@
 title: "Kraftmarked, Norgespris og magasinfylling"
 subtitle: "Innlevering i ECON 3170/4170, høsten 2026"
 author: "Ny gruppe 0001, kandidatnummer 170011 og 170029"
-date: "16.11.2026"
+date: "2026-11-17"
 format: pdf
 editor: visual
 toc: true
@@ -603,25 +603,21 @@ all_data_samlet <- priser_long |>
 
 Analysen benytter data med ulik tidsoppløsning, tilpasset de enkelte problemstillingene. Datagrunnlaget omfatter daglige og ukentlige observasjoner for de fem norske strømprisområdene. For å kontrollere for regionale forskjeller og tidsvariasjoner inkluderes områdespesifikke og tidsrelaterte kontrollvariabler i modellene.
 
-Den generelle modellstrukturen kan uttrykkes som: $y_{it} = \beta_0 +* \boldsymbol{\beta}'\mathbf{X}{it} + \alpha_i + \delta*m +* \varepsilon{it}$
-Her representerer $y_{it}$ den avhengige variabelen, mens $X_{it}$ er forklaringsvariablene. Områdespesifikke effekter $\alpha_i$ fanger opp forskjeller mellom prisområdene. Tidsrelaterte kontrollvariabler $\delta_t$ benyttes for å kontrollere for sesongvariasjoner eller generelle tidstrender, avhengig av problemstillingen.
+Den generelle modellstrukturen kan uttrykkes som: $y_{it} = \beta_0 +* \boldsymbol{\beta}'\mathbf{X}{it} + \alpha_i + \delta*m +* \varepsilon{it}$ Her representerer $y_{it}$ den avhengige variabelen, mens $X_{it}$ er forklaringsvariablene. Områdespesifikke effekter $\alpha_i$ fanger opp forskjeller mellom prisområdene. Tidsrelaterte kontrollvariabler $\delta_t$ benyttes for å kontrollere for sesongvariasjoner eller generelle tidstrender, avhengig av problemstillingen.
 
 ### 3.2. Estimerings- og prediksjonsmetoder
 
 #### 3.2.1. Ordinær minste kvadraters metode (OLS)
 
-OLS benyttes til å estimere lineære sammenhenger mellom avhengige variabler og forklaringsvariabler. Metoden estimerer koeffisientene ved å minimere summen av kvadrerte residualer. I et bestemt system kan det minste predikerte kvadratet estimeres ved:
-$$
+OLS benyttes til å estimere lineære sammenhenger mellom avhengige variabler og forklaringsvariabler. Metoden estimerer koeffisientene ved å minimere summen av kvadrerte residualer. I et bestemt system kan det minste predikerte kvadratet estimeres ved: $$
  \hat\beta = arg\min_\beta\text{S}(b) =(X^TX)^{-1}X^Ty 
-$$
-OLS benyttes i alle tre problemstillingene. I problemstilling 1 og 3 brukes metoden til å undersøke statistiske sammenhenger, mens den i problemstilling 2 også benyttes som sammenligningsgrunnlag for prediksjon.
+$$ OLS benyttes i alle tre problemstillingene. I problemstilling 1 og 3 brukes metoden til å undersøke statistiske sammenhenger, mens den i problemstilling 2 også benyttes som sammenligningsgrunnlag for prediksjon.
 
 #### 3.2.2. Regularisert regresjon (LASSO)
 
 LASSO-regresjon (Least Absolute Shrinkage and Selection Operator) benyttes som en supplerende metode i problemstilling 1 og 2. Metoden kombinerer lineær regresjon med en $L_1$-straff som begrenser størrelsen på koeffisientene og kan sette mindre relevante koeffisienter lik null. Dette muliggjør variabelseleksjon og kan redusere risikoen for overtilpasning [@tibshirani_regression_1996; @hastie_elements_2009; @fonti_feature_2017; @gentzkow_text_2019].
 
-LASSO-modellen estimeres ved å minimere:
-$$
+LASSO-modellen estimeres ved å minimere: $$
 \hat{\boldsymbol{\beta}}_{\text{lasso}}
 =
 \arg\min_{\boldsymbol{\beta}}
@@ -633,8 +629,7 @@ y_i-\beta_0-\sum_{j=1}^{p}x_{ij}\beta_j
 +
 \lambda\sum_{j=1}^{p}|\beta_j|
 \right]
-$$ Styrken på regulariseringen styres av hyperparameteren $\lambda \ge 0$. Dersom $\lambda$ økes, tvinges koeffisienter mot null, noe som utfører automatisk variabelseleksjon. Omvendt vil $L_1$-straffen gå mot null når $\lambda \to 0$, slik at LASSO-modellen konvergerer mot en ordinær ustraffet OLS-modell [@lind_econ3170_2026; @tibshirani_regression_1996]. Siden $L_1$-straffen er sensitiv for måleskalaer, blir alle numeriske variabler skalert og standardisert i oppskriften før estimering [@kuhn_tidy_2023; @lind_econ3170_2026].
-For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE som utgangspunkt for modellvalget . RMSE og $R^2$ benyttes i kryssvalideringen, mens RMSE, $R^2$ og MAE og MAE benyttes til å evaluere og sammenligne OLS- og LASSO-modellens prediksjonsevne på det samme testsettet [@lind_econ3170_2026; @hammersmark_econ3170_2026; @kuhn_tidy_2023].
+$$ Styrken på regulariseringen styres av hyperparameteren $\lambda \ge 0$. Dersom $\lambda$ økes, tvinges koeffisienter mot null, noe som utfører automatisk variabelseleksjon. Omvendt vil $L_1$-straffen gå mot null når $\lambda \to 0$, slik at LASSO-modellen konvergerer mot en ordinær ustraffet OLS-modell [@lind_econ3170_2026; @tibshirani_regression_1996]. Siden $L_1$-straffen er sensitiv for måleskalaer, blir alle numeriske variabler skalert og standardisert i oppskriften før estimering [@kuhn_tidy_2023; @lind_econ3170_2026]. For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE som utgangspunkt for modellvalget . RMSE og $R^2$ benyttes i kryssvalideringen, mens RMSE, $R^2$ og MAE og MAE benyttes til å evaluere og sammenligne OLS- og LASSO-modellens prediksjonsevne på det samme testsettet [@lind_econ3170_2026; @hammersmark_econ3170_2026; @kuhn_tidy_2023].
 
 For å evaluere prediksjonsevnen deles datamaterialet i et treningssett (80 %) og et testsett (20 %). Straffeparameteren velges gjennom 10-fold kryssvalidering på treningsdataene, med RMSE som utgangspunkt for modellvalget. RMSE og $R^2$ benyttes i kryssvalideringen, mens RMSE, $R^2$ og MAE og MAE benyttes til å evaluere og sammenligne OLS- og LASSO-modellens prediksjonsevne på det samme testsettet.
 
@@ -654,8 +649,7 @@ For å undersøke sammenhengen spesifiseres følgende modell:$$
 + \alpha_i
 + \delta_m
 + \varepsilon_{it}
-$$
-$\text{prosent\_forbruk\_hus\_np}_{it}$ angir andelen av husholdningenes samlede strømforbruk som er knyttet til Norgespris. $\text{slutt\_average}_{it}$ angir gjennomsnittlig strømpris etter strømstøtte (NOK/kWh). $\alpha_i$ representerer områdefaste effekter, mens $\delta_m$ representerer månedseffekter.
+$$ $\text{prosent\_forbruk\_hus\_np}_{it}$ angir andelen av husholdningenes samlede strømforbruk som er knyttet til Norgespris. $\text{slutt\_average}_{it}$ angir gjennomsnittlig strømpris etter strømstøtte (NOK/kWh). $\alpha_i$ representerer områdefaste effekter, mens $\delta_m$ representerer månedseffekter.
 
 ```{r}
 #| include: false
@@ -672,11 +666,13 @@ modell_p1 <- lm(
 
 #summary(modell_p1)
 ```
+
 I tillegg estimeres en LASSO-modell for å undersøke variabelseleksjon og prediksjonsevne. Modellene sammenlignes på samme testsett, med et tilfeldig trenings- og testutvalg og 10-fold kryssvalidering. Ettersom datasettet har en daglig panelstruktur, vil tilfeldig oppsplitting innebære at testobservasjoner kan ha nærliggende treningsobservasjoner både før og etter seg. Evalueringen må derfor forstås som modellens evne til å predikere utelatte dager innenfor den observerte perioden (interpolasjon), snarere enn å predikere fremtidige perioder (ekstrapolasjon). Dette kan gi lavere og mer optimistiske prediksjonsfeil enn en tidsbasert oppsplitting [@hammersmark_econ3170_2026].
 
 Ettersom Norgespris er en frivillig ordning, kan avtalevalget være påvirket av husholdningenes forventede strømforbruk og prisfølsomhet. Dette gir risiko for seleksjonsskjevhet. Koeffisienten for Norgespris-andelen må derfor tolkes som en observert sammenheng, ikke som en kausal effekt av ordningen på strømforbruket. Estimeringen av $\hat{\beta}_1$ måler derfor en observerbar samvariasjon i utvalget etter kontroll for geografi og sesong, og kan ikke tolkes som en ren kausal effekt av at Norgespris i seg selv forårsaker økt forbruk [@hammersmark_econ3170_2026; @athey_machine_2019].
 
 For å sikre sammenlignbarhet benyttes de samme forklaringsvariablene i begge modellene. I LASSO omgjøres kategoriske variabler til dummyvariabler, og de numeriske prediktorene standardiseres før estimering.
+
 ```{r}
 #| include: false
 # 8. LASSO av problemstilling 1
@@ -781,26 +777,22 @@ koeffisienter_lasso <- final_model_train |>
 
 #koeffisienter_lasso
 ```
-Metodisk merknad om valg av $\lambda$: Kryssvalideringen valgte en svært lav verdi for $\lambda$ = $10^{-4}$ , som er i nedre grense av søkeområdet. Dette innebærer svak regularisering. Modellen foretrekker dermed lite koeffisientkrymping innenfor det undersøkte søkeområdet [@hastie_elements_2009].
+
+*Metodisk merknad om valg av* $\lambda$: Kryssvalideringen valgte en svært lav verdi for $\lambda$ = $10^{-4}$ , som er i nedre grense av søkeområdet. Dette innebærer svak regularisering. Modellen foretrekker dermed lite koeffisientkrymping innenfor det undersøkte søkeområdet [@hastie_elements_2009].
 
 Ettersom Norgespris er en frivillig ordning, kan husholdningenes avtalevalg være påvirket av forventet strømforbruk og prisfølsomhet. Dette gir risiko for seleksjonsskjevhet og begrenser muligheten for å tolke sammenhengene kausalt.
 
 #### 3.3.2. Prisdynamikk og adopsjon av Norgespris: Problemstilling 2
 
-Vi ønsket å undersøke hva som påvirket husholdningene til å signere avtale om Norgespris. Prosentandelen med Norgespris er seg selv er lite egnet til å se hvordan strømprisene påvirker adopsjonsraten, da den blir svært liten opp mot den totale andelen strømkunder. Vi brukte derfor tall fra statnett om antall som hadde signert totalt frem tild en dagen, og regnet ut antall nye signeringer hver dag.
-$$
+Vi ønsket å undersøke hva som påvirket husholdningene til å signere avtale om Norgespris. Prosentandelen med Norgespris er seg selv er lite egnet til å se hvordan strømprisene påvirker adopsjonsraten, da den blir svært liten opp mot den totale andelen strømkunder. Vi brukte derfor tall fra statnett om antall som hadde signert totalt frem tild en dagen, og regnet ut antall nye signeringer hver dag. $$
 \Delta nye\_signeringer_i = \sum_i^NNorgespris - \sum_i^{N-1}Norgespris
-$$
-Her er i er starten på datasettet og N er dagen som blir regnet ut. Med denne verdien kunne vi dermed undersøke om de ulike prisivåene påvirket hvor mange som signerte norgespris samme dag. Dette er en enkel model som kan beskrives slik:
-$$
+$$ Her er i er starten på datasettet og N er dagen som blir regnet ut. Med denne verdien kunne vi dermed undersøke om de ulike prisivåene påvirket hvor mange som signerte norgespris samme dag. Dette er en enkel model som kan beskrives slik: $$
 nye\_signeringer_{i} = \beta_0 + \beta_{1-3}slutt_{it} + \beta_{4-6}stotte_{it} + \beta_{7-9}fordel_{it} + \alpha_i + \delta_m + \epsilon_{it}
-$$
-Her er de ulike $\beta_{\text{n}}X_{it}$ verdiene beskrevet maksimum, minimum og gjennomsnitt av slutt-, stotte- og fordel- verdiene. Videre representerer $\alpha_i$ områdefaste effekter, mens $\delta_m$ representerer månedseffekter. Dette er henholdsvis prisen etter strømstøtte, støtten man får og fordelen ved å ha Norgespris. Områdefaste og månedseffekter er med for å fange opp andre beslektede effekter rundt som sesongbaserte effekter, eller smitte fra trender i andre prisområder.
+$$ Her er de ulike $\beta_{\text{n}}X_{it}$ verdiene beskrevet maksimum, minimum og gjennomsnitt av slutt-, stotte- og fordel- verdiene. Videre representerer $\alpha_i$ områdefaste effekter, mens $\delta_m$ representerer månedseffekter. Dette er henholdsvis prisen etter strømstøtte, støtten man får og fordelen ved å ha Norgespris. Områdefaste og månedseffekter er med for å fange opp andre beslektede effekter rundt som sesongbaserte effekter, eller smitte fra trender i andre prisområder.
 
 #### 3.3.3. Magasinfylling og spotpris: Problemstilling 3
 
-Problemstillingen undersøker sammenhengen mellom magasinfylling og spotpriser på tvers av de fem norske prisområdene. Analysen benytter ukentlige observasjoner av magasinfylling og spotpriser i perioden 2020–2026.
-$$
+Problemstillingen undersøker sammenhengen mellom magasinfylling og spotpriser på tvers av de fem norske prisområdene. Analysen benytter ukentlige observasjoner av magasinfylling og spotpriser i perioden 2020–2026. $$
 \text{spotpris}_{it}
 = \beta_0
 + \beta_1 \text{fyllingsgrad}_{it}
@@ -808,6 +800,7 @@ $$
 + \gamma t
 + \varepsilon_{it}
 $$ Modellen estimeres med OLS, der spotpris er avhengig variabel og fyllingsgrad er forklaringsvariabel. Prisområde inkluderes som en kategorisk variabel for å kontrollere for geografiske prisforskjeller, mens dato inngår som en lineær tidstrend for å fange opp den generelle prisutviklingen gjennom analyseperioden.
+
 ```{r}
 #| include: false
 
@@ -849,7 +842,7 @@ I dette kapittelet presenteres resultatene fra de empiriske analysene. Resultate
 
 ### 4.1. Historisk utvikling i strømpriser
 
-![Figur 4.1.](images/utvikling%20i%20gjnsnt%20dognpris%20per%20omraaade.png){width="288"}
+![Figur 4.1.](images/utvikling%20i%20gjnsnt%20dognpris%20per%20omraaade.png){width="354"}
 
 Figur 4.1 viser utviklingen i gjennomsnittlige døgnpriser i de fem norske prisområdene fra 2020 til 2026. Prisområdene har hatt ulik prisutvikling, noe som understreker betydningen av å kontrollere for geografiske forskjeller i de videre regresjonsanalysene.
 
@@ -901,7 +894,7 @@ kable(
 )
 ```
 
-*Merknad: OLS-koeffisienter rapporteres med standardfeil i parentes. LASSO-koeffisientene viser estimerte koeffisienter etter standardisering av forklaringsvariablene. Koeffisientene er avrundet til nærmeste heltall.*
+*Merknad:* OLS-koeffisienter rapporteres med standardfeil i parentes. LASSO-koeffisientene viser estimerte koeffisienter etter standardisering av forklaringsvariablene. Koeffisientene er avrundet til nærmeste heltall.
 
 Den positive og statistisk signifikante koeffisienten for Norgespris-andelen $(\hat{\beta}_1 = +13,53\text{ mill} )$ reflekterer i hovedsak en sammensetnings- og seleksjonseffekt. Husholdninger som velger fastpris, kan ha et høyere forventet grunnforbruk enn gjennomsnittet. I tillegg kan fastprisstrukturen skape en form for moral hazard, ved at redusert eksponering for høye spotpriser svekker insentivet til å spare strøm i perioder med høyt forbruk. Ettersom dataene er aggregert på prisområdenivå og avtaleinngåelsen er frivillig, viser resultatet en positiv sammenheng mellom Norgespris-dekning og samlet husholdningsforbruk, men dokumenterer ikke en kausal effekt av ordningen [@athey_machine_2019; @hammersmark_econ3170_2026].
 
@@ -1318,7 +1311,7 @@ knitr::kable(
 
 ```
 
-*Merknad: NO1 er referanseområdet. Standardfeil rapporteres sammen med koeffisientene.* **,** og \* angir statistisk signifikans på henholdsvis 0,1-, 1- og 5-prosentnivå.\*
+*Merknad:* NO1 er referanseområdet. Standardfeil rapporteres sammen med koeffisientene. **,** og \* angir statistisk signifikans på henholdsvis 0,1-, 1- og 5-prosentnivå.\*
 
 Koeffisienten for magasinfylling er −0,6716 og statistisk signifikant på 0,1-prosentnivå. Ettersom fyllingsgraden er målt fra 0 til 1, tilsvarer en økning på 10 prosentpoeng en reduksjon i spotprisen på om lag 0,067 kr/kWh, kontrollert for prisområde og dato. Resultatet viser en negativ sammenheng mellom magasinfylling og spotpris.
 
